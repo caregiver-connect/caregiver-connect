@@ -1,0 +1,7 @@
+{
+  "name": "caregiver-connect",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
