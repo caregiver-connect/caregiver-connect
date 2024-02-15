@@ -1,15 +1,17 @@
 <template>
   <ion-page>
     <ion-header :translucent="true">
-      <ion-toolbar class="ion-text-left">
+      <ion-toolbar>
           <ion-title>
-            <img src="../../logo.jpg" width="50"/>
-            CareGiver Connect
+            <ion-row class="ion-align-items-center">
+              <ion-col size="auto"><img src="../../logo.jpg" width="35"/></ion-col>
+              <ion-col size="auto" class="ion-align-items-center">CareGiver Connect</ion-col>
+            </ion-row>
           </ion-title>
-        <ion-buttons :collapse="true" slot="end">
-          <ion-button color="secondary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-          <ion-button color="secondary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
-        </ion-buttons>
+          <ion-buttons :collapse="true" slot="end">
+            <ion-button color="secondary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
+            <ion-button color="secondary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+          </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
@@ -17,8 +19,14 @@
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title>
-            <img src="../../logo.jpg" width="50"/>
-            CareGiver Connect
+            <ion-row class="ion-align-items-center">
+              <ion-col size="auto"><img src="../../logo.jpg" width="35"/></ion-col>
+              <ion-col size="auto" class="ion-align-items-center">
+                <ion-text color="primary">
+                  CareGiver Connect
+                </ion-text>
+              </ion-col>
+            </ion-row>
           </ion-title>
           <ion-buttons :collapse="true" slot="end">
             <ion-button color="primary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
@@ -29,8 +37,8 @@
       <ion-card class="ion-text-center">
         <img src="../../banner.png"/>
         <ion-card-content align-items: center>
-          We are CareGiver Connect and we exist to connect dimentia patiens to providers and resources in their local resources.
-          Start with searching for providers or resources in your local area or let others know about resources in your area!
+          We are CareGiver Connect and we exist to connect dimentia patiens to providers and resources in their local communities.
+          Start with searching for providers or resources in your local area or let others know about providers in your area!
         </ion-card-content>
       </ion-card>
       <!-- <ion-buttons color="primary" size="large" expand="block"> -->
@@ -104,6 +112,9 @@
     IonCard,
     IonCardContent,
     IonText,
+    IonImg,
+    IonCol,
+    IonRow,
   } from '@ionic/vue';
   import { useRouter } from 'vue-router';
   import { searchCircle, addCircle } from 'ionicons/icons';

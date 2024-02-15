@@ -247,10 +247,10 @@ ion-toolbar {
   --background: var(--ion-color-primary)
 }
 
-.title-image {
+/* .title-image {
   margin-top: 8px;
   height: 27px;
-}
+} */
 
 .vcs {
   display: flex;
