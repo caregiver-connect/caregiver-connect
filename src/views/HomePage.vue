@@ -2,10 +2,9 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-          <ion-title>
+          <ion-title class="hometitle">
             <ion-row class="ion-align-items-center">
-              <ion-col size="auto"><img src="../../logo.jpg" width="35"/></ion-col>
-              <ion-col size="auto" class="ion-align-items-center">CareGiver Connect</ion-col>
+              CareGiver Connect
             </ion-row>
           </ion-title>
           <ion-buttons :collapse="true" slot="end">
@@ -18,14 +17,11 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title>
+          <ion-title class="hometitle">
             <ion-row class="ion-align-items-center">
-              <ion-col size="auto"><img src="../../logo.jpg" width="35"/></ion-col>
-              <ion-col size="auto" class="ion-align-items-center">
-                <ion-text color="primary">
-                  CareGiver Connect
-                </ion-text>
-              </ion-col>
+              <ion-text color="primary">
+                CareGiver Connect
+              </ion-text>
             </ion-row>
           </ion-title>
           <ion-buttons :collapse="true" slot="end">
