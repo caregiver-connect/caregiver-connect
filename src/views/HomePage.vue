@@ -33,8 +33,10 @@
       <ion-card class="ion-text-center">
         <img src="../../banner.png"/>
         <ion-card-content align-items: center>
-          We are CareGiver Connect and we exist to connect dimentia patiens to providers and resources in their local communities.
-          Start with searching for providers or resources in your local area or let others know about providers in your area!
+          If you are an Alabamian facing the challenges of dementia, you are not alone!
+          Alabama Caregiver Connect was created by researchers, providers, and caregivers, to help Alabama
+          caregivers get information they need about dementia and caregiving.
+          Get started by searching for providers or services in your area or tell us about the services in your area!
         </ion-card-content>
       </ion-card>
       <!-- <ion-buttons color="primary" size="large" expand="block"> -->
