@@ -16,16 +16,19 @@
         </ion-card>
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Username" placeholder="username"></ion-input>
+            <ion-input label-placement="floating" label="Username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Password" type="password" placeholder="password1234"></ion-input>
+            <ion-input label-placement="floating" label="Password" type="password"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Retype Password" type="password" placeholder="password1234"></ion-input>
+            <ion-input label-placement="floating" label="Retype Password" type="password"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Email" type="email" placeholder="email address"></ion-input>
+            <ion-input label-placement="floating" label="Email" type="email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label-placement="floating" label="Phone #" type="tel"></ion-input>
           </ion-item>
           <ion-item>
             <ion-select lebel-placement="floating" label="County">
