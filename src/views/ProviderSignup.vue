@@ -188,6 +188,11 @@
           </div>
         </ion-list>
         <ion-button>Signup</ion-button>
+        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
+          <ion-card-content>
+            Already have an account? <a href="/login">Login here.</a>
+          </ion-card-content>
+        </ion-card>
       </div>
     </ion-content>
   </ion-page>
@@ -209,7 +214,9 @@
     IonCheckbox,
     IonText,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonCard,
+    IonCardContent
   } from '@ionic/vue';
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';

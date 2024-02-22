@@ -19,6 +19,13 @@
           </ion-item>
         </ion-list>
         <ion-button>Login</ion-button>
+        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
+          <ion-card-content>
+            Still need to Signup? General users sign up
+            <a @click="() => router.push('/signup')">here</a>.
+            Providers sign up <a @click="() => router.push('/provider-signup')">here</a>.
+          </ion-card-content>
+        </ion-card>
       </div>
     </ion-content>
   </ion-page>
@@ -36,6 +43,11 @@
     IonInput,
     IonList,
     IonItem,
-    IonButton
+    IonButton,
+    IonCard,
+    IonCardContent
   } from '@ionic/vue';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
 </script>
