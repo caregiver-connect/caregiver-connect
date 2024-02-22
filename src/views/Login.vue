@@ -21,9 +21,9 @@
         <ion-button>Login</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
-            Still need to Signup? General users sign up
-            <a @click="() => router.push('/signup')">here</a>.
-            Providers sign up <a @click="() => router.push('/provider-signup')">here</a>.
+            Still need to Signup?
+            <a @click="() => router.push('/signup')">General users sign up here</a>.
+            <a @click="() => router.push('/provider-signup')">Providers sign up here</a>.
           </ion-card-content>
         </ion-card>
       </div>
