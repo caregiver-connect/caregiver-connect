@@ -8,8 +8,9 @@
             </ion-row>
           </ion-title>
           <ion-buttons :collapse="true" slot="end">
-            <ion-button color="secondary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-            <ion-button color="secondary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+            <ion-button v-if="!loggedIn" color="secondary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
+            <ion-button v-else color="secondary" fill="solid" @click="logout">Logout</ion-button>
+            <ion-button v-if="!loggedIn" color="secondary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
           </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -25,8 +26,9 @@
             </ion-row>
           </ion-title>
           <ion-buttons :collapse="true" slot="end">
-            <ion-button color="primary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-            <ion-button color="primary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+            <ion-button v-if="!loggedIn" color="primary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
+            <ion-button v-else color="primary" fill="solid" @click="logout">Logout</ion-button>
+            <ion-button v-if="!loggedIn" color="primary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -114,10 +116,57 @@
     IonCol,
     IonRow,
   } from '@ionic/vue';
+  import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { searchCircle, addCircle } from 'ionicons/icons';
+
   const router = useRouter();
 
+  const loggedIn = ref(false);
+
+  // Simulate login/logout functionality
+  // const login = () => {
+  //   // Perform authentication logic here (e.g., API call)
+  //   // Upon successful login, update loggedIn status
+  //   loggedIn.value = true;
+  //   router.push('/login');
+  // };
+
+  const logout = () => {
+    // Perform logout logic here (e.g., clear session)
+    // Upon successful logout, update loggedIn status
+    loggedIn.value = false;
+    // Redirect to login page (optional)
+  };
+
+  // export default {
+  //   // name: 'LoginPage',
+  //   setup() {
+    
+  //     const loggedIn = ref(false);
+
+  //     // Simulate login/logout functionality
+  //     const login = () => {
+  //       // Perform authentication logic here (e.g., API call)
+  //       // Upon successful login, update loggedIn status
+  //       loggedIn.value = true;
+  //       router.push('/login');
+  //     };
+
+  //     const logout = () => {
+  //       // Perform logout logic here (e.g., clear session)
+  //       // Upon successful logout, update loggedIn status
+  //       loggedIn.value = false;
+  //       // Redirect to login page (optional)
+  //     };
+
+  //     return {
+  //       loggedIn,
+  //       login,
+  //       logout
+  //     };
+  //   }
+  // };
 </script>
 
 <style scoped>

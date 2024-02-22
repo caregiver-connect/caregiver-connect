@@ -12,13 +12,13 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Username"></ion-input>
+            <ion-input label-placement="floating" label="Username" ref="Username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Password" type="password"></ion-input>
+            <ion-input label-placement="floating" label="Password" type="password" ref="Password"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button>Login</ion-button>
+        <ion-button @click="login">Login</ion-button>
       </div>
     </ion-content>
   </ion-page>
@@ -38,4 +38,22 @@
     IonItem,
     IonButton
   } from '@ionic/vue';
+
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
+
+  const Username = ref();
+  const Password = ref();
+
+  const login = () => {
+    // if(Username == "Logan"){
+    //   if(Password == "1234"){
+    //      = true
+    //   }
+    // }
+    console.log(Username.value)
+    console.log(Password.value)
+    router.push('/home')
+  }
 </script>
