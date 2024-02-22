@@ -110,8 +110,6 @@
     IonCard,
     IonCardContent,
     IonText,
-    IonImg,
-    IonCol,
     IonRow,
   } from '@ionic/vue';
   import { useRouter } from 'vue-router';
