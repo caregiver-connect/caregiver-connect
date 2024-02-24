@@ -109,26 +109,26 @@
 </template>
   
 <script setup lang="ts">
-  import {
-    IonBackButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonList,
-    IonItem,
-    IonInput,
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonSelect,
-    IonSelectOption
-  } from '@ionic/vue';
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  const router = useRouter();
+import {
+  IonBackButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonList,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonSelect,
+  IonSelectOption
+} from '@ionic/vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
-  const content = ref();
+const content = ref();
 </script>

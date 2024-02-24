@@ -23,7 +23,7 @@
     </ion-content>
   </ion-page>
 </template>
-  
+
 <script setup lang="ts">
   import {
     IonBackButton,
@@ -39,21 +39,50 @@
     IonButton
   } from '@ionic/vue';
 
-  import { ref } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { useRouter } from 'vue-router';
-  const router = useRouter();
 
-  const Username = ref();
-  const Password = ref();
+  // export default {
+  //   name: 'Login',
+  //   components: {
+  //     IonBackButton,
+  //     IonButtons,
+  //     IonContent,
+  //     IonHeader,
+  //     IonPage,
+  //     IonTitle,
+  //     IonToolbar,
+  //     IonInput,
+  //     IonList,
+  //     IonItem,
+  //     IonButton
+  //   },
+  //   // data() {
+  //   //   return {
+  //   //     Username: "",
+  //   //     Password: "test"
+  //   //   };
+  //   // },
+  //   setup() {
+      const router = useRouter();
+      const Username = ref("test");
+      const Password = ref("");
 
-  const login = () => {
-    // if(Username == "Logan"){
-    //   if(Password == "1234"){
-    //      = true
-    //   }
-    // }
-    console.log(Username.value)
-    console.log(Password.value)
-    router.push('/home')
-  }
+      console.log(Username.value);
+      console.log(Password.value)
+
+      const login = () => {
+        console.log(Username.value);
+        console.log(Password.value);
+        if(Username.value == "test"){
+          console.log("true")
+        }
+        // router.push('/home')
+      };
+
+      // return {
+      //   login
+      // };
+    // },
+  // };
 </script>
