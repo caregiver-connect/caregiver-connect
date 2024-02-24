@@ -1,13 +1,6 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import HomePage from '@/views/HomePage.vue';
-import ProvidersSearch from '@/views/ProvidersSearch.vue';
-import Login from '@/views/Login.vue';
-import Signup from '@/views/Signup.vue';
-import ServicesSearch from '@/views/ServicesSearch.vue';
-import AddProvider from '@/views/AddProvider.vue';
-import EditProvider from '@/views/EditProvider.vue';
-import ProviderSignup from '@/views/ProviderSignup.vue';
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -23,37 +16,37 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/providers-search',
     name: 'ProvidersSearch',
-    component: ProvidersSearch,
+    component: () => import('@/views/ProvidersSearch.vue'),
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    component: () => import('@/views/Login.vue'),
   },
   {
     path: '/signup',
     name: 'Signup',
-    component: Signup,
+    component: () => import('@/views/Signup.vue'),
   },
   {
     path: '/services-search',
     name: 'ServicesSearch',
-    component: ServicesSearch,
+    component: () => import('@/views/ServicesSearch.vue'),
   },
   {
     path: '/add-provider',
     name: 'AddProvider',
-    component: AddProvider,
+    component: () => import('@/views/AddProvider.vue'),
   },
   {
     path: '/edit-provider',
     name: 'EditProvider',
-    component: EditProvider,
+    component: () => import('@/views/EditProvider.vue'),
   },
   {
     path: '/provider-signup',
     name: 'ProviderSignup',
-    component: ProviderSignup,
+    component: () => import('@/views/ProviderSignup.vue'),
   }
 ]
 
