@@ -5,7 +5,9 @@
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-          <ion-title>Login</ion-title>
+        <ion-title>Login</ion-title>
+        <ion-img slot="end" src="../../public/logo.jpg" @click="() => router.push('/home')"
+          style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -19,11 +21,11 @@
           </ion-item>
         </ion-list>
         <ion-button>Login</ion-button>
-        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
+        <ion-card class="ion-text-center" color="light" style="width: 50%">
           <ion-card-content>
             Still need to Signup?
-            <a @click="() => router.push('/signup')">General users sign up here</a>.
-            <a @click="() => router.push('/provider-signup')">Providers sign up here</a>.
+            <u><a @click="() => router.push('/signup')">General user sign up here</a></u>.
+            <a @click="() => router.push('/provider-signup')">Provider sign up here</a>.
           </ion-card-content>
         </ion-card>
       </div>
@@ -32,22 +34,23 @@
 </template>
   
 <script setup lang="ts">
-  import {
-    IonBackButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonInput,
-    IonList,
-    IonItem,
-    IonButton,
-    IonCard,
-    IonCardContent
-  } from '@ionic/vue';
-  import { useRouter } from 'vue-router';
+import {
+  IonBackButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonInput,
+  IonList,
+  IonItem,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonImg
+} from '@ionic/vue';
+import { useRouter } from 'vue-router';
 
-  const router = useRouter();
+const router = useRouter();
 </script>

@@ -6,6 +6,8 @@
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
         <ion-title>Provider Signup</ion-title>
+        <ion-img slot="end" src="../../public/logo.jpg" @click="() => router.push('/home')"
+          style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
     </ion-header>
     <ion-content ref="content">
@@ -167,7 +169,9 @@
             </ion-select>
           </ion-item>
           <div class="vcs">
-            <ion-text><h4>Select all services you provide:</h4></ion-text>
+            <ion-text>
+              <h4>Select all services you provide:</h4>
+            </ion-text>
             <ion-list style="width: 100%;">
               <ion-item>
                 <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
@@ -188,7 +192,7 @@
           </div>
         </ion-list>
         <ion-button>Signup</ion-button>
-        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
+        <ion-card class="ion-text-center" color="light" style="width: 50%">
           <ion-card-content>
             Already have an account? <a @click="() => router.push('/login')">Login here.</a>
           </ion-card-content>
@@ -199,35 +203,36 @@
 </template>
     
 <script setup lang="ts">
-  import {
-    IonBackButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonList,
-    IonItem,
-    IonInput,
-    IonButton,
-    IonCheckbox,
-    IonText,
-    IonSelect,
-    IonSelectOption,
-    IonCard,
-    IonCardContent
-  } from '@ionic/vue';
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  const router = useRouter();
+import {
+  IonBackButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonList,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonCheckbox,
+  IonText,
+  IonSelect,
+  IonSelectOption,
+  IonCard,
+  IonCardContent,
+  IonImg
+} from '@ionic/vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
-  const content = ref();
+const content = ref();
 </script>
 
 <style>
-  ion-checkbox::part(container) {
-    border-radius: 3px;
-    border: 2px solid #9e1b32;
-  }
+ion-checkbox::part(container) {
+  border-radius: 3px;
+  border: 2px solid #9e1b32;
+}
 </style>

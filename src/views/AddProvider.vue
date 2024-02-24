@@ -6,6 +6,8 @@
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
         <ion-title>Add a Provider</ion-title>
+        <ion-img slot="end" src="../../public/logo.jpg" @click="() => router.push('/home')"
+          style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -167,22 +169,23 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    IonBackButton,
-    IonButtons,
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonList,
-    IonItem,
-    IonInput,
-    IonSelect,
-    IonSelectOption
-  } from '@ionic/vue';
-  import { useRouter } from 'vue-router';
-  const router = useRouter();
+import {
+  IonBackButton,
+  IonButtons,
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonList,
+  IonItem,
+  IonInput,
+  IonSelect,
+  IonSelectOption,
+  IonImg
+} from '@ionic/vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 </script>
