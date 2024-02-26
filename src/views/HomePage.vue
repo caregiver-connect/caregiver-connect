@@ -24,7 +24,7 @@
               </ion-text>
             </ion-row>
           </ion-title>
-          <ion-img slot="start" src="../../public/logo.jpg" style="position: left 5px center; width: 35px;"></ion-img>
+          <ion-img slot="start" src="../../logo.jpg" style="position: left 5px center; width: 35px;"></ion-img>
           <ion-buttons :collapse="true" slot="end">
             <ion-button color="primary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
             <ion-button color="primary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
