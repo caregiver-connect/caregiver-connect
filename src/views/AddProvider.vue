@@ -14,25 +14,31 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Name"></ion-input>
+            <ion-input label-placement="floating" label="Provider ID" v-model="providerId"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label-placement="floating" label="Provider Name" v-model="providerName"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Provider Email" type="email"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Phone #" type="tel"></ion-input>
+            <ion-input label-placement="floating" label="Provider Phone #" type="tel" v-model="providerPhone"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Website" type="url"></ion-input>
+            <ion-input label-placement="floating" label="Provider Website" type="url" v-model="providerWebsite"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Address"></ion-input>
+            <ion-input label-placement="floating" label="Address" v-model="providerAddress"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="City"></ion-input>
+            <ion-input label-placement="floating" label="Addr Line 2" helper-text="(optional)" v-model="addressLine2"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="State">
+            <ion-input label-placement="floating" label="City" v-model="city"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select lebel-placement="floating" label="State" v-model="state">
               <ion-select-option>AL</ion-select-option>
               <ion-select-option>AK</ion-select-option>
               <ion-select-option>AZ</ion-select-option>
@@ -86,10 +92,10 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Zip Code"></ion-input>
+            <ion-input label-placement="floating" label="Zip Code" v-model="zipCode"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County" :multiple="true">
+            <ion-select lebel-placement="floating" label="County" :multiple="true" v-model="county">
               <ion-select-option>Autauga</ion-select-option>
               <ion-select-option>Baldwin</ion-select-option>
               <ion-select-option>Barbour</ion-select-option>
@@ -159,8 +165,11 @@
               <ion-select-option>Winston</ion-select-option>
             </ion-select>
           </ion-item>
+          <ion-item>
+            <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
+          </ion-item>
         </ion-list>
-        <ion-button>
+        <ion-button @click="addProvider">
           Add Provider
         </ion-button>
       </div>
@@ -187,5 +196,65 @@ import {
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
+import axios from 'axios';
+import { ref } from 'vue';
+
+const providerId = ref('');
+const providerName = ref('');
+const providerPhone = ref('');
+const providerWebsite = ref('');
+const providerAddress = ref('');
+const addressLine2 = ref('');
+const city = ref('');
+const state = ref('');
+const zipCode = ref('');
+const county = ref('');
+const ownershipType = ref('');
+
+const showSuccess = ref(false); // Track whether to show the success message
+
+const addProvider = async () => {
+  try {
+    // Extract the county from the array if it's received as an array with one element
+    const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
+
+    const response = await axios.post('http://localhost:8080/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
+      id_cms_other: providerId.value,
+      agency_name: providerName.value,
+      phone_number: providerPhone.value,
+      addr1: providerAddress.value,
+      addr2: addressLine2.value,
+      city: city.value,
+      state: state.value,
+      website: providerWebsite.value,
+      zip: zipCode.value,
+      county: countyValue,
+      ownership_type: ownershipType.value,
+    });
+    console.log('Provider added successfully:', response.data);
+    // Show toast message
+    // Optionally, you can reset input fields after successful submission
+    providerId.value = '';
+    providerName.value = '';
+    providerPhone.value = '';
+    providerAddress.value = '';
+    addressLine2.value = '';
+    city.value = '';
+    state.value = '';
+    providerWebsite.value ='';
+    zipCode.value = '';
+    county.value = '';
+    ownershipType.value = '';
+    // Reset other input fields similarly
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Error adding provider:', error.response.data);
+      // Handle error response from the server
+    } else {
+      console.error('Unknown error:', error);
+      // Handle other types of errors
+    }
+  }
+};
 
 </script>
