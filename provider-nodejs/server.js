@@ -6,7 +6,7 @@ const app = express();
 
 
 var corsOptions = {
-  origin: "http://localhost:8100"
+  origin: "http://192.168.1.65:8100"
 };
 
 app.use(cors(corsOptions));

@@ -54,7 +54,7 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.STRING
       },
       coordinates: {
-          type: Sequelize.GEOMETRY
+          type: Sequelize.STRING
       }
     }, {
         timestamps: false // Disable createdAt and updatedAt columns
