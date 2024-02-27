@@ -12,7 +12,7 @@
     </ion-header>
     <ion-content ref="content">
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button @click="() => router.push('/new')">
+        <ion-fab-button @click="() => router.push('/new')" color="crimson">
           <ion-icon :icon="add"></ion-icon>
         </ion-fab-button>
       </ion-fab>

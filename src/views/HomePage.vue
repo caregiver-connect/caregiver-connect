@@ -8,8 +8,8 @@
           </ion-row>
         </ion-title>
         <ion-buttons :collapse="true" slot="end">
-          <ion-button color="light" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-          <ion-button color="light" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+          <ion-button color="secondary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
+          <ion-button color="secondary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -42,56 +42,56 @@
       </ion-card>
       <!-- <ion-buttons color="primary" size="large" expand="block"> -->
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/providers-search')">
-        <ion-icon slot="start" :icon="searchCircle"></ion-icon>
-        Find Providers
+        <ion-icon slot="start" :icon="searchCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Providers</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/services-search')">
-        <ion-icon slot="start" :icon="searchCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="searchCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/add-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Add Provider
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Add Provider</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Edit Provider
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Edit Provider</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <!-- </ion-buttons> -->
     </ion-content>
@@ -112,6 +112,7 @@ import {
   IonCardContent,
   IonText,
   IonRow,
+  IonImg
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { searchCircle, addCircle } from 'ionicons/icons';

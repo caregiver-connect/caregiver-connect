@@ -21,11 +21,11 @@
           </ion-item>
         </ion-list>
         <ion-button>Login</ion-button>
-        <ion-card class="ion-text-center" color="light" style="width: 50%">
+        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
             Still need to Signup?
-            <a @click="() => router.push('/signup')">General user sign up here</a>.
-            <a @click="() => router.push('/provider-signup')">Provider sign up here</a>.
+            <a @click="() => router.push('/signup')"><u>General user sign up here</u></a>.
+            <a @click="() => router.push('/provider-signup')"><u>Provider sign up here</u></a>.
           </ion-card-content>
         </ion-card>
       </div>
