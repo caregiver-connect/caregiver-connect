@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   postgres:
+    container_name: postgres
     image: postgres:latest
     environment:
       POSTGRES_USER: postgres
@@ -12,6 +13,7 @@ services:
       - caregiverconnect-db:/var/lib/postgresql/data
       
   caregiver-backend:
+    container_name: caregiver-backend
     build:
       context: ./provider-nodejs
     environment:
@@ -25,6 +27,7 @@ services:
       - '8080:8080'
 
   caregiver:
+    container_name: caregiver
     build:
       context: .
     environment:
