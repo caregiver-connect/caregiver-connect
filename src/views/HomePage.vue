@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title class="hometitle">
+        <ion-title>
           <ion-row class="ion-align-items-center">
             CareGiver Connect
           </ion-row>
@@ -20,7 +20,7 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title class="hometitle">
+          <ion-title>
             <ion-row class="ion-align-items-center">
               <ion-text color="primary">
                 CareGiver Connect
@@ -121,10 +121,14 @@ import {
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { searchCircle, addCircle } from 'ionicons/icons';
+import { mapGetters, mapActions } from 'vuex';
+// store.commit('login')
 
 const router = useRouter();
 
-const loggedIn = ref(false);
+await store.set('name', 'Mr. Ionitron');
+
+const loggedIn = ref(true);
 
 const logout = () => {
   // Perform logout logic here (e.g., clear session)
@@ -161,4 +165,14 @@ const logout = () => {
 
 #container a {
   text-decoration: none;
-}</style>
+}
+
+ion-title {
+  line-height: 40px;
+  padding-left: 45px;
+  background: url('../../logo.jpg') no-repeat left center;
+  background-position-x: 5px;
+  background-size: auto 35px;
+}
+
+</style>

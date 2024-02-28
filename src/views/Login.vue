@@ -12,10 +12,10 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Username" ref="Username"></ion-input>
+            <ion-input label-placement="floating" label="Username" v-model="username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Password" type="password" ref="Password"></ion-input>
+            <ion-input label-placement="floating" label="Password" type="password" v-model="password"></ion-input>
           </ion-item>
         </ion-list>
         <ion-button @click="login">Login</ion-button>
@@ -38,51 +38,18 @@
     IonItem,
     IonButton
   } from '@ionic/vue';
-
-  import { defineComponent, ref } from 'vue';
+  import { ref } from 'vue';
   import { useRouter } from 'vue-router';
 
-  // export default {
-  //   name: 'Login',
-  //   components: {
-  //     IonBackButton,
-  //     IonButtons,
-  //     IonContent,
-  //     IonHeader,
-  //     IonPage,
-  //     IonTitle,
-  //     IonToolbar,
-  //     IonInput,
-  //     IonList,
-  //     IonItem,
-  //     IonButton
-  //   },
-  //   // data() {
-  //   //   return {
-  //   //     Username: "",
-  //   //     Password: "test"
-  //   //   };
-  //   // },
-  //   setup() {
       const router = useRouter();
-      const Username = ref("test");
-      const Password = ref("");
-
-      console.log(Username.value);
-      console.log(Password.value)
+      const username = ref("");
+      const password = ref("");
 
       const login = () => {
-        console.log(Username.value);
-        console.log(Password.value);
-        if(Username.value == "test"){
-          console.log("true")
+        console.log(username.value);
+        console.log(password.value);
+        if(username.value == "test" && password.value == "pass"){
+          router.push('/home');
         }
-        // router.push('/home')
       };
-
-      // return {
-      //   login
-      // };
-    // },
-  // };
 </script>

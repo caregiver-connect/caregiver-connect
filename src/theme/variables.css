@@ -239,14 +239,6 @@ ion-title {
   color: var(--ion-color-secondary);
 }
 
-.hometitle {
-  line-height: 40px;
-  padding-left: 45px;
-  background: url('../../logo.jpg') no-repeat left center;
-  background-position-x: 5px;
-  background-size: auto 35px;
-}
-
 ion-back-button {
   color: var(--ion-color-secondary);
 }
@@ -254,11 +246,6 @@ ion-back-button {
 ion-toolbar {
   --background: var(--ion-color-primary)
 }
-
-/* .title-image {
-  margin-top: 8px;
-  height: 27px;
-} */
 
 .vcs {
   display: flex;
