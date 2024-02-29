@@ -6,13 +6,13 @@
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
         <ion-title>Signup</ion-title>
-        <ion-img slot="end" src="../../public/logo.jpg" @click="() => router.push('/home')"
+        <ion-img slot="end" src="../../logo.jpg" @click="() => router.push('/home')"
           style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
     </ion-header>
     <ion-content ref="content">
       <div class="vcs">
-        <ion-card class="ion-text-center" color="primary" style="width: 50%">
+        <ion-card class="ion-text-center" color="crimson" style="width: 50%">
           <ion-card-content>Are you a service provider? Signup here instead!</ion-card-content>
           <ion-button color="light" @click="() => router.push('/provider-signup')">Provider Signup</ion-button>
         </ion-card>
@@ -104,10 +104,10 @@
             </ion-select>
           </ion-item>
         </ion-list>
-        <ion-button>Signup</ion-button>
-        <ion-card class="ion-text-center" color="light" style="width: 50%">
+        <ion-button color="crimson">Signup</ion-button>
+        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
-            Already have an account? <a @click="() => router.push('/login')">Login here.</a>
+            Already have an account? <a @click="() => router.push('/login')"><u>Login here.</u></a>
           </ion-card-content>
         </ion-card>
       </div>

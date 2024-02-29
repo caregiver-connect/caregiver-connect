@@ -6,13 +6,13 @@
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
         <ion-title>Providers</ion-title>
-        <ion-img slot="end" src="../../public/logo.jpg" @click="() => router.push('/home')"
+        <ion-img slot="end" src="../../logo.jpg" @click="() => router.push('/home')"
           style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
     </ion-header>
     <ion-content ref="content">
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button @click="() => router.push('/add-provider')">
+        <ion-fab-button @click="() => router.push('/add-provider')" color="crimson">
           <ion-icon :icon="add"></ion-icon>
         </ion-fab-button>
       </ion-fab>

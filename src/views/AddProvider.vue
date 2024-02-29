@@ -6,7 +6,7 @@
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
         <ion-title>Add a Provider</ion-title>
-        <ion-img slot="end" src="../../public/logo.jpg" @click="() => router.push('/home')"
+        <ion-img slot="end" src="../../logo.jpg" @click="() => router.push('/home')"
           style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
     </ion-header>
@@ -169,9 +169,7 @@
             <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button @click="addProvider">
-          Add Provider
-        </ion-button>
+        <ion-button color="crimson" @click="addProvider">Add Provider</ion-button>
       </div>
     </ion-content>
   </ion-page>
