@@ -1,4 +1,9 @@
 import { createStore } from 'vuex';
+import VuexPersister from 'vuex-persister';
+
+const vuexPersister = new VuexPersister({
+
+});
 
 const store = createStore({
   state() {
@@ -24,7 +29,8 @@ const store = createStore({
       state.isLoggedIn = false;
       state.username = "";
     }
-  }
+  },
+  plugins: [vuexPersister.persist]
 });
 
 export default store;

@@ -67,6 +67,8 @@ export default {
       // console.log(this.username)
       if (this.username == "test" && this.password == "pass") {
         this.$store.commit("login", this.username);
+        this.username = "";
+        this.password = "";
         this.router.push('/home');
       }
     }
