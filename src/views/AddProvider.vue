@@ -218,7 +218,7 @@ const addProvider = async () => {
     // Extract the county from the array if it's received as an array with one element
     const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
 
-    const response = await axios.post('http://192.168.1.65:8080/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
+    const response = await axios.post('http://' + self.location.hostname + ':8080/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
       id_cms_other: providerId.value,
       agency_name: providerName.value,
       phone_number: providerPhone.value,

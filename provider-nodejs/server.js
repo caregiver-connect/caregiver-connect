@@ -5,11 +5,7 @@ const cors = require("cors");
 const app = express();
 
 
-var corsOptions = {
-  origin: "http://192.168.1.65:8100"
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 const db = require("./app/models");
 db.sequelize.sync();
