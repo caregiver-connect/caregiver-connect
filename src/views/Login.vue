@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-          <ion-title>Login</ion-title>
+        <ion-title>Login</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -24,8 +24,26 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
-  import {
+<script lang="ts">
+import {
+  IonBackButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonInput,
+  IonList,
+  IonItem,
+  IonButton
+} from '@ionic/vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+export default {
+
+  components: {
     IonBackButton,
     IonButtons,
     IonContent,
@@ -37,19 +55,21 @@
     IonList,
     IonItem,
     IonButton
-  } from '@ionic/vue';
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-
-      const router = useRouter();
-      const username = ref("");
-      const password = ref("");
-
-      const login = () => {
-        console.log(username.value);
-        console.log(password.value);
-        if(username.value == "test" && password.value == "pass"){
-          router.push('/home');
-        }
-      };
+  },
+  setup() {
+    const router = useRouter();
+    const username = ref('');
+    const password = ref('')
+    return { router, username, password }
+  },
+  methods: {
+    login() {
+      // console.log(this.username)
+      if (this.username == "test" && this.password == "pass") {
+        this.$store.commit("login", this.username);
+        this.router.push('/home');
+      }
+    }
+  }
+}
 </script>

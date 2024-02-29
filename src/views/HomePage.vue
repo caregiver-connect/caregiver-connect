@@ -8,10 +8,10 @@
           </ion-row>
         </ion-title>
         <ion-buttons :collapse="true" slot="end">
-          <ion-button v-if="!loggedIn" color="secondary" fill="solid"
+          <ion-button v-if="!isLoggedIn" color="secondary" fill="solid"
             @click="() => router.push('/login')">Login</ion-button>
           <ion-button v-else color="secondary" fill="solid" @click="logout">Logout</ion-button>
-          <ion-button v-if="!loggedIn" color="secondary" fill="solid"
+          <ion-button v-if="!isLoggedIn" color="secondary" fill="solid"
             @click="() => router.push('/signup')">Signup</ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -28,16 +28,16 @@
             </ion-row>
           </ion-title>
           <ion-buttons :collapse="true" slot="end">
-            <ion-button v-if="!loggedIn" color="primary" fill="solid"
+            <ion-button v-if="!isLoggedIn" color="primary" fill="solid"
               @click="() => router.push('/login')">Login</ion-button>
             <ion-button v-else color="primary" fill="solid" @click="logout">Logout</ion-button>
-            <ion-button v-if="!loggedIn" color="primary" fill="solid"
+            <ion-button v-if="!isLoggedIn" color="primary" fill="solid"
               @click="() => router.push('/signup')">Signup</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-card class="ion-text-center">
-        <img src="../../banner.png" />
+        <ion-img src="../../banner.png" />
         <ion-card-content align-items: center>
           If you are an Alabamian facing the challenges of dementia, you are not alone!
           Alabama Caregiver Connect was created by researchers, providers, and caregivers, to help Alabama
@@ -103,7 +103,7 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import {
   IonButton,
   IonButtons,
@@ -117,25 +117,53 @@ import {
   IonCardContent,
   IonText,
   IonRow,
+  IonImg
 } from '@ionic/vue';
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { searchCircle, addCircle } from 'ionicons/icons';
-import { mapGetters, mapActions } from 'vuex';
 // store.commit('login')
 
-const router = useRouter();
-
-await store.set('name', 'Mr. Ionitron');
-
-const loggedIn = ref(true);
-
-const logout = () => {
-  // Perform logout logic here (e.g., clear session)
-  // Upon successful logout, update loggedIn status
-  loggedIn.value = false;
-  // Redirect to login page (optional)
+export default {
+  components: {
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonIcon,
+    IonCard,
+    IonCardContent,
+    IonText,
+    IonRow,
+    IonImg
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
+  setup() {
+    const router = useRouter();
+    return { router, addCircle, searchCircle };
+  },
+  methods: {
+    logout() {
+      this.$store.commit('logout');
+    }
+  }
 };
+
+
+// const loggedIn = ref(true);
+
+// const logout = () => {
+//   // Perform logout logic here (e.g., clear session)
+//   // Upon successful logout, update loggedIn status
+//   loggedIn.value = false;
+//   // Redirect to login page (optional)
+// };
 </script>
 
 <style scoped>
@@ -174,5 +202,4 @@ ion-title {
   background-position-x: 5px;
   background-size: auto 35px;
 }
-
 </style>
