@@ -32,7 +32,7 @@
         </ion-toolbar>
       </ion-header>
       <ion-card class="ion-text-center">
-        <img src="../../banner.png" />
+        <ion-img src="../../banner.png" />
         <ion-card-content align-items: center>
           If you are an Alabamian facing the challenges of dementia, you are not alone!
           Alabama Caregiver Connect was created by researchers, providers, and caregivers, to help Alabama
