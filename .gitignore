@@ -33,3 +33,4 @@ node_modules/
 /platforms
 /plugins
 /www
+credentials.env
