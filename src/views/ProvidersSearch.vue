@@ -1,3 +1,6 @@
+<!-- To do: 1. add padding at right of table.
+            2. vertically center cells-->
+
 <template>
   <ion-page>
     <ion-header>
@@ -10,34 +13,34 @@
           style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
     </ion-header>
-    <ion-content ref="content" :scroll-x=true>
+    <ion-content :scroll-x=true>
       <ion-searchbar></ion-searchbar>
       <ion-grid>
         <ion-row class="header-row">
-          <ion-col size="1">ID</ion-col>
-          <ion-col size="2">Provider Name</ion-col>
-          <ion-col size="3">Address</ion-col>
-          <ion-col size="2">Address Line 2</ion-col>
-          <ion-col size="2">City</ion-col>
-          <ion-col size="2">State</ion-col>
-          <ion-col size="2">zip</ion-col>
-          <ion-col size="3">county</ion-col>
-          <ion-col size="3">phone #</ion-col>
-          <ion-col size="6">website</ion-col>
-          <ion-col size="3">resources</ion-col>
+          <ion-col class="header-col" size="1">ID</ion-col>
+          <ion-col class="header-col" size="2">Provider Name</ion-col>
+          <ion-col class="header-col" size="3">Address</ion-col>
+          <ion-col class="header-col" size="2">Address Line 2</ion-col>
+          <ion-col class="header-col" size="2">City</ion-col>
+          <ion-col class="header-col" size="2">State</ion-col>
+          <ion-col class="header-col" size="2">zip</ion-col>
+          <ion-col class="header-col" size="3">county</ion-col>
+          <ion-col class="header-col" size="3">phone #</ion-col>
+          <ion-col class="header-col" size="6">website</ion-col>
+          <ion-col class="header-col" size="3">resources</ion-col>
         </ion-row>
-        <ion-row v-for="(entry, index) in entries" class="ion-align-items-start">
-          <ion-col size="1">{{ entry.id }}</ion-col>
-          <ion-col size="2">{{ entry.name }}</ion-col>
-          <ion-col size="3">{{ entry.address }}</ion-col>
-          <ion-col size="2">{{ entry.address2 }}</ion-col>
-          <ion-col size="2">{{ entry.city }}</ion-col>
-          <ion-col size="2">{{ entry.state }}</ion-col>
-          <ion-col size="2">{{ entry.zip }}</ion-col>
-          <ion-col size="3">{{ entry.county }}</ion-col>
-          <ion-col size="3">{{ entry.phone }}</ion-col>
-          <ion-col size="6">{{ entry.website }}</ion-col>
-          <ion-col size="3">{{ entry.resources }}</ion-col>
+        <ion-row v-for="(entry, index) in entries">
+          <ion-col :class="{even: index%2==1}" size="1">{{ entry.id }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="2">{{ entry.name }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="3">{{ entry.address }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="2">{{ entry.address2 }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="2">{{ entry.city }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="2">{{ entry.state }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="2">{{ entry.zip }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="3">{{ entry.county }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="3">{{ entry.phone }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="6">{{ entry.website }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="3">{{ entry.resources }}</ion-col>
         </ion-row>
       </ion-grid>
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -435,8 +438,7 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const content = ref();
-    return { add, router, content }
+    return { add, router }
   }
 }
 </script>
@@ -445,21 +447,41 @@ export default {
 ion-grid {
   padding-left: 10px;
   padding-bottom: 80px;
-  /* display: flex;
-  flex-flow: column;
-  flex-grow: 1; */
-  /* width: 600px; */
   min-width: 600px;
 }
 
 ion-row {
-  border: solid 1px;
+  /* keep rows from wrapping */
   flex-wrap: nowrap;
+}
+
+
+.header-row {
+  color: #ffffff;
+
+  /* keep header row at top of screen when scroll */
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  right: 0;
+  z-index: 9999;
+}
+
+.header-col {
+  background-color: #9e1b32;
+}
+
+.even {
+  background-color: lightgray;
 }
 
 ion-col {
   border: solid 1px;
   text-align: center;
-  /* height: 100%; */
+  align-self: stretch;
+}
+
+ion-fab {
+  padding: 1%;
 }
 </style>

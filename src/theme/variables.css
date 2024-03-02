@@ -4,7 +4,8 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #9e1b32; /*crimson*/
+  --ion-color-primary: #9e1b32;
+  /*crimson*/
   --ion-color-primary-rgb: 158, 27, 50;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -100,7 +101,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-primary-tint: #e7e7e7;
 
     /** secondary **/
-    --ion-color-secondary: #9e1b32; /*crimson*/
+    --ion-color-secondary: #9e1b32;
+    /*crimson*/
     --ion-color-secondary-rgb: 158, 27, 50;
     --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -287,16 +289,6 @@ ion-back-button {
 
 ion-toolbar {
   --background: var(--ion-color-primary)
-}
-
-.header-row {
-  /* --background: var(--ion-color-step-350) */
-  background-color: darkgrey;
-  position: sticky;
-  top: 0px;
-left: 0px;
-right: 0;
-z-index: 9999;
 }
 
 .vcs {
