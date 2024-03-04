@@ -59,6 +59,6 @@ module.exports = (sequelize, Sequelize) => {
     }, {
         timestamps: false // Disable createdAt and updatedAt columns
   });
-
+  
   return Provider;
 };

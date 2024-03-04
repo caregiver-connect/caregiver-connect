@@ -1,10 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const https = require("https");
-const fs = require("fs");
+const http = require("http"); // Change from https to http
 require('dotenv').config({ path: './credentials.env' });
-
 
 const app = express();
 
@@ -31,21 +29,14 @@ app.get("/", (req, res) => {
 
 // Require and configure provider routes
 require("./app/routes/provider.routes")(app);
+// Require and configure provider routes
+require("./app/routes/user.routes")(app);
 
-// HTTPS options with self-signed certificate
-const httpsOptions = {
-  key: fs.readFileSync('ca.key'),
-  cert: fs.readFileSync('155f677d.crt'),
-  // Provide the passphrase to decrypt the private key
-  passphrase: process.env.passphrase,
-  rejectUnauthorized: false // Disable SSL certificate verification
-};
-
-// Create an HTTPS server
-const server = https.createServer(httpsOptions, app);
+// Create an HTTP server instead of HTTPS
+const server = http.createServer(app); // Change from https to http
 
 // Set the port and start listening for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
