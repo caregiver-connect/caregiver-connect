@@ -34,6 +34,7 @@ node_modules/
 /plugins
 /www
 credentials.env
+*.env
 *.crt
 *.key
 *.cert
