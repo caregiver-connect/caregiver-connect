@@ -6,16 +6,8 @@ require('dotenv').config({ path: './credentials.env' });
 
 const app = express();
 
-<<<<<<< HEAD
 
 app.use(cors());
-=======
-// Enable CORS for requests from http://localhost:8100
-var corsOptions = {
-  origin: "http://localhost:8100"
-};
-app.use(cors(corsOptions));
->>>>>>> main
 
 // Connect to the database and synchronize models
 const db = require("./app/models");
