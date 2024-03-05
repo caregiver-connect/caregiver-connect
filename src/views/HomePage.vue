@@ -2,14 +2,17 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title class="hometitle">
+        <ion-title>
           <ion-row class="ion-align-items-center">
             CareGiver Connect
           </ion-row>
         </ion-title>
         <ion-buttons :collapse="true" slot="end">
-          <ion-button color="secondary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-          <ion-button color="secondary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+          <ion-button v-if="!isLoggedIn" color="secondary" fill="solid"
+            @click="() => router.push('/login')">Login</ion-button>
+          <ion-button v-else color="secondary" fill="solid" @click="logout">Logout</ion-button>
+          <ion-button v-if="!isLoggedIn" color="secondary" fill="solid"
+            @click="() => router.push('/signup')">Signup</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -17,7 +20,7 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title class="hometitle">
+          <ion-title>
             <ion-row class="ion-align-items-center">
               <ion-text color="primary">
                 CareGiver Connect
@@ -26,8 +29,11 @@
           </ion-title>
           <ion-img slot="start" src="../../logo.jpg" style="position: left 5px center; width: 35px;"></ion-img>
           <ion-buttons :collapse="true" slot="end">
-            <ion-button color="primary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-            <ion-button color="primary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+            <ion-button v-if="!isLoggedIn" color="primary" fill="solid"
+              @click="() => router.push('/login')">Login</ion-button>
+            <ion-button v-else color="primary" fill="solid" @click="logout">Logout</ion-button>
+            <ion-button v-if="!isLoggedIn" color="primary" fill="solid"
+              @click="() => router.push('/signup')">Signup</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -98,7 +104,7 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import {
   IonButton,
   IonButtons,
@@ -116,8 +122,49 @@ import {
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { searchCircle, addCircle } from 'ionicons/icons';
-const router = useRouter();
+// store.commit('login')
 
+export default {
+  components: {
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonIcon,
+    IonCard,
+    IonCardContent,
+    IonText,
+    IonRow,
+    IonImg
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
+  setup() {
+    const router = useRouter();
+    return { router, addCircle, searchCircle };
+  },
+  methods: {
+    logout() {
+      this.$store.commit('logout');
+    }
+  }
+};
+
+
+// const loggedIn = ref(true);
+
+// const logout = () => {
+//   // Perform logout logic here (e.g., clear session)
+//   // Upon successful logout, update loggedIn status
+//   loggedIn.value = false;
+//   // Redirect to login page (optional)
+// };
 </script>
 
 <style scoped>
@@ -147,5 +194,13 @@ const router = useRouter();
 
 #container a {
   text-decoration: none;
+}
+
+ion-title {
+  line-height: 40px;
+  padding-left: 45px;
+  background: url('../../logo.jpg') no-repeat left center;
+  background-position-x: 5px;
+  background-size: auto 35px;
 }
 </style>

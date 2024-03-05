@@ -14,13 +14,13 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Username"></ion-input>
+            <ion-input label-placement="floating" label="Username" v-model="username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Password" type="password"></ion-input>
+            <ion-input label-placement="floating" label="Password" type="password" v-model="password"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button>Login</ion-button>
+        <ion-button @click="login">Login</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
             Still need to Signup?
@@ -32,8 +32,8 @@
     </ion-content>
   </ion-page>
 </template>
-  
-<script setup lang="ts">
+
+<script lang="ts">
 import {
   IonBackButton,
   IonButtons,
@@ -47,10 +47,44 @@ import {
   IonItem,
   IonButton,
   IonCard,
-  IonCardContent,
-  IonImg
+  IonCardContent
 } from '@ionic/vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
+export default {
+
+  components: {
+    IonBackButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonInput,
+    IonList,
+    IonItem,
+    IonButton,
+    IonCard,
+    IonCardContent
+  },
+  setup() {
+    const router = useRouter();
+    const username = ref('');
+    const password = ref('')
+    return { router, username, password }
+  },
+  methods: {
+    login() {
+      // console.log(this.username)
+      if (this.username == "test" && this.password == "pass") {
+        this.$store.commit("login", this.username);
+        this.username = "";
+        this.password = "";
+        this.router.push('/home');
+      }
+    }
+  }
+}
 </script>
