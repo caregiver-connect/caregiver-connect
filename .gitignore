@@ -27,9 +27,19 @@ npm-debug.log*
 !/.vscode/extensions.json
 /coverage
 /dist
+**/node_modules
 /node_modules
+node_modules/
 /platforms
 /plugins
 /www
+<<<<<<< HEAD
 /data
 /letsencrypt
+=======
+credentials.env
+*.env
+*.crt
+*.key
+*.cert
+>>>>>>> main

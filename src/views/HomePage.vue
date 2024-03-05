@@ -2,14 +2,17 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title class="hometitle">
+        <ion-title>
           <ion-row class="ion-align-items-center">
             CareGiver Connect
           </ion-row>
         </ion-title>
         <ion-buttons :collapse="true" slot="end">
-          <ion-button color="light" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-          <ion-button color="light" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+          <ion-button v-if="!isLoggedIn" color="secondary" fill="solid"
+            @click="() => router.push('/login')">Login</ion-button>
+          <ion-button v-else color="secondary" fill="solid" @click="logout">Logout</ion-button>
+          <ion-button v-if="!isLoggedIn" color="secondary" fill="solid"
+            @click="() => router.push('/signup')">Signup</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -17,7 +20,7 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title class="hometitle">
+          <ion-title>
             <ion-row class="ion-align-items-center">
               <ion-text color="primary">
                 CareGiver Connect
@@ -26,13 +29,16 @@
           </ion-title>
           <ion-img slot="start" src="../../logo.jpg" style="position: left 5px center; width: 35px;"></ion-img>
           <ion-buttons :collapse="true" slot="end">
-            <ion-button color="primary" fill="solid" @click="() => router.push('/login')">Login</ion-button>
-            <ion-button color="primary" fill="solid" @click="() => router.push('/signup')">Signup</ion-button>
+            <ion-button v-if="!isLoggedIn" color="primary" fill="solid"
+              @click="() => router.push('/login')">Login</ion-button>
+            <ion-button v-else color="primary" fill="solid" @click="logout">Logout</ion-button>
+            <ion-button v-if="!isLoggedIn" color="primary" fill="solid"
+              @click="() => router.push('/signup')">Signup</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-card class="ion-text-center">
-        <img src="../../banner.png" />
+        <ion-img src="../../banner.png" />
         <ion-card-content align-items: center>
           If you are an Alabamian facing the challenges of dementia, you are not alone!
           Alabama Caregiver Connect was created by researchers, providers, and caregivers, to help Alabama
@@ -42,63 +48,63 @@
       </ion-card>
       <!-- <ion-buttons color="primary" size="large" expand="block"> -->
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/providers-search')">
-        <ion-icon slot="start" :icon="searchCircle"></ion-icon>
-        Find Providers
+        <ion-icon slot="start" :icon="searchCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Providers</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/services-search')">
-        <ion-icon slot="start" :icon="searchCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="searchCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/add-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Add Provider
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Add Provider</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Edit Provider
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Edit Provider</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle"></ion-icon>
-        Find Services
+        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
+        <ion-text color="secondary">Find Services</ion-text>
       </ion-button>
       <!-- </ion-buttons> -->
     </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import {
   IonButton,
   IonButtons,
@@ -112,11 +118,53 @@ import {
   IonCardContent,
   IonText,
   IonRow,
+  IonImg
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { searchCircle, addCircle } from 'ionicons/icons';
-const router = useRouter();
+// store.commit('login')
 
+export default {
+  components: {
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonIcon,
+    IonCard,
+    IonCardContent,
+    IonText,
+    IonRow,
+    IonImg
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
+  setup() {
+    const router = useRouter();
+    return { router, addCircle, searchCircle };
+  },
+  methods: {
+    logout() {
+      this.$store.commit('logout');
+    }
+  }
+};
+
+
+// const loggedIn = ref(true);
+
+// const logout = () => {
+//   // Perform logout logic here (e.g., clear session)
+//   // Upon successful logout, update loggedIn status
+//   loggedIn.value = false;
+//   // Redirect to login page (optional)
+// };
 </script>
 
 <style scoped>
@@ -146,5 +194,13 @@ const router = useRouter();
 
 #container a {
   text-decoration: none;
+}
+
+ion-title {
+  line-height: 40px;
+  padding-left: 45px;
+  background: url('../../logo.jpg') no-repeat left center;
+  background-position-x: 5px;
+  background-size: auto 35px;
 }
 </style>

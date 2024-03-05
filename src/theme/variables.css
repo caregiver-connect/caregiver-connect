@@ -19,6 +19,14 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-secondary-shade: #8c8c8c;
   --ion-color-secondary-tint: #e7e7e7;
 
+  /** crimson **/
+  --ion-color-crimson: #9e1b32;
+  --ion-color-crimson-rgb: 158, 27, 50;
+  --ion-color-crimson-contrast: #ffffff;
+  --ion-color-crimson-contrast-rgb: 255, 255, 255;
+  --ion-color-crimson-shade: #62111f;
+  --ion-color-crimson-tint: #da2647;
+
   /** tertiary **/
   --ion-color-tertiary: #bababa;
   --ion-color-tertiary-rgb: 186, 186, 186;
@@ -92,13 +100,20 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-primary-tint: #e7e7e7;
 
     /** secondary **/
-    --ion-color-secondary: #9e1b32;
-    /*crimson*/
+    --ion-color-secondary: #9e1b32; /*crimson*/
     --ion-color-secondary-rgb: 158, 27, 50;
     --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-contrast-rgb: 255, 255, 255;
     --ion-color-secondary-shade: #62111f;
     --ion-color-secondary-tint: #da2647;
+
+    /** crimson **/
+    --ion-color-crimson: #9e1b32;
+    --ion-color-crimson-rgb: 158, 27, 50;
+    --ion-color-crimson-contrast: #ffffff;
+    --ion-color-crimson-contrast-rgb: 255, 255, 255;
+    --ion-color-crimson-shade: #62111f;
+    --ion-color-crimson-tint: #da2647;
 
     /** tertiary **/
     --ion-color-tertiary: #bababa;
@@ -245,16 +260,17 @@ http://ionicframework.com/docs/theming/ */
   }
 }
 
-ion-title {
-  color: var(--ion-color-secondary);
+.ion-color-crimson {
+  --ion-color-base: var(--ion-color-crimson);
+  --ion-color-base-rgb: var(--ion-color-crimson-rgb);
+  --ion-color-contrast: var(--ion-color-crimson-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-crimson-contrast-rgb);
+  --ion-color-shade: var(--ion-color-crimson-shade);
+  --ion-color-tint: var(--ion-color-crimson-tint);
 }
 
-.hometitle {
-  line-height: 40px;
-  padding-left: 45px;
-  background: url('../../logo.jpg') no-repeat left center;
-  background-position-x: 5px;
-  background-size: auto 35px;
+ion-title {
+  color: var(--ion-color-secondary);
 }
 
 ion-back-button {

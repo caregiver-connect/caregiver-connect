@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../../credentials.env' });
 module.exports = {
     HOST: "postgres",
     USER: "postgres",

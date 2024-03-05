@@ -12,23 +12,29 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@capacitor/android": "5.7.0",
     "@capacitor/app": "5.0.7",
     "@capacitor/core": "5.7.0",
     "@capacitor/haptics": "5.0.7",
+    "@capacitor/ios": "5.7.0",
     "@capacitor/keyboard": "5.0.8",
     "@capacitor/status-bar": "5.0.7",
+    "@ionic/storage": "^4.0.0",
     "@ionic/vue": "^7.0.0",
     "@ionic/vue-router": "^7.0.0",
     "axios": "^1.6.7",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "ionicons": "^7.0.0",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.1",
     "vue": "^3.3.0",
-    "vue-router": "^4.2.0"
+    "vue-router": "^4.2.0",
+    "vuex": "^4.0.2",
+    "vuex-persister": "^1.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "5.7.0",

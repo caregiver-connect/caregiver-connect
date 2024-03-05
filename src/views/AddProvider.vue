@@ -169,9 +169,7 @@
             <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button @click="addProvider">
-          Add Provider
-        </ion-button>
+        <ion-button color="crimson" @click="addProvider">Add Provider</ion-button>
       </div>
     </ion-content>
   </ion-page>

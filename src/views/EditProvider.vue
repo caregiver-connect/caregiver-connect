@@ -26,9 +26,7 @@
             <ion-input label-placement="floating" label="County"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button>
-          Add Provider
-        </ion-button>
+        <ion-button color="crimson">Add Provider</ion-button>
       </div>
     </ion-content>
   </ion-page>

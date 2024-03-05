@@ -12,28 +12,28 @@
     </ion-header>
     <ion-content ref="content">
       <div class="vcs">
-        <ion-card class="ion-text-center" color="primary" style="width: 50%">
+        <ion-card class="ion-text-center" color="crimson" style="width: 50%">
           <ion-card-content>Are you a service provider? Signup here instead!</ion-card-content>
           <ion-button color="light" @click="() => router.push('/provider-signup')">Provider Signup</ion-button>
         </ion-card>
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Username"></ion-input>
+            <ion-input label-placement="floating" label="Username"  v-model="username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Password" type="password"></ion-input>
+            <ion-input label-placement="floating" label="Password" type="password" v-model="password"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Retype Password" type="password"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Email" type="email"></ion-input>
+            <ion-input label-placement="floating" label="Email" type="email" v-model="email"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Phone #" type="tel"></ion-input>
+            <ion-input label-placement="floating" label="Phone #" type="tel" v-model="phoneNumber"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County">
+            <ion-select lebel-placement="floating" label="County" v-model="county">
               <ion-select-option>Autauga</ion-select-option>
               <ion-select-option>Baldwin</ion-select-option>
               <ion-select-option>Barbour</ion-select-option>
@@ -104,10 +104,10 @@
             </ion-select>
           </ion-item>
         </ion-list>
-        <ion-button>Signup</ion-button>
-        <ion-card class="ion-text-center" color="light" style="width: 50%">
+        <ion-button color="crimson" @click="addUser">Signup</ion-button>
+        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
-            Already have an account? <a @click="() => router.push('/login')">Login here.</a>
+            Already have an account? <a @click="() => router.push('/login')"><u>Login here.</u></a>
           </ion-card-content>
         </ion-card>
       </div>
@@ -136,7 +136,44 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
+import axios from 'axios';
 
+const router = useRouter();
+const username = ref('');
+const password = ref('');
+const email = ref('');
+const phoneNumber = ref('');
+const county = ref('');
+const addUser = async () => {
+  try {
+    // Extract the county from the array if it's received as an array with one element
+    const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
+
+    const response = await axios.post('http://localhost:8081/api/users', { //NOTE: Email is a good idea but not a field in the database currently
+      username: username.value,
+      password: password.value,
+      email: email.value,
+      phone_number: phoneNumber.value,
+      county: countyValue,
+    });
+    console.log('User added successfully:', response.data);
+    // Show toast message
+    // Optionally, you can reset input fields after successful submission
+    username.value = '';
+    password.value = '';
+    email.value = '';
+    phoneNumber.value = '';
+    county.value = '';
+    // Reset other input fields similarly
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Error adding User:', error.response.data);
+      // Handle error response from the server
+    } else {
+      console.error('Unknown error:', error);
+      // Handle other types of errors
+    }
+  }
+};
 const content = ref();
 </script>
