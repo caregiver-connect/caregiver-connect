@@ -199,23 +199,6 @@
               <ion-item>
                   <ion-checkbox label-placement="end" justify="start">Diagnosis</ion-checkbox>
               </ion-item>
-              <!-- <ion-text>Home Services:</ion-text>
-              <ion-item v-for="service in services"></ion-item> -->
-              <!-- <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
-              </ion-item> -->
             </ion-list>
           </div>
         </ion-list>
