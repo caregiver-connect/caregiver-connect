@@ -53,7 +53,6 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import axios from 'axios';
-import { ref } from 'vue';
 
 
 export default {
@@ -80,19 +79,19 @@ export default {
     return { router, username, password }
   },
   methods: {
-    login() {
+    async login() {
 try {
   const response = await axios.post('http://localhost:8081/api/users/login', { //NOTE: Email is a good idea but not a field in the database currently
-      username: username.value,
-      password: password.value,
+      username: this.username,
+      password: this.password,
     });
     console.log('User logged in successfully:', response.data);
     this.$store.commit("login", this.username);
     this.router.push('/home');
     // Show toast message
     // Rest input fields after successful login
-    username.value = '';
-    password.value = '';
+    this.username = '';
+    this.password= '';
     // Reset other input fields similarly
   } catch (error: any) {
     if (error.response) {
