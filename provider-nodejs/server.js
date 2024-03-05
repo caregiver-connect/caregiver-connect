@@ -6,7 +6,6 @@ require('dotenv').config({ path: './credentials.env' });
 
 const app = express();
 
-
 app.use(cors());
 
 // Connect to the database and synchronize models

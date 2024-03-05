@@ -1,17 +1,42 @@
 const db = require("../models");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = db.users;
 const Op = db.Sequelize.Op;
 
-/*console.log("Debug statement: User =", User);
+// Function to generate JWT token
+const generateToken = (user) => {
+    return jwt.sign({ id: user.id, username: user.username }, 'your-secret-key', { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key
+};
 
-if (typeof User === 'undefined') {
-    console.log("myObject is undefined");
-} else {
-    console.log("myObject is defined");
-} */
+// Login endpoint
+exports.login = async (req, res) => {
+    const { username, password } = req.body;
 
-// Create and Save a new user
+    try {
+        // Find the user by username
+        const user = await User.findOne({ where: { username } });
+        if (!user) {
+            return res.status(404).send({ message: 'Invalid username and password combination.' });
+        }
+
+        // Compare the password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).send({ message: 'Invalid username and password combination.' });
+        }
+
+        // Generate JWT token
+        const token = generateToken(user);
+
+        // Send the token in the response
+        res.send({ token });
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).send({ message: 'Internal server error.' });
+    }
+};
+
 
 exports.create = async (req, res) => {
     // Validate request
