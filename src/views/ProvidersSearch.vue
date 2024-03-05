@@ -19,27 +19,27 @@
         <ion-row class="header-row">
           <ion-col class="header-col" size="1">ID</ion-col>
           <ion-col class="header-col" size="2">Provider Name</ion-col>
-          <ion-col class="header-col" size="3">Address</ion-col>
+          <ion-col class="header-col" size="2">Address</ion-col>
           <ion-col class="header-col" size="2">Address Line 2</ion-col>
-          <ion-col class="header-col" size="2">City</ion-col>
-          <ion-col class="header-col" size="2">State</ion-col>
+          <ion-col class="header-col" size="3">City</ion-col>
+          <ion-col class="header-col" size="1">State</ion-col>
           <ion-col class="header-col" size="2">zip</ion-col>
-          <ion-col class="header-col" size="3">county</ion-col>
+          <ion-col class="header-col" size="2">county</ion-col>
           <ion-col class="header-col" size="3">phone #</ion-col>
-          <ion-col class="header-col" size="6">website</ion-col>
+          <ion-col class="header-col" size="4">website</ion-col>
           <ion-col class="header-col" size="3">resources</ion-col>
         </ion-row>
-        <ion-row v-for="(entry, index) in entries">
+        <ion-row v-for="(entry, index) in entries" :key="entry.id">
           <ion-col :class="{even: index%2==1}" size="1">{{ entry.id }}</ion-col>
           <ion-col :class="{even: index%2==1}" size="2">{{ entry.name }}</ion-col>
-          <ion-col :class="{even: index%2==1}" size="3">{{ entry.address }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="2">{{ entry.address }}</ion-col>
           <ion-col :class="{even: index%2==1}" size="2">{{ entry.address2 }}</ion-col>
-          <ion-col :class="{even: index%2==1}" size="2">{{ entry.city }}</ion-col>
-          <ion-col :class="{even: index%2==1}" size="2">{{ entry.state }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="3">{{ entry.city }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="1">{{ entry.state }}</ion-col>
           <ion-col :class="{even: index%2==1}" size="2">{{ entry.zip }}</ion-col>
-          <ion-col :class="{even: index%2==1}" size="3">{{ entry.county }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="2">{{ entry.county }}</ion-col>
           <ion-col :class="{even: index%2==1}" size="3">{{ entry.phone }}</ion-col>
-          <ion-col :class="{even: index%2==1}" size="6">{{ entry.website }}</ion-col>
+          <ion-col :class="{even: index%2==1}" size="4">{{ entry.website }}</ion-col>
           <ion-col :class="{even: index%2==1}" size="3">{{ entry.resources }}</ion-col>
         </ion-row>
       </ion-grid>
@@ -71,7 +71,7 @@ import {
   IonSearchbar
 } from '@ionic/vue';
 import { ref } from 'vue';
-import { add } from 'ionicons/icons';
+import { add, arrowUp, arrowDown } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -100,11 +100,11 @@ export default {
           name: "test",
           address: "123 Way",
           address2: "Suite 530",
-          city: "Tusca",
+          city: "Owens Cross Roads",
           state: "AL",
           zip: 12345,
-          county: "Conecuh",
-          phone: 1234567890,
+          county: "Saint Clair",
+          phone: "(123)-456-7890",
           website: "www.example.com",
           resources: "hospice"
         },
@@ -438,7 +438,7 @@ export default {
   },
   setup() {
     const router = useRouter();
-    return { add, router }
+    return { add, arrowUp, arrowDown, router }
   }
 }
 </script>
