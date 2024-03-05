@@ -6,11 +6,7 @@ require('dotenv').config({ path: './credentials.env' });
 
 const app = express();
 
-// Enable CORS for requests from http://localhost:8100
-var corsOptions = {
-  origin: "http://localhost:8101"
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Connect to the database and synchronize models
 const db = require("./app/models");
@@ -24,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Define a simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to caregiver connect." });
 });
 
 // Require and configure provider routes
