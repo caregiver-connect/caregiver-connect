@@ -136,8 +136,9 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import axios from 'axios';
+
+const router = useRouter();
 const username = ref('');
 const password = ref('');
 const email = ref('');
