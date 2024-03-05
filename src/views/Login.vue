@@ -32,8 +32,8 @@
     </ion-content>
   </ion-page>
 </template>
-  
-<script setup lang="ts">
+
+<script lang="ts">
 import {
   IonBackButton,
   IonButtons,
@@ -47,27 +47,50 @@ import {
   IonItem,
   IonButton,
   IonCard,
-  IonCardContent,
-  IonImg
+  IonCardContent
 } from '@ionic/vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
 import axios from 'axios';
 import { ref } from 'vue';
 
-const username = ref('');
-const password = ref('');
 
-const login = async () => {
+export default {
+
+  components: {
+    IonBackButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonInput,
+    IonList,
+    IonItem,
+    IonButton,
+    IonCard,
+    IonCardContent
+  },
+  setup() {
+    const router = useRouter();
+    const username = ref('');
+    const password = ref('')
+    return { router, username, password }
+  },
+  methods: {
+    login() {
 try {
   const response = await axios.post('http://localhost:8081/api/users/login', { //NOTE: Email is a good idea but not a field in the database currently
       username: username.value,
       password: password.value,
     });
     console.log('User logged in successfully:', response.data);
+    this.$store.commit("login", this.username);
+    this.router.push('/home');
     // Show toast message
-    // Optionally, you can reset input fields after successful submission
+    // Rest input fields after successful login
     username.value = '';
     password.value = '';
     // Reset other input fields similarly
@@ -80,5 +103,8 @@ try {
       // Handle other types of errors
     }
   }
-  };
+      // console.log(this.username)
+    }
+  }
+}
 </script>
