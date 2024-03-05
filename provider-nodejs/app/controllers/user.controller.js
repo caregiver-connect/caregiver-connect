@@ -17,13 +17,13 @@ exports.login = async (req, res) => {
         // Find the user by username
         const user = await User.findOne({ where: { username } });
         if (!user) {
-            return res.status(404).send({ message: 'User not found.' });
+            return res.status(404).send({ message: 'Invalid username and password combination.' });
         }
 
         // Compare the password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).send({ message: 'Invalid password.' });
+            return res.status(401).send({ message: 'Invalid username and password combination.' });
         }
 
         // Generate JWT token
