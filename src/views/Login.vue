@@ -14,13 +14,13 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Username"></ion-input>
+            <ion-input label-placement="floating" label="Username" v-model="username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Password" type="password"></ion-input>
+            <ion-input label-placement="floating" label="Password" type="password" v-model="password"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button>Login</ion-button>
+        <ion-button @click="login">Login</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
             Still need to Signup?
@@ -53,4 +53,32 @@ import {
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+import axios from 'axios';
+import { ref } from 'vue';
+
+const username = ref('');
+const password = ref('');
+
+const login = async () => {
+try {
+  const response = await axios.post('http://localhost:8081/api/users/login', { //NOTE: Email is a good idea but not a field in the database currently
+      username: username.value,
+      password: password.value,
+    });
+    console.log('User logged in successfully:', response.data);
+    // Show toast message
+    // Optionally, you can reset input fields after successful submission
+    username.value = '';
+    password.value = '';
+    // Reset other input fields similarly
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Error logging in user:', error.response.data);
+      // Handle error response from the server
+    } else {
+      console.error('Unknown error:', error);
+      // Handle other types of errors
+    }
+  }
+  };
 </script>

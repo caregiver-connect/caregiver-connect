@@ -2,13 +2,6 @@ const db = require("../models");
 const Provider = db.providers;
 const Op = db.Sequelize.Op;
 
-/*console.log("Debug statement: Provider =", Provider);
-
-if (typeof Provider === 'undefined') {
-    console.log("myObject is undefined");
-} else {
-    console.log("myObject is defined");
-} */
 
 // Create and Save a new Provider
 exports.create = (req, res) => {
@@ -172,25 +165,7 @@ exports.delete = (req, res) => {
             });
         });
   };
-  
 
-// idk if we really need a delete all method but framework is ther for now
-/* // Delete all Tutorials from the database.
-exports.deleteAll = (req, res) => {
-    Tutorial.destroy({
-        where: {},
-        truncate: false
-      })
-        .then(nums => {
-          res.send({ message: `${nums} Tutorials were deleted successfully!` });
-        })
-        .catch(err => {
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while removing all tutorials."
-          });
-        });
-}; */
 
 // Find all Providers in a specific county
 exports.findAllInCounty = (req, res) => {
