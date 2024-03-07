@@ -1,1 +1,1 @@
-psql -U postgres -c 'CREATE DATABASE caregiver-connect;'
+psql -U postgres -c 'CREATE DATABASE caregiverconnect;'

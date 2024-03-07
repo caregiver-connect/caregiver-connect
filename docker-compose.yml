@@ -1,8 +1,6 @@
 version: "3.9"
 services:
   postgres:
-    build:
-        target: postgres:latest
     container_name: postgres
     image: postgres:latest
     environment:
@@ -19,7 +17,6 @@ services:
     image: caregiver-backend:latest
     build:
       context: ./provider-nodejs
-      target: ionic
     environment:
       DB_SCHEMA: postgres
       DB_USER: postgres
@@ -28,7 +25,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - '8080:8080'
+      - '8081:8081'
 
   caregiver:
     container_name: caregiver
