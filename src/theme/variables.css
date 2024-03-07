@@ -4,7 +4,8 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #9e1b32; /*crimson*/
+  --ion-color-primary: #9e1b32;
+  /*crimson*/
   --ion-color-primary-rgb: 158, 27, 50;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -100,7 +101,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-primary-tint: #e7e7e7;
 
     /** secondary **/
-    --ion-color-secondary: #9e1b32; /*crimson*/
+    --ion-color-secondary: #9e1b32;
+    /*crimson*/
     --ion-color-secondary-rgb: 158, 27, 50;
     --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -285,6 +287,13 @@ ion-toolbar {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+* {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 html {

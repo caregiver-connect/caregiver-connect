@@ -20,7 +20,7 @@
             <ion-input label-placement="floating" label="Password" type="password" v-model="password"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button @click="login">Login</ion-button>
+        <ion-button color="crimson" @click="login">Login</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
             Still need to Signup?
