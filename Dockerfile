@@ -9,7 +9,4 @@ CMD ["serve", "--external", "--no-open"]
 
 FROM postgres:latest as postgres
 WORKDIR /init
-COPY /init /init
-RUN chmod +x /init/postgres-init.sh
-RUN cd init
-RUN ./postgres-init.sh
+COPY ./init /init
