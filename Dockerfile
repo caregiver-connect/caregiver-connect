@@ -1,10 +1,8 @@
-FROM node:13-alpine as build
+FROM beevelop/ionic:latest
 WORKDIR /app
-COPY package*.json /app/
-RUN npm install -g ionic
+COPY . /app
+EXPOSE 8100
 RUN npm install
-COPY ./ /app/
-RUN npm run-script build:prod
-FROM nginx:alpine
-RUN rm -rf /usr/share/nginx/html/*
-COPY --from=build /app/www/ /usr/share/nginx/html/
+RUN npm install vite
+ENTRYPOINT ["ionic"]
+CMD ["serve", "--external", "--no-open"]
