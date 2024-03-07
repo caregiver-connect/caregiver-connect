@@ -1,5 +1,4 @@
-<!-- To do: 1. add padding at right of table.
-            2. vertically center cells-->
+<!-- To do: vertically center cells-->
 
 <template>
   <ion-page>
@@ -17,19 +16,66 @@
       <ion-searchbar></ion-searchbar>
       <ion-grid>
         <ion-row class="header-row">
-          <ion-col class="header-col" size="1">ID</ion-col>
-          <ion-col class="header-col" size="2">Provider Name</ion-col>
-          <ion-col class="header-col" size="2">Address</ion-col>
-          <ion-col class="header-col" size="2">Address Line 2</ion-col>
-          <ion-col class="header-col" size="3">City</ion-col>
-          <ion-col class="header-col" size="1">State</ion-col>
-          <ion-col class="header-col" size="2">zip</ion-col>
-          <ion-col class="header-col" size="2">county</ion-col>
-          <ion-col class="header-col" size="3">phone #</ion-col>
-          <ion-col class="header-col" size="4">website</ion-col>
-          <ion-col class="header-col" size="3">resources</ion-col>
+          <!-- empty column to add white space to left of table -->
+          <ion-col class="whitespace" size="0.3"></ion-col> 
+          <ion-col class="header-col" size="1" @click="sort('id')">
+            ID
+            <ion-icon :icon="arrowUp" v-if="sortKey!='id' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='id' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="2" @click="sort('pn')">
+            Provider Name
+            <ion-icon :icon="arrowUp" v-if="sortKey!='pn' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='pn' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="2" @click="sort('addr')">
+            Address
+            <ion-icon :icon="arrowUp" v-if="sortKey!='addr' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='addr' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="2">
+            Address Line 2
+          </ion-col>
+          <ion-col class="header-col" size="3" @click="sort('city')">
+            City
+            <ion-icon :icon="arrowUp" v-if="sortKey!='city' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='city' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="1" @click="sort('state')">
+            State
+            <ion-icon :icon="arrowUp" v-if="sortKey!='state' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='state' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="2" @click="sort('zip')">
+            Zip code
+            <ion-icon :icon="arrowUp" v-if="sortKey!='zip' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='zip' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="2" @click="sort('county')">
+            County
+            <ion-icon :icon="arrowUp" v-if="sortKey!='county' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='county' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="3" @click="sort('phone')">
+            Phone #
+            <ion-icon :icon="arrowUp" v-if="sortKey!='phone' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='phone' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="4" @click="sort('website')">
+            Website
+            <ion-icon :icon="arrowUp" v-if="sortKey!='website' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='website' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <ion-col class="header-col" size="3" @click="sort('resources')">
+            Resources
+            <ion-icon :icon="arrowUp" v-if="sortKey!='resources' || sortDirection!=2"></ion-icon>
+            <ion-icon :icon="arrowDown" v-if="sortKey!='resources' || sortDirection!=1"></ion-icon>
+          </ion-col>
+          <!-- empty column to add white space to right of table -->
+          <ion-col class="whitespace" size="0.3"></ion-col> 
         </ion-row>
         <ion-row v-for="(entry, index) in entries" :key="entry.id">
+          <ion-col class="whitespace" size="0.3"></ion-col> 
           <ion-col :class="{even: index%2==1}" size="1">{{ entry.id }}</ion-col>
           <ion-col :class="{even: index%2==1}" size="2">{{ entry.name }}</ion-col>
           <ion-col :class="{even: index%2==1}" size="2">{{ entry.address }}</ion-col>
@@ -436,16 +482,30 @@ export default {
       ]
     }
   },
+  computed: {
+    sortDirection() {
+      return this.$store.getters.sortDirection;
+    },
+    sortKey() {
+      return this.$store.getters.sortKey;
+    }
+  },
   setup() {
     const router = useRouter();
     return { add, arrowUp, arrowDown, router }
+  },
+  methods: {
+    sort(key: string) {
+      console.log(key);
+      this.$store.commit('sort', key)
+      console.log(this.sortDirection)
+    }
   }
 }
 </script>
 
 <style scoped>
 ion-grid {
-  padding-left: 10px;
   padding-bottom: 80px;
   min-width: 600px;
 }
@@ -455,6 +515,15 @@ ion-row {
   flex-wrap: nowrap;
 }
 
+ion-col {
+  border: solid 1px;
+  text-align: center;
+  align-self: stretch;
+}
+
+ion-fab {
+  padding: 1%;
+}
 
 .header-row {
   color: #ffffff;
@@ -473,15 +542,10 @@ ion-row {
 
 .even {
   background-color: lightgray;
+  color: black;
 }
 
-ion-col {
-  border: solid 1px;
-  text-align: center;
-  align-self: stretch;
-}
-
-ion-fab {
-  padding: 1%;
+.whitespace {
+  color: transparent;
 }
 </style>
