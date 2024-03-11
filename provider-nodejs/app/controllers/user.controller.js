@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = db.users;
 const Op = db.Sequelize.Op;
+const { body, validationResult } = require('express-validator');
 
 // Function to generate JWT token
 const generateToken = (user) => {
@@ -10,21 +11,41 @@ const generateToken = (user) => {
 };
 
 // Login endpoint
+let failedLoginAttempts = {}; // Store failed login attempts per user
+const MAX_FAILED_ATTEMPTS = 3; // Maximum number of failed attempts before lockout
+
 exports.login = async (req, res) => {
     const { username, password } = req.body;
 
     try {
+        // Check if the user's account is locked
+        if (failedLoginAttempts[username] && failedLoginAttempts[username].attempts >= MAX_FAILED_ATTEMPTS) {
+            const lockoutDuration = 5 * 60 * 1000; // 30 seconds lockout period
+            const lockoutTime = failedLoginAttempts[username].lockoutTime;
+            if (Date.now() - lockoutTime < lockoutDuration) {
+                return res.status(403).send({ message: 'Account locked for 5 minutes. Please try again later.' });
+            } else {
+                // Reset failed login attempts after lockout duration expires
+                delete failedLoginAttempts[username];
+            }
+        }
+
         // Find the user by username
         const user = await User.findOne({ where: { username } });
         if (!user) {
-            return res.status(404).send({ message: 'Invalid username and password combination.' });
+            incrementFailedAttempts(username); // Increment failed login attempts
+            return res.status(401).send({ message: 'Invalid username and password combination.' });
         }
 
         // Compare the password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
+            incrementFailedAttempts(username); // Increment failed login attempts
             return res.status(401).send({ message: 'Invalid username and password combination.' });
         }
+
+        // Reset failed login attempts upon successful login
+        resetFailedAttempts(username);
 
         // Generate JWT token
         const token = generateToken(user);
@@ -37,14 +58,35 @@ exports.login = async (req, res) => {
     }
 };
 
+// Helper function to increment failed login attempts
+function incrementFailedAttempts(username) {
+    if (!failedLoginAttempts[username]) {
+        failedLoginAttempts[username] = {
+            attempts: 1,
+            lockoutTime: Date.now() // Set lockout time upon first failed attempt
+        };
+    } else {
+        failedLoginAttempts[username].attempts++;
+        if (failedLoginAttempts[username].attempts >= MAX_FAILED_ATTEMPTS) {
+            failedLoginAttempts[username].lockoutTime = Date.now(); // Update lockout time upon reaching lockout threshold
+        }
+    }
+}
+
+// Helper function to reset failed login attempts upon successful login
+function resetFailedAttempts(username) {
+    delete failedLoginAttempts[username];
+}
+
+
+
+
 
 exports.create = async (req, res) => {
-    // Validate request
-    if (!req.body.username || !req.body.password ||  !req.body.county || !req.body.email || !req.body.phone_number) {
-        res.status(400).send({
-            message: "Username and password are required fields."
-        });
-        return;
+    // Validate request using express-validator
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
 
     try {
@@ -70,6 +112,15 @@ exports.create = async (req, res) => {
     }
 };
 
+exports.createValidationRules = () => { // handle input validation
+    return [
+        body('username').notEmpty().isString().trim(),
+        body('password').notEmpty().isString().trim().isLength({ min: 6 }),
+        body('phone_number').notEmpty().isMobilePhone().trim(),
+        body('email').notEmpty().isEmail().normalizeEmail(),
+        body('county').notEmpty().isString().trim(),
+    ];
+};
 
 
 
@@ -80,7 +131,7 @@ exports.findAll = (req, res) => {
 
   User.findAll({ where: condition })
       .then(data => {
-          res.send(data);
+          res.send(data); // XSS input validation 
       })
       .catch(err => {
           res.status(500).send({

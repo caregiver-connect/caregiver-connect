@@ -1,12 +1,12 @@
 const dbConfig = require("../config/db.config.js");
 
-const Sequelize = require("sequelize");
+const Sequelize = require("sequelize"); // logs info over the terminal
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
 
-  pool: {
+  pool: { //fix? for log info over terminal
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
