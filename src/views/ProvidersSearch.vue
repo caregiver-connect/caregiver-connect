@@ -20,56 +20,76 @@
           <ion-col class="whitespace" size="0.3"></ion-col>
           <ion-col class="header-col" size="1" @click="sort('id')">
             ID
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'id' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'id' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'id' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'id' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="2" @click="sort('pn')">
             Provider Name
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'pn' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'pn' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'pn' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'pn' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="2" @click="sort('addr')">
             Address
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'addr' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'addr' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'addr' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'addr' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="2">
             Address Line 2
           </ion-col>
           <ion-col class="header-col" size="3" @click="sort('city')">
             City
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'city' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'city' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'city' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'city' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="1" @click="sort('state')">
             State
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'state' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'state' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'state' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'state' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="2" @click="sort('zip')">
             Zip code
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'zip' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'zip' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'zip' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'zip' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="2" @click="sort('county')">
             County
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'county' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'county' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'county' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'county' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="3" @click="sort('phone')">
             Phone #
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'phone' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'phone' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'phone' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'phone' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="4" @click="sort('website')">
             Website
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'website' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'website' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'website' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'website' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="3" @click="sort('resources')">
             Resources
-            <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'resources' || sortDirection != 2"></ion-icon>
-            <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'resources' || sortDirection != 1"></ion-icon>
+            <div>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'resources' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'resources' || sortDirection != 1"></ion-icon>
+            </div>
           </ion-col>
           <ion-col class="header-col" size="1.5">Edit / Delete</ion-col>
           <!-- empty column to add white space to right of table -->
