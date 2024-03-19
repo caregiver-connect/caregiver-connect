@@ -33,6 +33,7 @@
   </ion-page>
 </template>
 
+
 <script lang="ts">
 import {
   IonBackButton,
@@ -51,11 +52,18 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import {createApp} from 'vue';
+import ToastPlugin from 'vue-toast-notification';
+import {useToast} from 'vue-toast-notification';
 import axios from 'axios';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
+/*const app = createApp({});
+app.use(ToastPlugin);
+app.mount('#app'); */
 
 
 export default {
+
 
   components: {
     IonBackButton,
@@ -85,8 +93,19 @@ try {
       username: this.username,
       password: this.password,
     });
+    // this.$store.commit(this.username, this.username);
     console.log('User logged in successfully:', response.data);
+    // Show toast message
+    const $toast = useToast();
+    let instance = $toast.success(`Welcome back ${this.username}! :)`);
     this.$store.commit("login", this.username);
+
+    // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+    setTimeout(() => {
+      instance.dismiss();
+    }, 3000);
+
+
     this.router.push('/home');
     // Show toast message
     // Rest input fields after successful login
@@ -107,3 +126,8 @@ try {
   }
 }
 </script>
+
+
+
+
+

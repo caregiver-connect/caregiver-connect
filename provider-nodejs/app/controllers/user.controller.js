@@ -34,14 +34,14 @@ exports.login = async (req, res) => {
         const user = await User.findOne({ where: { username } });
         if (!user) {
             incrementFailedAttempts(username); // Increment failed login attempts
-            return res.status(401).send({ message: 'Invalid username and password combination.' });
+            return res.status(401).send({ message: 'Invalid username or password.' });
         }
 
         // Compare the password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             incrementFailedAttempts(username); // Increment failed login attempts
-            return res.status(401).send({ message: 'Invalid username and password combination.' });
+            return res.status(401).send({ message: 'Invalid username or password.' });
         }
 
         // Reset failed login attempts upon successful login

@@ -196,6 +196,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 import axios from 'axios';
 import { ref } from 'vue';
+import ToastPlugin from 'vue-toast-notification';
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 const providerId = ref('');
 const providerName = ref('');
@@ -216,7 +219,7 @@ const addProvider = async () => {
     // Extract the county from the array if it's received as an array with one element
     const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
 
-    const response = await axios.post('http://localhost:8080/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
+    const response = await axios.post('http://localhost:8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
       id_cms_other: providerId.value,
       agency_name: providerName.value,
       phone_number: providerPhone.value,
@@ -230,6 +233,15 @@ const addProvider = async () => {
       ownership_type: ownershipType.value,
     });
     console.log('Provider added successfully:', response.data);
+    const $toast = useToast();
+    let instance = $toast.success('Provider added successfully!');
+     // this.$store.commit("login", this.username);
+
+    // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+    setTimeout(() => {
+      instance.dismiss();
+    }, 3000);
+
     // Show toast message
     // Optionally, you can reset input fields after successful submission
     providerId.value = '';
