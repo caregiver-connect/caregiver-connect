@@ -13,6 +13,14 @@ exports.create = (req, res) => {
         return;
     }
 
+    // Make phone numbers in format (###) ###-####
+    let nums = req.body.phone_number.split('').filter(char => !isNaN(parseInt(char, 10)));
+    if (nums.length === 10) {
+        phone_number = `(${nums[0]}${nums[1]}${nums[2]}) ${nums[3]}${nums[4]}${nums[5]}-${nums[6]}${nums[7]}${nums[8]}${nums[9]}`;
+    } else if (nums.length === 7) {
+        phone_number = `"${nums[0]}${nums[1]}${nums[2]}-${nums[3]}${nums[4]}${nums[5]}${nums[6]}"`;
+    }
+
     var config = {
         method: 'get',
         url: 'https://api.geoapify.com/v1/geocode/search?text=' + req.body.addr1 + "%20" + req.body.addr2 + "%20" + req.body.city + "%20" + req.body.state + "%20" + req.body.zip + '&format=json&apiKey=11ab13c7e8804b96bc8c39dfeb8b97e7',
@@ -37,7 +45,7 @@ exports.create = (req, res) => {
                 default_service_area_type: req.body.default_service_area_type || null,
                 notes: req.body.notes || null,
                 ownership_type: req.body.ownership_type,
-                phone_number: req.body.phone_number,
+                phone_number: phone_number,
                 service_area_entities: req.body.service_area_entities || null,
                 service_area_polygon: req.body.service_area_polygon || null,
                 state: response.data.results[0].state_code,
