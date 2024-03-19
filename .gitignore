@@ -42,4 +42,8 @@ credentials.env
 *.crt
 *.key
 *.cert
+<<<<<<< HEAD
 >>>>>>> main
+=======
+/data
+>>>>>>> 458bef3 (no more keys)
