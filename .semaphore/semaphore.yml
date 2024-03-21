@@ -24,7 +24,7 @@ blocks:
       jobs:
         - name: Launch Postgres
           commands:
-            - docker-compose -f ./caregiver-connect/docker-compose-postgres.yml up
+            - ls
   - name: Down Postgres
     dependencies:
       - Launch Postgres
