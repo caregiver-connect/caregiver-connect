@@ -3,8 +3,8 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  // Create a new Provider
-  router.post("/", providerController.create);
+  // Create a new Provider. Authenticate they can add, validate what they are adding
+  router.post("/", providerController.authenticateJWT,  providerController.create);
 
   // Retrieve all Providers
   router.get("/", providerController.findAll);

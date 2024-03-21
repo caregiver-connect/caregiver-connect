@@ -92,9 +92,14 @@ export default {
         const response = await axios.post('http://localhost:8081/api/users/login', { //NOTE: Email is a good idea but not a field in the database currently
           username: this.username,
           password: this.password,
+        },{
+          headers: {
+            'Content-type': 'application/json'
+          },
+          withCredentials: true, //  (will allow browser to store cookie)
         });
         // this.$store.commit(this.username, this.username);
-        console.log('User logged in successfully:', response.data);
+    //    console.log('User logged in successfully:', response.data);
         // Show toast message
         const $toast = useToast();
         let instance = $toast.success(`Welcome back ${this.username}! :)`);

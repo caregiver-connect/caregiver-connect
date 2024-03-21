@@ -231,6 +231,8 @@ const addProvider = async () => {
       zip: zipCode.value,
       county: countyValue,
       ownership_type: ownershipType.value,
+    }, {
+      withCredentials: true
     });
     console.log('Provider added successfully:', response.data);
     const $toast = useToast();

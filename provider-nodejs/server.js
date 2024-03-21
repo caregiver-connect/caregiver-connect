@@ -2,15 +2,20 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http"); // Change from https to http
+const cookieParser = require('cookie-parser');
 require('dotenv').config({ path: './.env' });
 
+
 const app = express(); // exposing framework add extra line so it doesnt show you are using express
+app.disable('x-powered-by'); // Hides that we are using express
 
 // Enable CORS for requests from http://localhost:8100
 var corsOptions = {
-  origin: "http://localhost:8100" 
+  origin: "http://localhost:8100", 
+  credentials: true // allow cookies and other credntials to be sent
 };
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 // Connect to the database and synchronize models
 const db = require("./app/models");

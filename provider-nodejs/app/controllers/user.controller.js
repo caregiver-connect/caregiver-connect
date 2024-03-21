@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const User = db.users;
 const Op = db.Sequelize.Op;
 const { body, validationResult } = require('express-validator');
+const DOMPurify = require('dompurify');
+
 
 // Function to generate JWT token
 const generateToken = (user) => {
@@ -15,6 +17,7 @@ let failedLoginAttempts = {}; // Store failed login attempts per user
 const MAX_FAILED_ATTEMPTS = 3; // Maximum number of failed attempts before lockout
 
 exports.login = async (req, res) => {
+    
     const { username, password } = req.body;
 
     try {
@@ -50,8 +53,12 @@ exports.login = async (req, res) => {
         // Generate JWT token
         const token = generateToken(user);
 
-        // Send the token in the response
-        res.send({ token });
+        // Set the token as a cookie in the response
+        res.cookie('token', token, { httpOnly: true, maxAge: 3600000}) // Cookie expries in one hour
+
+        // Will change to Login successful (included in response body)
+        res.json({token}); // Used for testing JWTs
+
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).send({ message: 'Internal server error.' });
@@ -73,13 +80,21 @@ function incrementFailedAttempts(username) {
     }
 }
 
+
+
 // Helper function to reset failed login attempts upon successful login
 function resetFailedAttempts(username) {
     delete failedLoginAttempts[username];
 }
 
 
+exports.logout = (req, res) => {
+    // Clear the token cookie from the response headrs
+    res.clearCookie('token');
 
+    res.status(200).send({ message: 'Logout successful.'});
+
+};
 
 
 exports.create = async (req, res) => {
@@ -89,6 +104,12 @@ exports.create = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
+    // escaping HTML characters for input sanitization
+   /* const sanitizedUsername = DOMPurify.sanitize(req.body.username);
+    const sanitizedPhone_number = DOMPurify.sanitize(req.body.phone_number);
+    const sanitizedEmail = DOMPurify.sanitize(req.body.email);
+    const sanitizedCounty = DOMPurify.sanitize(req.body.county); * extreme trolling going on here. Keeps saying DOMPurify.sanitize() is not a function*/
+    
     try {
         // Hash the password
         const hashedPassword = await bcrypt.hash(req.body.password, 10); // 10 is the salt round
