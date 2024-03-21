@@ -8,7 +8,11 @@ blocks:
   - name: Build
     task:
       jobs:
-        - name: docker build
+        - name: docker build backend
           commands:
             - checkout
-            - docker build -t your-image .
+            - docker build -t caregiver-backend ./provider-nodejs
+        - name: docker build frontend
+          commands:
+            - checkout
+            - docker build -t caregiver .
