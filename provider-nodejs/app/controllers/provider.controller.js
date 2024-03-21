@@ -5,6 +5,7 @@ const Op = db.Sequelize.Op;
 const { body, validationResult } = require('express-validator');
 const xss = require('xss');
 require('dotenv').config({ path: '../../.env' });
+var axios = require('axios');
 
 // Validation rules for the properties of the provider object
 exports.providerValidationRules = () => {
@@ -12,12 +13,12 @@ exports.providerValidationRules = () => {
         body('id_cms_other').notEmpty(),
         body('addr1').notEmpty(),
         body('agency_name').notEmpty(),
-        body('city').notEmpty().isAlpha(),
-        body('county').notEmpty().isAlpha(),
+        body('city').notEmpty(),
+        body('county').notEmpty(),
         body('ownership_type').notEmpty().isAlpha(),
-        body('phone_number').notEmpty().isMobilePhone(),
-        body('state').notEmpty().withMessage('State is required').isAlpha(),
-        body('zip').notEmpty().isLength({ min: 5, max: 5 }),
+        body('phone_number').notEmpty(),
+        body('state').notEmpty(),
+        body('zip').notEmpty(),
     ];
 };
 
@@ -62,39 +63,61 @@ exports.create = (req, res) => {
         return;
     }
 
-    // Create a sanitized Provider object
-    const provider = {
-        id_cms_other: xss(req.body.id_cms_other),
-        addr1: xss(req.body.addr1),
-        addr2: xss(req.body.addr2) || null,
-        agency_name: xss(req.body.agency_name),
-        city: xss(req.body.city),
-        county: xss(req.body.county),
-        data_source: xss(req.body.data_source) || null,
-        data_last_updated: xss(req.body.data_last_updated) || null,
-        default_service_area_type: xss(req.body.default_service_area_type) || null,
-        notes: xss(req.body.notes) || null,
-        ownership_type: xss(req.body.ownership_type),
-        phone_number: xss(req.body.phone_number),
-        service_area_entities: xss(req.body.service_area_entities) || null,
-        service_area_polygon: xss(req.body.service_area_polygon) || null,
-        state: xss(req.body.state),
-        website: xss(req.body.website) || null,
-        zip: xss(req.body.zip),
-        coordinates: xss(req.body.coordinates) || null
+    // Make phone numbers in format (###) ###-####
+    let nums = req.body.phone_number.split('').filter(char => !isNaN(parseInt(char, 10)));
+    if (nums.length === 10) {
+        phone_number = `(${nums[0]}${nums[1]}${nums[2]}) ${nums[3]}${nums[4]}${nums[5]}-${nums[6]}${nums[7]}${nums[8]}${nums[9]}`;
+    } else if (nums.length === 7) {
+        phone_number = `"${nums[0]}${nums[1]}${nums[2]}-${nums[3]}${nums[4]}${nums[5]}${nums[6]}"`;
+    }
+
+    var config = {
+        method: 'get',
+        url: 'https://api.geoapify.com/v1/geocode/search?text=' + req.body.addr1 + "%20" + req.body.addr2 + "%20" + req.body.city + "%20" + req.body.state + "%20" + req.body.zip + '&format=json&apiKey=11ab13c7e8804b96bc8c39dfeb8b97e7',
+        headers: {}
     };
 
+    axios(config)
+        .then(function (response) {
+            // console.log(response)
+            console.log(response.data);
+            console.log(response.data.results[0].street);
+            // Create a Provider object with properties from request body
+            const provider = {
+                id_cms_other: xss(req.body.id_cms_other),
+                addr1: xss(response.data.results[0].address_line1),
+                addr2: xss(req.body.addr2 || null),
+                agency_name: xss(req.body.agency_name),
+                city: xss(response.data.results[0].city),
+                county: xss(response.data.results[0].county),
+                data_source: xss(req.body.data_source || null),
+                data_last_updated: xss(req.body.data_last_updated || null),
+                default_service_area_type: xss(req.body.default_service_area_type || null),
+                notes: xss(req.body.notes || null),
+                ownership_type: xss(req.body.ownership_type),
+                phone_number: xss(phone_number),
+                service_area_entities: xss(req.body.service_area_entities || null),
+                service_area_polygon: xss(req.body.service_area_polygon || null),
+                state: xss(response.data.results[0].state_code),
+                website: xss(req.body.website || null),
+                zip: xss(response.data.results[0].postcode),
+                coordinates: xss(response.data.results[0].lon + " " + response.data.results[0].lat || null)
+            };
 
-    // Save Provider in the database
-    Provider.create(provider)
-        .then(data => {
-            res.send(data);
+            // Save Provider in the database
+            Provider.create(provider)
+                .then(data => {
+                    res.send(data);
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message:
+                            err.message || "Some error occurred while creating the Provider."
+                    });
+                });
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Provider."
-            });
+        .catch(function (error) {
+            console.log(error);
         });
 };
 

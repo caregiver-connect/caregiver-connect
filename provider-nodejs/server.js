@@ -19,6 +19,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 // app.use(csrf());
 
+
 // Connect to the database and synchronize models
 const db = require("./app/models");
 db.sequelize.sync();
@@ -31,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Define a simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to caregiver connect." });
 });
 
 // Require and configure provider routes
