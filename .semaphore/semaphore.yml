@@ -13,13 +13,6 @@ blocks:
             - checkout
             - docker build -t caregiver-backend ./provider-nodejs
     dependencies: []
-  - name: Launch Postgres
-    dependencies: []
-    task:
-      jobs:
-        - name: Launch Postgres
-          commands:
-            - docker-compose -f docker-compose-postgres.yml up
   - name: Down Postgres
     dependencies:
       - Launch Postgres
@@ -46,3 +39,15 @@ blocks:
           commands:
             - checkout
             - docker build -t caregiver .
+  - name: Launch Postgres
+    dependencies: []
+    task:
+      jobs:
+        - name: Launch Postgres
+          commands:
+            - docker run --name postgres \
+            - '-e POSTGRES_USER: ''postgres'' \'
+            - '-e POSTGRES_PASSWORD: ''postgres'' \'
+            - '-e POSTGRES_HOST_AUTH_METHOD: ''trust'' \'
+            - '-e POSTGRES_DB: ''caregiverconnect'' \'
+            - '-d postgres:latest'
