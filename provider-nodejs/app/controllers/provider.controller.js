@@ -3,27 +3,26 @@ const Provider = db.providers;
 const jwt = require('jsonwebtoken');
 const Op = db.Sequelize.Op;
 const { body, validationResult } = require('express-validator');
-// const DOMPurify = require('dompurify');
-
+const xss = require('xss');
+require('dotenv').config({ path: '../../.env' });
 
 // Validation rules for the properties of the provider object
 exports.providerValidationRules = () => {
-
     return [
-        body('id_cms_other').notEmpty().withMessage('ID CMS Other is required'),
-        body('addr1').notEmpty().withMessage('Address 1 is required'),
-        body('agency_name').notEmpty().withMessage('Agency Name is required'),
-        body('city').notEmpty().isAlpha().withMessage('City is required'),
-        body('county').notEmpty().isAlpha().withMessage('County is required'),
-        body('ownership_type').notEmpty().isAlpha().withMessage('Ownership Type is required'),
-        body('phone_number').notEmpty().withMessage('Phone Number is required').isMobilePhone().withMessage('Invalid Phone Number'),
-        body('state').notEmpty().withMessage('State is required').isAlpha().withMessage('State should only contain letters'),
-        body('zip').notEmpty().isLength({ min: 5, max: 5 }).withMessage('ZIP Code must be exactly 5 characters'),
+        body('id_cms_other').notEmpty(),
+        body('addr1').notEmpty(),
+        body('agency_name').notEmpty(),
+        body('city').notEmpty().isAlpha(),
+        body('county').notEmpty().isAlpha(),
+        body('ownership_type').notEmpty().isAlpha(),
+        body('phone_number').notEmpty().isMobilePhone(),
+        body('state').notEmpty().withMessage('State is required').isAlpha(),
+        body('zip').notEmpty().isLength({ min: 5, max: 5 }),
     ];
 };
 
 // Middleware function to handle validation errors
-/* exports.validate = (req, res, next) => {
+exports.validate = (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         return next(); // Proceed to the next middleware
@@ -31,16 +30,21 @@ exports.providerValidationRules = () => {
 
     // If there are validation errors, return them as response
     return res.status(400).json({ errors: errors.array() });
-}; */ // Not working and IM tired
+};  // Not working and IM tired
 
 // JWT Middleware for authorizing users
 exports.authenticateJWT = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() }); // Input validation error
+    }
+
     const token = req.cookies.token;
     //console.log("HERE\n");
     if (!token) {
         return res.status(401).json({ message: 'Please login to add a provider' });
     }
-    jwt.verify(token, 'your-secret-key', (err, decodedToken) => {
+    jwt.verify(token, 'your-secret-key', (err, decodedToken) => { // change to environment variables later
         if (err) {
             return res.status(401).json({ message: 'Invalid token.' });
         }
@@ -57,29 +61,29 @@ exports.create = (req, res) => {
         });
         return;
     }
-    
-    // Create a Provider object with sanitized properties from request body
+
+    // Create a sanitized Provider object
     const provider = {
-        id_cms_other: req.body.id_cms_other,
-        addr1: req.body.addr1,
-        addr2: req.body.addr2 || null,
-        agency_name: req.body.agency_name,
-        city: req.body.city,
-        county: req.body.county,
-        data_source: req.body.data_source || null,
-        data_last_updated: req.body.data_last_updated || null,
-        default_service_area_type: req.body.default_service_area_type || null,
-        notes: req.body.notes || null,
-        ownership_type: req.body.ownership_type,
-        phone_number: req.body.phone_number,
-        service_area_entities: req.body.service_area_entities || null,
-        service_area_polygon: req.body.service_area_polygon || null,
-        state: req.body.state,
-        website: req.body.website || null,
-        zip: req.body.zip,
-        coordinates: req.body.coordinates || null
+        id_cms_other: xss(req.body.id_cms_other),
+        addr1: xss(req.body.addr1),
+        addr2: xss(req.body.addr2) || null,
+        agency_name: xss(req.body.agency_name),
+        city: xss(req.body.city),
+        county: xss(req.body.county),
+        data_source: xss(req.body.data_source) || null,
+        data_last_updated: xss(req.body.data_last_updated) || null,
+        default_service_area_type: xss(req.body.default_service_area_type) || null,
+        notes: xss(req.body.notes) || null,
+        ownership_type: xss(req.body.ownership_type),
+        phone_number: xss(req.body.phone_number),
+        service_area_entities: xss(req.body.service_area_entities) || null,
+        service_area_polygon: xss(req.body.service_area_polygon) || null,
+        state: xss(req.body.state),
+        website: xss(req.body.website) || null,
+        zip: xss(req.body.zip),
+        coordinates: xss(req.body.coordinates) || null
     };
-    
+
 
     // Save Provider in the database
     Provider.create(provider)

@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http"); // Change from https to http
 const cookieParser = require('cookie-parser');
+//csrf = require('lusca').csrf;
 require('dotenv').config({ path: './.env' });
 
 
@@ -16,6 +17,7 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
+// app.use(csrf());
 
 // Connect to the database and synchronize models
 const db = require("./app/models");

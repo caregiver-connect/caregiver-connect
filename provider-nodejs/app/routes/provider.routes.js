@@ -1,10 +1,10 @@
 module.exports = app => {
   const providerController = require("../controllers/provider.controller.js");
+  const {authenticateJWT, providerValidationRules, create} = require('../controllers/provider.controller.js');
 
   var router = require("express").Router();
-
   // Create a new Provider. Authenticate they can add, validate what they are adding
-  router.post("/", providerController.authenticateJWT,  providerController.create);
+  router.post("/", providerValidationRules(),  authenticateJWT, create);
 
   // Retrieve all Providers
   router.get("/", providerController.findAll);
