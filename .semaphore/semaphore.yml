@@ -16,3 +16,28 @@ blocks:
           commands:
             - checkout
             - docker build -t caregiver .
+    dependencies: []
+  - name: Launch Postgres
+    dependencies:
+      - Build
+    task:
+      jobs:
+        - name: Launch Postgres
+          commands:
+            - docker-compose -f docker-compose-postgres.yml up
+  - name: Down Postgres
+    dependencies:
+      - Launch Postgres
+    task:
+      jobs:
+        - name: Down Postgres
+          commands:
+            - docker-compose -f docker-compose-postgres.yml down
+  - name: Launch Stack
+    dependencies:
+      - Down Postgres
+    task:
+      jobs:
+        - name: Launch stack
+          commands:
+            - docker-compose up --build --no-deps
