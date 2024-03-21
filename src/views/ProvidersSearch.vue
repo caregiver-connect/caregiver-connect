@@ -95,17 +95,17 @@
           <!-- empty column to add white space to right of table -->
           <ion-col class="whitespace" size="0.3"></ion-col>
         </ion-row>
-        <ion-row v-for="(entry, index) in entries" :key="entry.id">
+        <ion-row v-for="(entry, index) in entries" :key="entry.id_cms_other">
           <ion-col class="whitespace" size="0.3"></ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.id }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.name }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.address }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.address2 }}</ion-col>
+          <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.id_cms_other }}</ion-col>
+          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.agency_name }}</ion-col>
+          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.addr1 }}</ion-col>
+          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.addr2 }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.city }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.state }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.zip }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone }}</ion-col>
+          <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="4">{{ entry.website }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
@@ -149,8 +149,23 @@ import {
   IonSearchbar
 } from '@ionic/vue';
 import { ref } from 'vue';
+import axios from 'axios';
 import { add, arrowUp, arrowDown, pencil, trash } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
+
+interface Entry {
+  id_cms_other: number;
+  agency_name: string;
+  addr1: string;
+  addr2: string;
+  city: string;
+  state: string;
+  zip: string;
+  county: string;
+  phone_number: string;
+  website: string;
+  resources: string;
+}
 
 export default {
   components: {
@@ -173,347 +188,11 @@ export default {
   },
   data() {
     return {
-      entries: [
-        {
-          id: 10,
-          name: "test",
-          address: "123 Way",
-          address2: "Suite 530",
-          city: "Owens Cross Roads",
-          state: "AL",
-          zip: 12345,
-          county: "Saint Clair",
-          phone: "(123)-456-7890",
-          website: "www.example.com",
-          resources: "hospice"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health, home health, home health, home health, home health,"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-        {
-          id: 11,
-          name: "test2",
-          address: "123 St",
-          address2: "",
-          city: "Loosa",
-          state: "AK",
-          zip: 56789,
-          county: "Jefferson",
-          phone: 20512345675348,
-          website: "www.example2.com",
-          resources: "home health"
-        },
-      ]
+      entries: [] as Entry[],
     }
+  },
+  mounted() {
+    this.fetchData();
   },
   computed: {
     sortDirection() {
@@ -528,15 +207,24 @@ export default {
     return { add, arrowUp, arrowDown, pencil, trash, router }
   },
   methods: {
+    async fetchData(this: {entries: Entry[]}) {
+      try {
+        const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers');
+        this.entries = response.data;
+      }
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    },
     sort(key: string) {
       console.log(key);
       this.$store.commit('sort', key)
       console.log(this.sortDirection)
     },
-    edit(index) {
+    edit(index: number) {
       console.log(index);
     },
-    remove(index) {
+    remove(index: number) {
       console.log(index);
     }
   }
