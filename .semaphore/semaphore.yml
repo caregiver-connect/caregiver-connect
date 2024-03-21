@@ -19,7 +19,7 @@ blocks:
       jobs:
         - name: Launch Postgres
           commands:
-            - ls
+            - docker-compose -f docker-compose-postgres.yml up
   - name: Down Postgres
     dependencies:
       - Launch Postgres
