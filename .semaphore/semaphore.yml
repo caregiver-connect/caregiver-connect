@@ -5,21 +5,16 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: Build
+  - name: Build Backend
     task:
       jobs:
         - name: docker build backend
           commands:
             - checkout
             - docker build -t caregiver-backend ./provider-nodejs
-        - name: docker build frontend
-          commands:
-            - checkout
-            - docker build -t caregiver .
     dependencies: []
   - name: Launch Postgres
-    dependencies:
-      - Build
+    dependencies: []
     task:
       jobs:
         - name: Launch Postgres
@@ -35,9 +30,19 @@ blocks:
             - docker-compose -f ./caregiver-connect/docker-compose-postgres.yml down
   - name: Launch Stack
     dependencies:
+      - Build Backend
+      - Build Frontend
       - Down Postgres
     task:
       jobs:
         - name: Launch stack
           commands:
             - docker-compose up --build --no-deps
+  - name: Build Frontend
+    dependencies: []
+    task:
+      jobs:
+        - name: Build Frontend
+          commands:
+            - checkout
+            - docker build -t caregiver .
