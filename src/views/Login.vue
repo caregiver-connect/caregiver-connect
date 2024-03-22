@@ -89,7 +89,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post('http://localhost:8081/api/users/login', { //NOTE: Email is a good idea but not a field in the database currently
+        const response = await axios.post('http://' + self.location.hostname + ':8081/api/users/login', { //NOTE: Email is a good idea but not a field in the database currently
           username: this.username,
           password: this.password,
         },{

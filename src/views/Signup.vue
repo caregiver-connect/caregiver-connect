@@ -153,7 +153,7 @@ const addUser = async () => {
     // Extract the county from the array if it's received as an array with one element
     const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
 
-    const response = await axios.post('http://localhost:8081/api/users', { //NOTE: Email is a good idea but not a field in the database currently
+    const response = await axios.post('http://' + self.location.hostname + ':8081/api/users', { //NOTE: Email is a good idea but not a field in the database currently
       username: username.value,
       password: password.value,
       email: email.value,

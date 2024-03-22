@@ -10,9 +10,16 @@ require('dotenv').config({ path: './.env' });
 const app = express(); // exposing framework add extra line so it doesnt show you are using express
 app.disable('x-powered-by'); // Hides that we are using express
 
-// Enable CORS for requests from http://localhost:8100
+// Enable CORS for requests from frontend
+var whitelist = ['http://cs495-spring2024-09.ua.edu']
 var corsOptions = {
-  origin: "http://localhost:8100", 
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true // allow cookies and other credntials to be sent
 };
 app.use(cors(corsOptions));

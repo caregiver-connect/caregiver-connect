@@ -156,7 +156,7 @@ export default {
     async logout() {
       try {
         // Make a POST request to the logout endpoint
-        await axios.post('http://localhost:8081/api/users/logout', null, {
+        await axios.post('http://' + self.location.hostname + ':8081/api/users/logout', null, {
           withCredentials: true
         });
         // Upon successful logout, clear the authentication token from local storage or store
