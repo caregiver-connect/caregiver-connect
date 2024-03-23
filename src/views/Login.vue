@@ -24,8 +24,8 @@
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
             Still need to Signup?
-            <a @click="() => router.push('/signup')"><u>General user sign up here</u></a>.
-            <a @click="() => router.push('/provider-signup')"><u>Provider sign up here</u></a>.
+            <a @click="() => router.replace('/signup')"><u>General user sign up here</u></a>.
+            <a @click="() => router.replace('/provider-signup')"><u>Provider sign up here</u></a>.
           </ion-card-content>
         </ion-card>
       </div>
@@ -48,7 +48,8 @@ import {
   IonItem,
   IonButton,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonImg
 } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -78,7 +79,8 @@ export default {
     IonItem,
     IonButton,
     IonCard,
-    IonCardContent
+    IonCardContent,
+    IonImg
   },
   setup() {
     const router = useRouter();

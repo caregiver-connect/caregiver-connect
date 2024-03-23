@@ -237,7 +237,7 @@ const addProvider = async () => {
     console.log('Provider added successfully:', response.data);
     const $toast = useToast();
     let instance = $toast.success('Provider added successfully!');
-    router.push('/home');
+    router.replace('/providers-search');
      // this.$store.commit("login", this.username);
 
     // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)

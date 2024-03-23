@@ -152,6 +152,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { add, arrowUp, arrowDown, pencil, trash } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
+import router from '@/router';
 
 interface Entry {
   id_cms_other: number;
@@ -189,10 +190,15 @@ export default {
   data() {
     return {
       entries: [] as Entry[],
+      // count: 0,
     }
   },
-  mounted() {
-    this.fetchData();
+  created() {
+    this.$watch(
+      () => this.$route,
+      this.fetchData,
+      {immediate: true}
+    )
   },
   computed: {
     sortDirection() {
@@ -207,7 +213,7 @@ export default {
     return { add, arrowUp, arrowDown, pencil, trash, router }
   },
   methods: {
-    async fetchData(this: {entries: Entry[]}) {
+    async fetchData(this: { entries: Entry[] }) {
       try {
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers');
         this.entries = response.data;
