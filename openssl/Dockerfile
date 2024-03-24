@@ -7,6 +7,9 @@ RUN apk update && \
 
 # Create and set mount volume
 WORKDIR /openssl-certs
+
+COPY . .
+
 VOLUME  /openssl-certs
 
 # Credit: https://github.com/alexisrolland/docker-openssl
