@@ -28,7 +28,7 @@ services:
     ports:
       - '8081:8081'
     volumes:
-      - ./openssl/certs/:/app/certs
+      - certs:/openssl/certs
 
   caregiver:
     container_name: caregiver
@@ -46,6 +46,9 @@ services:
     ports:
       - '80:8100'
     volumes:
-      - ./openssl/certs/:/app/certs
+      - certs:/openssl/certs
 volumes:
   caregiverconnect-db:
+  certs:
+    external: true
+    name: certs

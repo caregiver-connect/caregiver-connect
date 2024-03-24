@@ -8,8 +8,4 @@ RUN npm install
 
 COPY . .
 
-RUN mkdir -p certs
-
-COPY ../openssl/certs ./certs
-
 CMD [ "node", "server.js" ]
