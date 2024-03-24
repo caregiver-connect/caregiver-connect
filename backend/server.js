@@ -6,6 +6,18 @@ const cookieParser = require('cookie-parser');
 //csrf = require('lusca').csrf;
 require('dotenv').config({ path: './.env' });
 
+const fs = require('fs');
+const path = require('path');
+const https = require("https");
+
+require('dotenv').config({ path: './credentials.env' });
+
+const options = {
+  key: fs.readFileSync(path.resolve(__dirname, './openssl/certs/cs495-spring2024-09.ua.edu.key')),
+  cert: fs.readFileSync(path.resolve(__dirname, './openssl/certs/cs495-spring2024-09.ua.edu.crt'))
+};
+
+const app = express();
 
 const app = express(); // exposing framework add extra line so it doesnt show you are using express
 app.disable('x-powered-by'); // Hides that we are using express
@@ -47,11 +59,9 @@ require("./app/routes/provider.routes")(app);
 // Require and configure provider routes
 require("./app/routes/user.routes")(app);
 
-// Create an HTTP server instead of HTTPS
-const server = http.createServer(app); // Change from https to http
-
 // Set the port and start listening for requests
 const PORT = process.env.PORT || 8081;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+
+https.createServer(options, app).listen(PORT, () => {
+  console.log(`Server running on https://localhost:${PORT}`);
 });

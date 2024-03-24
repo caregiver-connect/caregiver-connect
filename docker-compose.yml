@@ -1,13 +1,5 @@
 version: "3.9"
 services:
-  openssl:
-    container_name: openssl
-    image: docker-openssl:latest
-    build:
-      context: ./openssl
-    volumes:
-        - certs:/openssl-certs
-
   postgres:
     container_name: postgres
     image: postgres:latest
@@ -37,7 +29,6 @@ services:
       - '8081:8081'
     volumes:
       - certs:/app/openssl/certs
-
   caregiver:
     container_name: caregiver
     image: caregiver:latest
@@ -55,7 +46,6 @@ services:
       - '80:8100'
     volumes:
       - certs:/app/openssl/certs
-
 volumes:
   caregiverconnect-db:
   certs:
