@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 //csrf = require('lusca').csrf;
 require('dotenv').config({ path: './.env' });
 
+// Change from https to http
+const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const path = require('path');
 const https = require("https");
@@ -16,8 +18,6 @@ const options = {
   key: fs.readFileSync(path.resolve(__dirname, './openssl/certs/cs495-spring2024-09.ua.edu.key')),
   cert: fs.readFileSync(path.resolve(__dirname, './openssl/certs/cs495-spring2024-09.ua.edu.crt'))
 };
-
-const app = express();
 
 const app = express(); // exposing framework add extra line so it doesnt show you are using express
 app.disable('x-powered-by'); // Hides that we are using express
