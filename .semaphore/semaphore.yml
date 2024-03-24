@@ -13,24 +13,16 @@ blocks:
             - checkout
             - docker build -t caregiver-backend ./provider-nodejs
     dependencies: []
-  - name: Down Postgres
-    dependencies:
-      - Launch Postgres
-    task:
-      jobs:
-        - name: Down Postgres
-          commands:
-            - docker-compose -f ./caregiver-connect/docker-compose-postgres.yml down
   - name: Launch Stack
     dependencies:
       - Build Backend
       - Build Frontend
-      - Down Postgres
+      - Build OpenSSL
     task:
       jobs:
         - name: Launch stack
           commands:
-            - docker-compose up --build --no-deps
+            - docker-compose up --build --force-recreate --no-deps
   - name: Build Frontend
     dependencies: []
     task:
@@ -39,15 +31,11 @@ blocks:
           commands:
             - checkout
             - docker build -t caregiver .
-  - name: Launch Postgres
+  - name: Build OpenSSL
     dependencies: []
     task:
       jobs:
-        - name: Launch Postgres
+        - name: Build OpenSSL
           commands:
-            - docker run --name postgres \
-            - '-e POSTGRES_USER: ''postgres'' \'
-            - '-e POSTGRES_PASSWORD: ''postgres'' \'
-            - '-e POSTGRES_HOST_AUTH_METHOD: ''trust'' \'
-            - '-e POSTGRES_DB: ''caregiverconnect'' \'
-            - '-d postgres:latest'
+            - checkout
+            - 'docker build -t docker-openssl:latest ./openssl'
