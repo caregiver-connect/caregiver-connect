@@ -5,10 +5,12 @@ RUN apk update && \
   apk add --no-cache openssl && \
   rm -rf "/var/cache/apk/*"
 
+WORKDIR /cert-gen
+
+COPY cert-gen.sh cert-gen.sh
+
 # Create and set mount volume
 WORKDIR /openssl-certs
-
-COPY . .
 
 VOLUME  /openssl-certs
 
