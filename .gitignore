@@ -46,4 +46,5 @@ credentials.env
 >>>>>>> main
 =======
 /data
+/openssl/certs
 >>>>>>> 458bef3 (no more keys)

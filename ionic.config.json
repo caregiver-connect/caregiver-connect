@@ -3,5 +3,10 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "vue-vite"
+  "type": "vue-vite",
+  "serve": {
+    "ssl": true,
+    "cert": "/openssl/certs/cs495-spring2024-09.ua.edu.crt",
+    "key": "/openssl/certs/cs495-spring2024-09.ua.edu.key"
+  }
 }
