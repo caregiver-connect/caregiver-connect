@@ -4,6 +4,7 @@ const cors = require("cors");
 const fs = require('fs');
 const path = require('path');
 const https = require("https");
+const sgMail = require('@sendgrid/mail')
 const nodemailer = require('nodemailer');
 
 require('dotenv').config({ path: './credentials.env' });
@@ -62,3 +63,49 @@ const PORT = process.env.PORT || 8081;
 https.createServer(options, app).listen(PORT, () => {
   console.log(`Server running on https://localhost:${PORT}`);
 });
+
+sgMail.setApiKey('')
+const msg = {
+  to: '', // Change to your recipient
+  from: '', // Change to your verified sender
+  subject: '',
+  text: ''
+}
+sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent')
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+
+/*
+// Create a transporter object using SMTP transport
+const transporter = nodemailer.createTransport({
+  host: 'smtp.office365.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: 'caregiver-connect-test@outlook.com', // your Outlook email address
+    pass: '' // your Outlook password
+  }
+});
+
+// Setup email data
+const mailOptions = {
+  from: 'caregiver-connect-test@outlook.com', // sender address
+  to: '', // list of receivers
+  subject: 'Test Email', // Subject line
+  text: 'This is a test email sent from Node.js using Outlook SMTP', // plain text body
+  html: '<b>This is a test email sent from Node.js using Outlook SMTP</b>' // html body
+};
+
+// Send mail
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    return console.log('Error occurred:', error);
+  }
+  console.log('Message sent:', info.messageId);
+});
+*/
