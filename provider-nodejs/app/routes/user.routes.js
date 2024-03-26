@@ -22,12 +22,17 @@ module.exports = app => {
   
     // Find all Users with a specific agency name
     router.get("/email", userController.findOneByEmail);
+
+    // Route for logout
+    router.post('/logout', userController.logout);
   
     // Update a Users by the username
     router.put("/:username", userController.update);
   
     // Delete a Users by username
     router.delete("/:username", userController.delete);
+
+    
   
     app.use('/api/Users', router);
   };
