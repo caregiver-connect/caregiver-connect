@@ -13,7 +13,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :scroll-x=true>
-      <ion-searchbar></ion-searchbar>
+      <ion-searchbar v-model="search" placeholder="Search" show-clear-button="focus" style="padding-left: 3%;"></ion-searchbar>
+      <ion-button class="searchButton" @click="() => fetchData()">Search</ion-button>
       <ion-grid>
         <ion-row class="header-row">
           <!-- empty column to add white space to left of table -->
@@ -146,7 +147,7 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonSearchbar
+  IonSearchbar,
 } from '@ionic/vue';
 import { ref } from 'vue';
 import axios from 'axios';
@@ -185,7 +186,7 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
-    IonSearchbar
+    IonSearchbar,
   },
   data() {
     return {
@@ -210,12 +211,34 @@ export default {
   },
   setup() {
     const router = useRouter();
-    return { add, arrowUp, arrowDown, pencil, trash, router }
+    const search = ref('');
+    var count = 0;
+    const pageSize = 2;
+    const pageNumber = 0;
+    const pageCurr = 1;
+
+    return { add, arrowUp, arrowDown, pencil, trash, router, search, count, pageSize, pageNumber, pageCurr }
   },
   methods: {
     async fetchData(this: { entries: Entry[] }) {
       try {
-        const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers');
+        // console.log(this.count);
+        // const count_response = await axios.get('http://' + self.location.hostname + ':8081/api/providers/count');
+        // this.count = count_response.data;
+        // console.log(this.count);
+        // this.pageNumber = Math.ceil(this.count / this.pageSize);
+
+        const params = {
+          search: this.search,
+        };
+        console.log(params);
+        const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers', {
+          params: params,
+        },{
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
         this.entries = response.data;
       }
       catch (error) {
@@ -261,6 +284,16 @@ ion-fab {
 ion-button {
   min-width: 25px;
   width: 30px;
+}
+
+ion-searchbar {
+  width: 50%;
+}
+
+.searchButton {
+  min-width: none;
+  width: 25%;
+  padding-left: 3%;
 }
 
 .arrows {

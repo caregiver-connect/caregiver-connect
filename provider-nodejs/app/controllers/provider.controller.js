@@ -125,10 +125,36 @@ exports.create = (req, res) => {
 
 // Retrieve all Providers from the database.
 exports.findAll = (req, res) => {
-    const agency_name = req.query.agency_name;
-    let condition = agency_name ? { agency_name: { [Op.iLike]: `%${agency_name}%` } } : null;
+    const search = req.query.search;
+    // let columns = [id_cms_other, addr1, addr2, agency_name, city, county, ownership_type, phone_number, state, website, zip]
+    let condition = [];
+    if (search) {
+        condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
+        condition.push({ addr1: { [Op.iLike]: `%${search}%` } })
+        condition.push({ addr2: { [Op.iLike]: `%${search}%` } })
+        condition.push({ agency_name: { [Op.iLike]: `%${search}%` } })
+        condition.push({ city: { [Op.iLike]: `%${search}%` } })
+        condition.push({ county: { [Op.iLike]: `%${search}%` } })
+        condition.push({ ownership_type: { [Op.iLike]: `%${search}%` } })
+        condition.push({ phone_number: { [Op.iLike]: `%${search}%` } })
+        condition.push({ state: { [Op.iLike]: `%${search}%` } })
+        condition.push({ website: { [Op.iLike]: `%${search}%` } })
+        condition.push({ zip: { [Op.iLike]: `%${search}%` } })
+    }
 
-    Provider.findAll({ where: condition })
+    // let condition = search ? [{ agency_name: { [Op.iLike]: `%${agency_name}%` } }] : [];
+    // if(addr1) condition.push({ addr1: { [Op.iLike]: `%${addr1}%` } });
+
+
+    let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
+
+    // const pageSize = req.query.pageSize;
+    // const offset = req.query.pageSize * (req.query.pageCurr - 1);
+
+    console.log(condition)
+    console.log(or_condition)
+
+    Provider.findAll({ where: or_condition/*, offset: offset, limit: pageSize*/ })
         .then(data => {
             res.send(data);
         })
@@ -140,6 +166,20 @@ exports.findAll = (req, res) => {
         });
 };
 
+
+// Count of Providers
+exports.count = (req, res) => {
+    Provider.count()
+        .then(data => {
+            if (data && data.length > 0) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `Cannot find Provider count.`
+                });
+            };
+        });
+};
 
 // Find Providers by agency name
 exports.findByAgencyName = (req, res) => {

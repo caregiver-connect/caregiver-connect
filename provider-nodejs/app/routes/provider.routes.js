@@ -9,6 +9,9 @@ module.exports = app => {
   // Retrieve all Providers
   router.get("/", providerController.findAll);
 
+  // Retrieve number of Providers
+  router.get("/count", providerController.count);
+
   // Retrieve single provider id_cms_other
   router.get("/IdCmsOther", providerController.findOneByIdCmsOther);
 
