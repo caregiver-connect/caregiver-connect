@@ -4,8 +4,6 @@ const cors = require("cors");
 const fs = require('fs');
 const path = require('path');
 const https = require("https");
-const sgMail = require('@sendgrid/mail')
-const nodemailer = require('nodemailer');
 
 require('dotenv').config({ path: './credentials.env' });
 
