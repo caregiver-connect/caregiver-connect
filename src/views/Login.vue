@@ -58,14 +58,8 @@ import ToastPlugin from 'vue-toast-notification';
 import { useToast } from 'vue-toast-notification';
 import axios from 'axios';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
-/*const app = createApp({});
-app.use(ToastPlugin);
-app.mount('#app'); */
-
 
 export default {
-
-
   components: {
     IonBackButton,
     IonButtons,
@@ -98,10 +92,8 @@ export default {
           headers: {
             'Content-type': 'application/json'
           },
-          withCredentials: true, //  (will allow browser to store cookie)
+          withCredentials: true, // will allow browser to store cookie
         });
-        // this.$store.commit(this.username, this.username);
-    //    console.log('User logged in successfully:', response.data);
         // Show toast message
         const $toast = useToast();
         let instance = $toast.success(`Welcome back ${this.username}! :)`);
@@ -114,12 +106,11 @@ export default {
 
 
         this.router.push('/home');
-        // Show toast message
         // Rest input fields after successful login
         this.username = '';
         this.password = '';
-        // Reset other input fields similarly
       } catch (error: any) {
+        // Handle error response from the server
         if (error.response) {
           console.error('Error logging in user:', error.response.data);
           const $toast = useToast();
@@ -127,8 +118,9 @@ export default {
           setTimeout(() => {
             instance.dismiss();
           }, 3000);
-          // Handle error response from the server
-        } else {
+        }
+        // Handle other types of errors
+        else {
           console.error('Unknown error:', error);
           const $toast = useToast();
           let instance = $toast.error('An unknown error occurred. Please try again later.');
@@ -136,10 +128,8 @@ export default {
             instance.dismiss();
           }, 3000);
         }
-        // Handle other types of errors
       }
     }
-    // console.log(this.username)
   }
 }
 </script>

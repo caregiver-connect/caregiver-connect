@@ -79,9 +79,7 @@ exports.create = (req, res) => {
 
     axios(config)
         .then(function (response) {
-            // console.log(response)
             console.log(response.data);
-            console.log(response.data.results[0].street);
             // Create a Provider object with properties from request body
             const provider = {
                 id_cms_other: xss(req.body.id_cms_other),
@@ -126,7 +124,10 @@ exports.create = (req, res) => {
 // Retrieve all Providers from the database.
 exports.findAll = (req, res) => {
     const search = req.query.search;
-    // let columns = [id_cms_other, addr1, addr2, agency_name, city, county, ownership_type, phone_number, state, website, zip]
+    const pageSize = req.query.pageSize;
+    const offset = req.query.pageSize * (req.query.pageCurr - 1);
+    const order = [req.query.orderCol, req.query.orderDirection];
+
     let condition = [];
     if (search) {
         condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
@@ -144,15 +145,6 @@ exports.findAll = (req, res) => {
 
     let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
 
-    const pageSize = req.query.pageSize;
-    const offset = req.query.pageSize * (req.query.pageCurr - 1);
-    const order = [req.query.orderCol, req.query.orderDirection];
-
-    console.log(or_condition)
-    console.log(offset)
-    console.log(pageSize)
-    console.log(req.query.pageCurr)
-
     Provider.findAll({ where: or_condition, offset: offset, limit: pageSize, order: [order] })
         .then(data => {
             res.send(data);
@@ -169,7 +161,26 @@ exports.findAll = (req, res) => {
 // Count of Providers
 exports.count = async (req, res) => {
     try {
-        const count = await Provider.count();
+        const search = req.query.search;
+
+        let condition = [];
+        if (search) {
+            condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
+            condition.push({ addr1: { [Op.iLike]: `%${search}%` } })
+            condition.push({ addr2: { [Op.iLike]: `%${search}%` } })
+            condition.push({ agency_name: { [Op.iLike]: `%${search}%` } })
+            condition.push({ city: { [Op.iLike]: `%${search}%` } })
+            condition.push({ county: { [Op.iLike]: `%${search}%` } })
+            condition.push({ ownership_type: { [Op.iLike]: `%${search}%` } })
+            condition.push({ phone_number: { [Op.iLike]: `%${search}%` } })
+            condition.push({ state: { [Op.iLike]: `%${search}%` } })
+            condition.push({ website: { [Op.iLike]: `%${search}%` } })
+            condition.push({ zip: { [Op.iLike]: `%${search}%` } })
+        }
+
+        let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
+
+        const count = await Provider.count({ where: or_condition });
 
         console.log('Number of entries:', count);
         res.send({ count });

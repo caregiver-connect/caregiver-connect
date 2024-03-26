@@ -13,9 +13,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :scroll-x=true>
-      <ion-searchbar v-model="search" placeholder="Search" show-clear-button="focus"
+      <ion-searchbar v-model="query" placeholder="Search" show-clear-button="focus"
         style="padding-left: 3%;"></ion-searchbar>
-      <ion-button class="searchButton" @click="() => fetchData()">Search</ion-button>
+      <ion-button class="searchButton" @click="() => search()">Search</ion-button>
       <ion-grid>
         <ion-row class="header-row">
           <!-- empty column to add white space to left of table -->
@@ -117,16 +117,24 @@
           <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
           <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
             <ion-buttons>
-              <ion-button size="small" fill="solid" @click="edit(index)">
+              <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(index)">
                 <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
               </ion-button>
-              <ion-button size="small" fill="solid" @click="remove(index)">
+              <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(index)">
                 <ion-icon slot="icon-only" :icon="trash"></ion-icon>
               </ion-button>
             </ion-buttons>
           </ion-col>
         </ion-row>
       </ion-grid>
+      <!-- <ion-buttons> -->
+        <ion-button @click="changePage(this.pageCurr - 1)">
+          <ion-icon slot="icon-only" :icon="chevronBack"></ion-icon>
+        </ion-button>
+        <ion-button @click="changePage(this.pageCurr + 1)">
+          <ion-icon slot="icon-only" :icon="chevronForward"></ion-icon>
+        </ion-button>
+      <!-- </ion-buttons> -->
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button @click="() => router.push('/add-provider')" color="crimson">
           <ion-icon :icon="add"></ion-icon>
@@ -157,7 +165,7 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import axios from 'axios';
-import { add, arrowUp, arrowDown, pencil, trash } from 'ionicons/icons';
+import { add, arrowUp, arrowDown, pencil, trash, chevronBack, chevronForward } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 import router from '@/router';
 
@@ -216,22 +224,26 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const search = ref('');
+    const query = ref('');
     var count = 0;
-    const pageSize = 2;
+    const pageSize = 3;
     const pageNumber = 0;
     const pageCurr = 1;
 
-    return { add, arrowUp, arrowDown, pencil, trash, router, search, count, pageSize, pageNumber, pageCurr }
+    return { add, arrowUp, arrowDown, pencil, trash, chevronBack, chevronForward, router, query, count, pageSize, pageNumber, pageCurr }
   },
   methods: {
     async fetchData(this: { entries: Entry[] }) {
       // Count the number of entries in database
       try {
-        console.log(this.count);
-        const count_response = await axios.get('http://' + self.location.hostname + ':8081/api/providers/count');
-        this.count = count_response.data;
-        console.log(this.count);
+        const params = {
+          search: this.query,
+        };
+        const count_response = await axios.get('http://' + self.location.hostname + ':8081/api/providers/count', {
+          params: params,
+        });
+        
+        this.count = count_response.data.count;
         this.pageNumber = Math.ceil(this.count / this.pageSize);
       }
       catch (error) {
@@ -244,7 +256,7 @@ export default {
         const sortDirection = this.sortDirection == 2 ? 'DESC' : 'ASC';
 
         const params = {
-          search: this.search,
+          search: this.query,
           pageSize: this.pageSize,
           pageCurr: this.pageCurr,
           orderCol: sortKey,
@@ -265,9 +277,7 @@ export default {
       }
     },
     sort(key: string) {
-      console.log(key);
       this.$store.commit('sort', key)
-      console.log(this.sortDirection)
       this.fetchData();
     },
     edit(index: number) {
@@ -276,6 +286,18 @@ export default {
     remove(index: number) {
       console.log(index);
     },
+    changePage(page: number) {
+      if(page < 1 || page > this.pageNumber){
+        console.log("Outside of page range.");
+      } else {
+        this.pageCurr = page;
+        this.fetchData();
+      }
+    },
+    search(){
+      this.pageCurr = 1;
+      this.fetchData();
+    }
   }
 }
 </script>
@@ -301,17 +323,16 @@ ion-fab {
   padding: 1%;
 }
 
-ion-button {
-  min-width: 25px;
-  width: 30px;
-}
-
 ion-searchbar {
   width: 50%;
 }
 
+.CRUDButton {
+  min-width: 25px;
+  width: 30px;
+}
+
 .searchButton {
-  min-width: none;
   width: 25%;
   padding-left: 3%;
 }
