@@ -142,19 +142,18 @@ exports.findAll = (req, res) => {
         condition.push({ zip: { [Op.iLike]: `%${search}%` } })
     }
 
-    // let condition = search ? [{ agency_name: { [Op.iLike]: `%${agency_name}%` } }] : [];
-    // if(addr1) condition.push({ addr1: { [Op.iLike]: `%${addr1}%` } });
-
-
     let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
 
-    // const pageSize = req.query.pageSize;
-    // const offset = req.query.pageSize * (req.query.pageCurr - 1);
+    const pageSize = req.query.pageSize;
+    const offset = req.query.pageSize * (req.query.pageCurr - 1);
+    const order = [req.query.orderCol, req.query.orderDirection];
 
-    console.log(condition)
     console.log(or_condition)
+    console.log(offset)
+    console.log(pageSize)
+    console.log(req.query.pageCurr)
 
-    Provider.findAll({ where: or_condition/*, offset: offset, limit: pageSize*/ })
+    Provider.findAll({ where: or_condition, offset: offset, limit: pageSize, order: [order] })
         .then(data => {
             res.send(data);
         })
@@ -168,17 +167,16 @@ exports.findAll = (req, res) => {
 
 
 // Count of Providers
-exports.count = (req, res) => {
-    Provider.count()
-        .then(data => {
-            if (data && data.length > 0) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find Provider count.`
-                });
-            };
-        });
+exports.count = async (req, res) => {
+    try {
+        const count = await Provider.count();
+
+        console.log('Number of entries:', count);
+        res.send({ count });
+    } catch (error) {
+        console.error('Error counting entries:', error);
+        res.status(500).send('Error counting entries');
+    }
 };
 
 // Find Providers by agency name

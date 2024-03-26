@@ -7,8 +7,8 @@ const store = createStore({
     return {
       isLoggedIn: false,
       username: "",
-      sortKey: "id",
-      sortDirection: 0,
+      sortKey: "id_cms_other",
+      sortDirection: 1,
     };
   },
   getters: {

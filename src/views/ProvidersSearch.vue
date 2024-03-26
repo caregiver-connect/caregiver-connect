@@ -13,31 +13,35 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :scroll-x=true>
-      <ion-searchbar v-model="search" placeholder="Search" show-clear-button="focus" style="padding-left: 3%;"></ion-searchbar>
+      <ion-searchbar v-model="search" placeholder="Search" show-clear-button="focus"
+        style="padding-left: 3%;"></ion-searchbar>
       <ion-button class="searchButton" @click="() => fetchData()">Search</ion-button>
       <ion-grid>
         <ion-row class="header-row">
           <!-- empty column to add white space to left of table -->
           <ion-col class="whitespace" size="0.3"></ion-col>
-          <ion-col class="header-col" size="1" @click="sort('id')">
+          <ion-col class="header-col" size="1" @click="sort('id_cms_other')">
             ID
             <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'id' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'id' || sortDirection != 1"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowUp"
+                v-if="sortKey != 'id_cms_other' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown"
+                v-if="sortKey != 'id_cms_other' || sortDirection != 1"></ion-icon>
             </div>
           </ion-col>
-          <ion-col class="header-col" size="2" @click="sort('pn')">
+          <ion-col class="header-col" size="2" @click="sort('agency_name')">
             Provider Name
             <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'pn' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'pn' || sortDirection != 1"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'agency_name' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown"
+                v-if="sortKey != 'agency_name' || sortDirection != 1"></ion-icon>
             </div>
           </ion-col>
-          <ion-col class="header-col" size="2" @click="sort('addr')">
+          <ion-col class="header-col" size="2" @click="sort('addr1')">
             Address
             <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'addr' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'addr' || sortDirection != 1"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'addr1' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'addr1' || sortDirection != 1"></ion-icon>
             </div>
           </ion-col>
           <ion-col class="header-col" size="2">
@@ -71,11 +75,13 @@
               <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'county' || sortDirection != 1"></ion-icon>
             </div>
           </ion-col>
-          <ion-col class="header-col" size="3" @click="sort('phone')">
+          <ion-col class="header-col" size="3" @click="sort('phone_number')">
             Phone #
             <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'phone' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'phone' || sortDirection != 1"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowUp"
+                v-if="sortKey != 'phone_number' || sortDirection != 2"></ion-icon>
+              <ion-icon class="arrows" :icon="arrowDown"
+                v-if="sortKey != 'phone_number' || sortDirection != 1"></ion-icon>
             </div>
           </ion-col>
           <ion-col class="header-col" size="4" @click="sort('website')">
@@ -191,14 +197,13 @@ export default {
   data() {
     return {
       entries: [] as Entry[],
-      // count: 0,
     }
   },
   created() {
     this.$watch(
       () => this.$route,
       this.fetchData,
-      {immediate: true}
+      { immediate: true }
     )
   },
   computed: {
@@ -221,20 +226,34 @@ export default {
   },
   methods: {
     async fetchData(this: { entries: Entry[] }) {
+      // Count the number of entries in database
       try {
-        // console.log(this.count);
-        // const count_response = await axios.get('http://' + self.location.hostname + ':8081/api/providers/count');
-        // this.count = count_response.data;
-        // console.log(this.count);
-        // this.pageNumber = Math.ceil(this.count / this.pageSize);
+        console.log(this.count);
+        const count_response = await axios.get('http://' + self.location.hostname + ':8081/api/providers/count');
+        this.count = count_response.data;
+        console.log(this.count);
+        this.pageNumber = Math.ceil(this.count / this.pageSize);
+      }
+      catch (error) {
+        console.error('Error counting data:', error);
+      }
+
+      // Fetch the data from the database
+      try {
+        const sortKey = this.sortDirection == 0 ? 'id_cms_other' : this.sortKey;
+        const sortDirection = this.sortDirection == 2 ? 'DESC' : 'ASC';
 
         const params = {
           search: this.search,
+          pageSize: this.pageSize,
+          pageCurr: this.pageCurr,
+          orderCol: sortKey,
+          orderDirection: sortDirection,
         };
         console.log(params);
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers', {
           params: params,
-        },{
+        }, {
           headers: {
             'Content-type': 'application/json'
           }
@@ -249,13 +268,14 @@ export default {
       console.log(key);
       this.$store.commit('sort', key)
       console.log(this.sortDirection)
+      this.fetchData();
     },
     edit(index: number) {
       console.log(index);
     },
     remove(index: number) {
       console.log(index);
-    }
+    },
   }
 }
 </script>
