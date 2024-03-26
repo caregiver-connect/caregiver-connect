@@ -196,6 +196,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 import axios from 'axios';
 import { ref } from 'vue';
+import ToastPlugin from 'vue-toast-notification';
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 const providerId = ref('');
 const providerName = ref('');
@@ -228,8 +231,20 @@ const addProvider = async () => {
       zip: zipCode.value,
       county: countyValue,
       ownership_type: ownershipType.value,
+    }, {
+      withCredentials: true
     });
     console.log('Provider added successfully:', response.data);
+    const $toast = useToast();
+    let instance = $toast.success('Provider added successfully!');
+    router.push('/home');
+     // this.$store.commit("login", this.username);
+
+    // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+    setTimeout(() => {
+      instance.dismiss();
+    }, 3000);
+
     // Show toast message
     // Optionally, you can reset input fields after successful submission
     providerId.value = '';
@@ -245,14 +260,24 @@ const addProvider = async () => {
     ownershipType.value = '';
     // Reset other input fields similarly
   } catch (error: any) {
-    if (error.response) {
-      console.error('Error adding provider:', error.response.data);
-      // Handle error response from the server
-    } else {
-      console.error('Unknown error:', error);
-      // Handle other types of errors
-    }
-  }
+        if (error.response) {
+          console.error('Error adding provider', error.response.data);
+          const $toast = useToast();
+          let instance = $toast.error(error.response.data.message); // Assuming error response has a "message" field
+          setTimeout(() => {
+            instance.dismiss();
+          }, 3000);
+          // Handle error response from the server
+        } else {
+          console.error('Unknown error:', error);
+          const $toast = useToast();
+          let instance = $toast.error('An unknown error occurred. Please try again later.');
+          setTimeout(() => {
+            instance.dismiss();
+          }, 3000);
+        }
+        // Handle other types of errors
+      }
 };
 
 </script>
