@@ -121,8 +121,8 @@ exports.create = (req, res) => {
 
 
 
-// Retrieve all Providers from the database.
-exports.findAll = (req, res) => {
+// Retrieve Providers from the database with search and counts them.
+exports.findAndCountAll = (req, res) => {
     const search = req.query.search;
     const pageSize = req.query.pageSize;
     const offset = req.query.pageSize * (req.query.pageCurr - 1);
@@ -145,7 +145,7 @@ exports.findAll = (req, res) => {
 
     let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
 
-    Provider.findAll({ where: or_condition, offset: offset, limit: pageSize, order: [order] })
+    Provider.findAndCountAll({ where: or_condition, offset: offset, limit: pageSize, order: [order] })
         .then(data => {
             res.send(data);
         })
@@ -155,39 +155,6 @@ exports.findAll = (req, res) => {
                     err.message || "Some error occurred while retrieving providers."
             });
         });
-};
-
-
-// Count of Providers
-exports.count = async (req, res) => {
-    try {
-        const search = req.query.search;
-
-        let condition = [];
-        if (search) {
-            condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
-            condition.push({ addr1: { [Op.iLike]: `%${search}%` } })
-            condition.push({ addr2: { [Op.iLike]: `%${search}%` } })
-            condition.push({ agency_name: { [Op.iLike]: `%${search}%` } })
-            condition.push({ city: { [Op.iLike]: `%${search}%` } })
-            condition.push({ county: { [Op.iLike]: `%${search}%` } })
-            condition.push({ ownership_type: { [Op.iLike]: `%${search}%` } })
-            condition.push({ phone_number: { [Op.iLike]: `%${search}%` } })
-            condition.push({ state: { [Op.iLike]: `%${search}%` } })
-            condition.push({ website: { [Op.iLike]: `%${search}%` } })
-            condition.push({ zip: { [Op.iLike]: `%${search}%` } })
-        }
-
-        let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
-
-        const count = await Provider.count({ where: or_condition });
-
-        console.log('Number of entries:', count);
-        res.send({ count });
-    } catch (error) {
-        console.error('Error counting entries:', error);
-        res.status(500).send('Error counting entries');
-    }
 };
 
 // Find Providers by agency name

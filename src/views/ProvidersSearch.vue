@@ -244,22 +244,6 @@ export default {
   },
   methods: {
     async fetchData(this: { entries: Entry[] }) {
-      // Count the number of entries in database
-      try {
-        const params = {
-          search: this.query,
-        };
-        const count_response = await axios.get('http://' + self.location.hostname + ':8081/api/providers/count', {
-          params: params,
-        });
-
-        this.count = count_response.data.count;
-        this.pageNumber = Math.ceil(this.count / this.pageSize);
-      }
-      catch (error) {
-        console.error('Error counting data:', error);
-      }
-
       // Fetch the data from the database
       try {
         const sortKey = this.sortDirection == 0 ? 'id_cms_other' : this.sortKey;
@@ -280,7 +264,9 @@ export default {
             'Content-type': 'application/json'
           }
         });
-        this.entries = response.data;
+        this.count = response.data.count;
+        this.pageNumber = Math.ceil(this.count / this.pageSize);
+        this.entries = response.data.rows;
       }
       catch (error) {
         console.error('Error fetching data:', error);
