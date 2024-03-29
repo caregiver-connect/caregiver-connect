@@ -25,7 +25,7 @@ module.exports = app => {
   router.put("/:id_cms_other", providerController.update);
 
   // Delete a Provider by id_cms_other
-  router.delete("/:id_cms_other", providerController.delete);
+  router.delete("/:id_cms_other", authenticateJWT, providerController.delete);
 
   app.use('/api/providers', router);
 };
