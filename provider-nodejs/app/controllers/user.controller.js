@@ -25,7 +25,6 @@ exports.login = async (req, res) => {
         res.end(403);
         return;
     }
-    console.log(username)
     const password = req.body.password;
 
     try {

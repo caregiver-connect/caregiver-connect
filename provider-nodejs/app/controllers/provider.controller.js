@@ -79,9 +79,7 @@ exports.create = (req, res) => {
 
     axios(config)
         .then(function (response) {
-            // console.log(response)
             console.log(response.data);
-            console.log(response.data.results[0].street);
             // Create a Provider object with properties from request body
             const provider = {
                 id_cms_other: xss(req.body.id_cms_other),
@@ -123,12 +121,31 @@ exports.create = (req, res) => {
 
 
 
-// Retrieve all Providers from the database.
-exports.findAll = (req, res) => {
-    const agency_name = req.query.agency_name;
-    let condition = agency_name ? { agency_name: { [Op.iLike]: `%${agency_name}%` } } : null;
+// Retrieve Providers from the database with search and counts them.
+exports.findAndCountAll = (req, res) => {
+    const search = req.query.search;
+    const pageSize = req.query.pageSize;
+    const offset = req.query.pageSize * (req.query.pageCurr - 1);
+    const order = [req.query.orderCol, req.query.orderDirection];
 
-    Provider.findAll({ where: condition })
+    let condition = [];
+    if (search) {
+        condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
+        condition.push({ addr1: { [Op.iLike]: `%${search}%` } })
+        condition.push({ addr2: { [Op.iLike]: `%${search}%` } })
+        condition.push({ agency_name: { [Op.iLike]: `%${search}%` } })
+        condition.push({ city: { [Op.iLike]: `%${search}%` } })
+        condition.push({ county: { [Op.iLike]: `%${search}%` } })
+        condition.push({ ownership_type: { [Op.iLike]: `%${search}%` } })
+        condition.push({ phone_number: { [Op.iLike]: `%${search}%` } })
+        condition.push({ state: { [Op.iLike]: `%${search}%` } })
+        condition.push({ website: { [Op.iLike]: `%${search}%` } })
+        condition.push({ zip: { [Op.iLike]: `%${search}%` } })
+    }
+
+    let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
+
+    Provider.findAndCountAll({ where: or_condition, offset: offset, limit: pageSize, order: [order] })
         .then(data => {
             res.send(data);
         })
@@ -139,7 +156,6 @@ exports.findAll = (req, res) => {
             });
         });
 };
-
 
 // Find Providers by agency name
 exports.findByAgencyName = (req, res) => {

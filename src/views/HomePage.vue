@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>
           <ion-row class="ion-align-items-center">
-            CareGiver Connect
+            Caregiver Connect
           </ion-row>
         </ion-title>
         <ion-buttons :collapse="true" slot="end">
