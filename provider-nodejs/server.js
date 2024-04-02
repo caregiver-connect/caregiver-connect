@@ -44,8 +44,10 @@ app.get("/", (req, res) => {
 
 // Require and configure provider routes
 require("./app/routes/provider.routes")(app);
-// Require and configure provider routes
+// Require and configure user routes
 require("./app/routes/user.routes")(app);
+
+require("./app/routes/email.routes")(app);
 
 // Create an HTTP server instead of HTTPS
 const server = http.createServer(app); // Change from https to http
