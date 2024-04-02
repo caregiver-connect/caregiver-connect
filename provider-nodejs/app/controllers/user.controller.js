@@ -151,7 +151,7 @@ exports.create = async (req, res) => {
             to: sanitizedEmail, // Change to your recipient
             from: 'caregiver-connect-test@outlook.com', // Change to your verified sender
             subject: 'New Caregiver Connect User Made',
-            text: 'Your email is succesffully registered with Caregiver Connect!'
+            text: 'Your email is successfully registered with Caregiver Connect!'
         }
 
         emailHandler.sendMsg(msg)
