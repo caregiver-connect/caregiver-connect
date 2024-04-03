@@ -94,6 +94,7 @@ exports.create = (req, res) => {
                 notes: xss(req.body.notes || null),
                 ownership_type: xss(req.body.ownership_type),
                 phone_number: xss(phone_number),
+                email: xss(req.body.email),
                 service_area_entities: xss(req.body.service_area_entities || null),
                 service_area_polygon: xss(req.body.service_area_polygon || null),
                 state: xss(response.data.results[0].state_code),
@@ -138,6 +139,7 @@ exports.findAndCountAll = (req, res) => {
         condition.push({ county: { [Op.iLike]: `%${search}%` } })
         condition.push({ ownership_type: { [Op.iLike]: `%${search}%` } })
         condition.push({ phone_number: { [Op.iLike]: `%${search}%` } })
+        condition.push({ email: { [Op.iLike]: `%${search}%` } })
         condition.push({ state: { [Op.iLike]: `%${search}%` } })
         condition.push({ website: { [Op.iLike]: `%${search}%` } })
         condition.push({ zip: { [Op.iLike]: `%${search}%` } })
