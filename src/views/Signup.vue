@@ -24,7 +24,7 @@
             <ion-input label-placement="floating" label="Password" type="password" v-model="password"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Retype Password" type="password"></ion-input>
+            <ion-input label-placement="floating" label="Retype Password" type="password" v-model="retypePassword"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Email" type="email" v-model="email"></ion-input>
@@ -144,10 +144,14 @@ const password = ref('');
 const email = ref('');
 const phoneNumber = ref('');
 const county = ref('');
+const retypePassword = ref('');
 const addUser = async () => {
   try {
     // Extract the county from the array if it's received as an array with one element
     const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
+    if (password.value !== retypePassword.value) {
+      throw new Error("Passwords do not match");
+    }
 
     const response = await axios.post('http://localhost:8081/api/users', { //NOTE: Email is a good idea but not a field in the database currently
       username: username.value,
@@ -164,6 +168,7 @@ const addUser = async () => {
     email.value = '';
     phoneNumber.value = '';
     county.value = '';
+    retypePassword.value = '';
     // Reset other input fields similarly
   } catch (error: any) {
     if (error.response) {
