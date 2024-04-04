@@ -95,7 +95,7 @@
             <ion-input label-placement="floating" label="Zip Code" v-model="zipCode"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County" :multiple="true" v-model="county">
+            <ion-select lebel-placement="floating" label="County" v-model="county">
               <ion-select-option>Autauga</ion-select-option>
               <ion-select-option>Baldwin</ion-select-option>
               <ion-select-option>Barbour</ion-select-option>
@@ -216,9 +216,6 @@ const showSuccess = ref(false); // Track whether to show the success message
 
 const addProvider = async () => {
   try {
-    // Extract the county from the array if it's received as an array with one element
-    const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
-
     const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
       id_cms_other: providerId.value,
       agency_name: providerName.value,
@@ -229,7 +226,7 @@ const addProvider = async () => {
       state: state.value,
       website: providerWebsite.value,
       zip: zipCode.value,
-      county: countyValue,
+      county: county.value,
       ownership_type: ownershipType.value,
     }, {
       withCredentials: true
@@ -237,7 +234,7 @@ const addProvider = async () => {
     console.log('Provider added successfully:', response.data);
     const $toast = useToast();
     let instance = $toast.success('Provider added successfully!');
-    router.push('/home');
+    router.replace('/providers-search');
      // this.$store.commit("login", this.username);
 
     // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)

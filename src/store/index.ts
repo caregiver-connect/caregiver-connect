@@ -7,10 +7,10 @@ const store = createStore({
     return {
       isLoggedIn: false,
       username: "",
-      sortKey: "id",
-      sortDirection: 0,
       userSortKey: "username",
       userSortDirection: 0,
+      providerSortKey: "id_cms_other",
+      providerSortDirection: 1,
     };
   },
   getters: {
@@ -20,19 +20,19 @@ const store = createStore({
     username(state) {
       return state.username;
     },
-    sortDirection(state) {
-      return state.sortDirection;
+    providerSortDirection(state) {
+      return state.providerSortDirection;
     },
-    sortKey(state) {
-      return state.sortKey;
+    providerSortKey(state) {
+      return state.providerSortKey;
     },
     userSortDirection(state) {
       return state.userSortDirection;
     },
     userSortKey(state) {
-      return state.userSortKey;
-    }
-  },
+      return state.userSortKey;    
+    },
+  }
   mutations: {
     login(state, username: string) {
       state.isLoggedIn = true;
@@ -42,17 +42,17 @@ const store = createStore({
       state.isLoggedIn = false;
       state.username = "";
     },
-    sort(state, key: string) {
-      if (state.sortKey != key) {
-        state.sortDirection = 1;
+    providerSort(state, key: string){
+      if(state.providerSortKey != key){
+        state.providerSortDirection = 1;
       }
-      else if (state.sortDirection < 2) {
-        state.sortDirection++;
+      else if(state.providerSortDirection < 2){
+        state.providerSortDirection++;
       }
       else {
-        state.sortDirection = 0;
+        state.providerSortDirection = 0;
       }
-      state.sortKey = key;
+      state.providerSortKey = key;
     },
     userSort(state, key: string) {
       if (state.userSortKey != key) {

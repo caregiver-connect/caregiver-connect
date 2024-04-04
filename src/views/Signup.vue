@@ -14,7 +14,7 @@
       <div class="vcs">
         <ion-card class="ion-text-center" color="crimson" style="width: 50%">
           <ion-card-content>Are you a service provider? Signup here instead!</ion-card-content>
-          <ion-button color="light" @click="() => router.push('/provider-signup')">Provider Signup</ion-button>
+          <ion-button color="light" @click="() => router.replace('/provider-signup')">Provider Signup</ion-button>
         </ion-card>
         <ion-list style="width: 50%">
           <ion-item>
@@ -107,7 +107,7 @@
         <ion-button color="crimson" @click="addUser">Signup</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
-            Already have an account? <a @click="() => router.push('/login')"><u>Login here.</u></a>
+            Already have an account? <a @click="() => router.replace('/login')"><u>Login here.</u></a>
           </ion-card-content>
         </ion-card>
       </div>
@@ -170,7 +170,7 @@ const addUser = async () => {
     email.value = '';
     phoneNumber.value = '';
     county.value = '';
-    router.push('\home');
+    router.push('/home');
     // Reset other input fields similarly
   }  catch (error: any) {
         if (error.response) {

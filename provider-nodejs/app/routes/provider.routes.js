@@ -1,13 +1,13 @@
 module.exports = app => {
   const providerController = require("../controllers/provider.controller.js");
-  const {authenticateJWT, providerValidationRules, create} = require('../controllers/provider.controller.js');
+  const { authenticateJWT, providerValidationRules, create } = require('../controllers/provider.controller.js');
 
   var router = require("express").Router();
   // Create a new Provider. Authenticate they can add, validate what they are adding
-  router.post("/", providerValidationRules(),  authenticateJWT, create);
+  router.post("/", providerValidationRules(), authenticateJWT, create);
 
-  // Retrieve all Providers
-  router.get("/", providerController.findAll);
+  // Retrieve Providers from the database with search and counts them.
+  router.get("/", providerController.findAndCountAll);
 
   // Retrieve single provider id_cms_other
   router.get("/IdCmsOther", providerController.findOneByIdCmsOther);
@@ -25,7 +25,7 @@ module.exports = app => {
   router.put("/:id_cms_other", providerController.update);
 
   // Delete a Provider by id_cms_other
-  router.delete("/:id_cms_other", providerController.delete);
+  router.delete("/:id_cms_other", authenticateJWT, providerController.delete);
 
   app.use('/api/providers', router);
 };

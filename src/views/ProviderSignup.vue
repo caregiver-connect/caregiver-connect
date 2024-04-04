@@ -194,7 +194,7 @@
         <ion-button color="crimson">Signup</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
-            Already have an account? <a @click="() => router.push('/login')"><u>Login here.</u></a>
+            Already have an account? <a @click="() => router.replace('/login')"><u>Login here.</u></a>
           </ion-card-content>
         </ion-card>
       </div>
