@@ -138,7 +138,10 @@ exports.create = async (req, res) => {
             password: hashedPassword,
             phone_number: sanitizedPhoneNumber,
             email: sanitizedEmail,
-            county: sanitizedCounty ,
+            county: sanitizedCounty,
+            approved: 0,
+            denied: 0,
+            role: "unverified",
         };
 
         // Save User in the database
@@ -163,12 +166,27 @@ exports.createValidationRules = () => { // handle input validation
 
 
 
-// Retrieve all users from the database.
-exports.findAll = (req, res) => {
-    const username = req.query.username;
-    let condition = username ? { username: { [Op.iLike]: `%${username}%` } } : null;
+// Retrieve Users from the database with search and counts them.
+exports.findAndCountAll = (req, res) => {
+    const search = req.query.search;
+    const pageSize = req.query.pageSize;
+    const offset = req.query.pageSize * (req.query.pageCurr - 1);
+    const order = [req.query.orderCol, req.query.orderDirection];
 
-    User.findAll({ where: condition })
+    let condition = [];
+    if (search) {
+        condition.push({ username: { [Op.iLike]: `%${username}%` } })
+        condition.push({ phone_number: { [Op.iLike]: `%${phone_number}%` } })
+        condition.push({ email: { [Op.iLike]: `%${email}%` } })
+        condition.push({ county: { [Op.iLike]: `%${search}%` } })
+        condition.push({ approved: { [Op.iLike]: `%${search}%` } })
+        condition.push({ denied: { [Op.iLike]: `%${search}%` } })
+        condition.push({ role: { [Op.iLike]: `%${search}%` } })
+    }
+
+    let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
+
+    User.findAndCountAll({ where: or_condition, limit: pageSize, offset: offset, order: [order], attributes: { exclude: ['password'] }})
         .then(data => {
             res.send(data); // XSS input validation 
         })
