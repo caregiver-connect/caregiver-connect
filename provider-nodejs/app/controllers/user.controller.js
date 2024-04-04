@@ -139,7 +139,10 @@ exports.create = async (req, res) => {
             password: hashedPassword,
             phone_number: sanitizedPhoneNumber,
             email: sanitizedEmail,
-            county: sanitizedCounty ,
+            county: sanitizedCounty,
+            approved: 0,
+            denied: 0,
+            role: "unverified",
         };
 
         // Save User in the database
@@ -177,6 +180,9 @@ exports.findAndCountAll = (req, res) => {
         condition.push({ phone_number: { [Op.iLike]: `%${phone_number}%` } })
         condition.push({ email: { [Op.iLike]: `%${email}%` } })
         condition.push({ county: { [Op.iLike]: `%${search}%` } })
+        condition.push({ approved: { [Op.iLike]: `%${search}%` } })
+        condition.push({ denied: { [Op.iLike]: `%${search}%` } })
+        condition.push({ role: { [Op.iLike]: `%${search}%` } })
     }
 
     let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;

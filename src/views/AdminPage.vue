@@ -7,7 +7,7 @@
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-        <ion-title>Admin Page</ion-title>
+        <ion-title>Providers</ion-title>
         <ion-img slot="end" src="../../logo.jpg" @click="() => router.push('/home')"
           style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
@@ -21,8 +21,8 @@
           <ion-row class="header-row">
             <!-- empty column to add white space to left of table -->
             <ion-col class="whitespace" size="0.3"></ion-col>
-            <ion-col class="header-col" size="2" @click="sort('username')">
-              Username
+            <ion-col class="header-col" size="2" @click="userSort('username')">
+              Provider Name
               <div>
                 <ion-icon class="arrows" :icon="arrowUp"
                   v-if="userSortKey != 'username' || userSortDirection != 2"></ion-icon>
@@ -30,7 +30,7 @@
                   v-if="userSortKey != 'username' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="2.2" @click="sort('phone_number')">
+            <ion-col class="header-col" size="3" @click="userSort('phone_number')">
               Phone #
               <div>
                 <ion-icon class="arrows" :icon="arrowUp"
@@ -39,18 +39,40 @@
                   v-if="userSortKey != 'phone_number' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="3.7" @click="sort('email')">
+            <ion-col class="header-col" size="3" @click="userSort('email')">
               Email
               <div>
-                <ion-icon class="arrows" :icon="arrowUp" v-if="userSortKey != 'email' || userSortDirection != 2"></ion-icon>
-                <ion-icon class="arrows" :icon="arrowDown" v-if="userSortKey != 'email' || userSortDirection != 1"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="userSortKey != 'email' || userSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="userSortKey != 'email' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="2" @click="sort('county')">
+            <ion-col class="header-col" size="2" @click="userSort('county')">
               County
               <div>
-                <ion-icon class="arrows" :icon="arrowUp" v-if="userSortKey != 'county' || userSortDirection != 2"></ion-icon>
-                <ion-icon class="arrows" :icon="arrowDown" v-if="userSortKey != 'county' || userSortDirection != 1"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="userSortKey != 'county' || userSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="userSortKey != 'county' || userSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="2" @click="userSort('approved')">
+              Approved / Denied
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="userSortKey != 'approved' || userSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="userSortKey != 'approved' || userSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="2" @click="userSort('role')">
+              Role
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="userSortKey != 'role' || userSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="userSortKey != 'role' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
             <ion-col class="header-col" size="1.5">Edit / Delete</ion-col>
@@ -60,15 +82,17 @@
           <ion-row v-for="(entry, index) in entries" :key="entry.id_cms_other">
             <ion-col class="whitespace" size="0.3"></ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.username }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" size="2.2">{{ entry.phone_number }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" size="3.7">{{ entry.email }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.approved }}/{{ entry.denied }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.role }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(index)">
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(entry.id_cms_other)">
                   <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
                 </ion-button>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(index)">
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.id_cms_other)">
                   <ion-icon slot="icon-only" :icon="trash"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -81,8 +105,10 @@
           <ion-icon slot="icon-only" :icon="chevronBack"></ion-icon>
         </ion-button>
         <template v-for="n in pageNumber">
-          <ion-text style="padding: 5px" v-if="n == 1 || n == pageNumber || n == pageCurr || n == pageCurr-1 || n == pageCurr+1" @click="changePage(n)">{{ n }}</ion-text>
-          <ion-text v-else-if="n == 2 || n == pageNumber-1">...</ion-text>
+          <ion-text style="padding: 5px"
+            v-if="n == 1 || n == pageNumber || n == pageCurr || n == pageCurr - 1 || n == pageCurr + 1"
+            @click="changePage(n)">{{ n }}</ion-text>
+          <ion-text v-else-if="n == 2 || n == pageNumber - 1">...</ion-text>
         </template>
         <ion-button color="secondary" @click="changePage(this.pageCurr + 1)">
           <ion-icon slot="icon-only" :icon="chevronForward"></ion-icon>
@@ -119,17 +145,13 @@ import { useRouter } from 'vue-router';
 import router from '@/router';
 
 interface Entry {
-  id_cms_other: number;
-  agency_name: string;
-  addr1: string;
-  addr2: string;
-  city: string;
-  state: string;
-  zip: string;
+  username: string;
   county: string;
   phone_number: string;
-  website: string;
-  resources: string;
+  email: string;
+  approved: number;
+  denied: number;
+  role: string;
 }
 
 export default {
@@ -212,15 +234,25 @@ export default {
         console.error('Error fetching data:', error);
       }
     },
-    sort(key: string) {
+    userSort(key: string) {
       this.$store.commit('userSort', key)
       this.fetchData();
     },
-    edit(index: number) {
-      console.log(index);
+    edit(username: string) {
+      console.log(username);
     },
-    remove(index: number) {
-      console.log(index);
+    async remove(username: string) {
+      console.log(username);
+      try {
+        const response = await axios.delete('http://' + self.location.hostname + `:8081/api/providers/${username}`, {
+          withCredentials: true,
+        });
+
+        this.fetchData();
+      }
+      catch (error) {
+        console.error('Error deleting provider:', error);
+      }
     },
     changePage(page: number) {
       if (page < 1 || page > this.pageNumber) {
@@ -253,6 +285,10 @@ ion-col {
   border: solid 1px;
   text-align: center;
   align-self: stretch;
+}
+
+ion-fab {
+  padding: 1%;
 }
 
 ion-searchbar {
