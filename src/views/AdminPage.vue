@@ -1,5 +1,3 @@
-<!-- To do: vertically center cells-->
-
 <template>
   <ion-page>
     <ion-header>
@@ -7,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-        <ion-title>Providers</ion-title>
+        <ion-title>Admin Page</ion-title>
         <ion-img slot="end" src="../../logo.jpg" @click="() => router.push('/home')"
           style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
@@ -66,6 +64,15 @@
                   v-if="userSortKey != 'approved' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
+            <ion-col class="header-col" size="2" @click="userSort('verified')">
+              Email Verified
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="userSortKey != 'verified' || userSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="userSortKey != 'verified' || userSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
             <ion-col class="header-col" size="2" @click="userSort('role')">
               Role
               <div>
@@ -75,25 +82,43 @@
                   v-if="userSortKey != 'role' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="1.5">Edit / Delete</ion-col>
+            <ion-col class="header-col" size="2" @click="userSort('createdAt')">
+              Created At
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="userSortKey != 'createdAt' || userSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="userSortKey != 'createdAt' || userSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="1.5">Ban</ion-col>
             <!-- empty column to add white space to right of table -->
             <ion-col class="whitespace" size="0.3"></ion-col>
           </ion-row>
-          <ion-row v-for="(entry, index) in entries" :key="entry.id_cms_other">
+          <ion-row v-for="(entry, index) in entries" :key="entry.username">
             <ion-col class="whitespace" size="0.3"></ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.username }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.approved }}/{{ entry.denied }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.role }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.verified }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" :id="entry.username" size="2">
+                {{ entry.role }}
+                <ion-popover :trigger="entry.username" :dismiss-on-select="true">
+                  <ion-list>
+                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'untrusted')">untrusted</ion-item>
+                    <ion-item :button="true" @click="changeRole(entry.username, 'trusted')">trusted</ion-item>
+                    <ion-item :button="true" @click="changeRole(entry.username, 'admin')">admin</ion-item>
+                    <ion-item :button="true" @click="changeRole(entry.username, 'banned')">banned</ion-item>
+                  </ion-list>
+                </ion-popover>
+            </ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.createdAt }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(entry.id_cms_other)">
-                  <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
-                </ion-button>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.id_cms_other)">
-                  <ion-icon slot="icon-only" :icon="trash"></ion-icon>
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="ban(entry.username)">
+                  <ion-icon slot="icon-only" :icon="close"></ion-icon>
                 </ion-button>
               </ion-buttons>
             </ion-col>
@@ -137,10 +162,13 @@ import {
   IonCol,
   IonSearchbar,
   IonText,
+  IonPopover,
+  IonList,
+  IonItem,
 } from '@ionic/vue';
 import { ref } from 'vue';
 import axios from 'axios';
-import { add, arrowUp, arrowDown, pencil, trash, chevronBack, chevronForward } from 'ionicons/icons';
+import { add, arrowUp, arrowDown, close, chevronBack, chevronForward } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 import router from '@/router';
 
@@ -151,7 +179,9 @@ interface Entry {
   email: string;
   approved: number;
   denied: number;
+  verified: boolean;
   role: string;
+  createdAt: string;
 }
 
 export default {
@@ -173,6 +203,9 @@ export default {
     IonCol,
     IonSearchbar,
     IonText,
+    IonPopover,
+    IonList,
+    IonItem,
   },
   data() {
     return {
@@ -202,7 +235,7 @@ export default {
     var count = 0;
     const pageSize = 10;
 
-    return { add, arrowUp, arrowDown, pencil, trash, chevronBack, chevronForward, router, query, count, pageSize }
+    return { add, arrowUp, arrowDown, close, chevronBack, chevronForward, router, query, count, pageSize }
   },
   methods: {
     async fetchData(this: { entries: Entry[] }) {
@@ -234,6 +267,7 @@ export default {
         this.count = response.data.count;
         this.pageNumber = Math.ceil(this.count / this.pageSize);
         this.entries = response.data.rows;
+        console.log(response)
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -243,20 +277,34 @@ export default {
       this.$store.commit('userSort', key)
       this.fetchData();
     },
-    edit(username: string) {
-      console.log(username);
-    },
-    async remove(username: string) {
+    async ban(username: string) {
       console.log(username);
       try {
-        const response = await axios.delete('http://' + self.location.hostname + `:8081/api/providers/${username}`, {
+        const response = await axios.post('http://' + self.location.hostname + `:8081/api/users/changeRole/${username}`, {
+          newRole: "banned"
+        }, {
           withCredentials: true,
         });
 
         this.fetchData();
       }
       catch (error) {
-        console.error('Error deleting provider:', error);
+        console.error('Error banning user:', error);
+      }
+    },
+    async changeRole(username: string, role: string) {
+      console.log(username);
+      try {
+        const response = await axios.post('http://' + self.location.hostname + `:8081/api/users/changeRole/${username}`, {
+          newRole: role
+        }, {
+          withCredentials: true,
+        });
+
+        this.fetchData();
+      }
+      catch (error) {
+        console.error('Error changing user role:', error);
       }
     },
     changePage(page: number) {

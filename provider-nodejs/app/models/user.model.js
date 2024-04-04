@@ -22,11 +22,14 @@ module.exports = (sequelize, Sequelize) => {
         denied: {
             type: Sequelize.INTEGER
         },
+        verified: {
+            type: Sequelize.BOOLEAN
+        },
         role: {
-            type: Sequelize.STRING // roles are unverified, verified, and admin
-        }
+            type: Sequelize.STRING // roles are untrusted, trusted, and admin
+        },
     }, {
-        timestamps: false // Enable timestamps
+        timestamps: true // Enable timestamps
     });
   
     return User;
