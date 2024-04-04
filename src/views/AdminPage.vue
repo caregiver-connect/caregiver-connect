@@ -208,8 +208,13 @@ export default {
     async fetchData(this: { entries: Entry[] }) {
       // Fetch the data from the database
       try {
-        const userSortKey = this.userSortDirection == 0 ? 'username' : this.userSortKey;
-        const userSortDirection = this.userSortDirection == 2 ? 'DESC' : 'ASC';
+        var userSortKey = this.userSortDirection == 0 ? 'username' : this.userSortKey;
+        var userSortDirection = this.userSortDirection == 2 ? 'DESC' : 'ASC';
+
+        if (userSortKey == 'approved' && userSortDirection == 'DESC') {
+          userSortKey = 'denied';
+          userSortDirection = 'ASC';
+        }
 
         const params = {
           search: this.query,

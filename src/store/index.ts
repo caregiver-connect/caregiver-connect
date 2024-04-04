@@ -32,7 +32,7 @@ const store = createStore({
     userSortKey(state) {
       return state.userSortKey;    
     },
-  }
+  },
   mutations: {
     login(state, username: string) {
       state.isLoggedIn = true;
