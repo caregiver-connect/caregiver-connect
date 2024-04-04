@@ -96,6 +96,15 @@
                   v-if="providerSortKey != 'phone_number' || providerSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
+            <ion-col class="header-col" size="3" @click="providerSort('email')">
+              Email
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'email' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'email' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
             <ion-col class="header-col" size="4" @click="providerSort('website')">
               Website
               <div>
@@ -129,6 +138,7 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.zip }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="4">{{ entry.website }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
@@ -203,6 +213,7 @@ interface Entry {
   zip: string;
   county: string;
   phone_number: string;
+  email: string;
   website: string;
   resources: string;
 }

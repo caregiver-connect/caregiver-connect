@@ -20,7 +20,7 @@
             <ion-input label-placement="floating" label="Provider Name" v-model="providerName"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Email" type="email"></ion-input>
+            <ion-input label-placement="floating" label="Provider Email" type="email" v-model="providerEmail"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Provider Phone #" type="tel" v-model="providerPhone"></ion-input>
@@ -203,6 +203,7 @@ import 'vue-toast-notification/dist/theme-bootstrap.css';
 const providerId = ref('');
 const providerName = ref('');
 const providerPhone = ref('');
+const providerEmail = ref('');
 const providerWebsite = ref('');
 const providerAddress = ref('');
 const addressLine2 = ref('');
@@ -220,6 +221,7 @@ const addProvider = async () => {
       id_cms_other: providerId.value,
       agency_name: providerName.value,
       phone_number: providerPhone.value,
+      email: providerEmail.value,
       addr1: providerAddress.value,
       addr2: addressLine2.value,
       city: city.value,
@@ -247,6 +249,7 @@ const addProvider = async () => {
     providerId.value = '';
     providerName.value = '';
     providerPhone.value = '';
+    providerEmail.value = '';
     providerAddress.value = '';
     addressLine2.value = '';
     city.value = '';
