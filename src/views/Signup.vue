@@ -149,12 +149,31 @@ const email = ref('');
 const phoneNumber = ref('');
 const county = ref('');
 const retypePassword = ref('');
+
+const isStrongPassword = (password: string) => {
+  const isUppercase = /[A-Z]/;
+  const isLowerase = /[a-z]/;
+  const isNumber = /[0-9]/;
+  const isSpecialChar = /[^A-Za-z0-9]/;
+
+  return (
+    isUppercase.test(password) &&
+    isLowerase.test(password) &&
+    isNumber.test(password) &&
+    isSpecialChar.test(password)
+    );
+};
+
 const addUser = async () => {
   try {
     // Extract the county from the array if it's received as an array with one element
     const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
     if (password.value !== retypePassword.value) {
       throw new Error("Passwords do not match");
+    }
+
+    if (!isStrongPassword(password.value)) {
+      throw new Error("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
     }
 
     const response = await axios.post('http://' + self.location.hostname + ':8081/api/users', { //NOTE: Email is a good idea but not a field in the database currently
