@@ -127,7 +127,7 @@
             <!-- empty column to add white space to right of table -->
             <ion-col class="whitespace" size="0.3"></ion-col>
           </ion-row>
-          <ion-row v-for="(entry, index) in entries" :key="entry.id_cms_other">
+          <ion-row v-for="(entry, index) in entries" :key="entry.place_id">
             <ion-col class="whitespace" size="0.3"></ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.id_cms_other }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.agency_name }}</ion-col>
@@ -143,10 +143,10 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(entry.id_cms_other)">
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(entry.place_id)">
                   <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
                 </ion-button>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.id_cms_other)">
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
                   <ion-icon slot="icon-only" :icon="trash"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -204,7 +204,8 @@ import { useRouter } from 'vue-router';
 import router from '@/router';
 
 interface Entry {
-  id_cms_other: number;
+  place_id: string;
+  id_cms_other: string;
   agency_name: string;
   addr1: string;
   addr2: string;
@@ -272,7 +273,7 @@ export default {
     async fetchData(this: { entries: Entry[] }) {
       // Fetch the data from the database
       try {
-        const providerSortKey = this.providerSortDirection == 0 ? 'id_cms_other' : this.providerSortKey;
+        const providerSortKey = this.providerSortDirection == 0 ? 'place_id' : this.providerSortKey;
         const providerSortDirection = this.providerSortDirection == 2 ? 'DESC' : 'ASC';
 
         const params = {

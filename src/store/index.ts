@@ -7,7 +7,7 @@ const store = createStore({
     return {
       isLoggedIn: false,
       username: "",
-      providerSortKey: "id_cms_other",
+      providerSortKey: "place_id",
       providerSortDirection: 1,
     };
   },
