@@ -147,10 +147,8 @@ exports.create = async (req, res) => {
             phone_number: phoneNumber,
             email: sanitizedEmail,
             county: sanitizedCounty,
-            approved: 0,
-            denied: 0,
             verified: false,
-            role: "untrusted",
+            role: "contributor",
         };
 
         // Save User in the database
