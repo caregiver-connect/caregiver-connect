@@ -20,7 +20,7 @@
             <!-- empty column to add white space to left of table -->
             <ion-col class="whitespace" size="0.3"></ion-col>
             <ion-col class="header-col" size="2" @click="userSort('username')">
-              Provider Name
+              Username
               <div>
                 <ion-icon class="arrows" :icon="arrowUp"
                   v-if="userSortKey != 'username' || userSortDirection != 2"></ion-icon>
