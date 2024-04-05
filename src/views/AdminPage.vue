@@ -73,7 +73,7 @@
                   v-if="userSortKey != 'verified' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="2" @click="userSort('role')">
+            <ion-col class="header-col" size="3" @click="userSort('role')">
               Role
               <div>
                 <ion-icon class="arrows" :icon="arrowUp"
@@ -91,7 +91,7 @@
                   v-if="userSortKey != 'createdAt' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="1.5">Ban</ion-col>
+            <ion-col class="header-col" size="1">Ban</ion-col>
             <!-- empty column to add white space to right of table -->
             <ion-col class="whitespace" size="0.3"></ion-col>
           </ion-row>
@@ -103,21 +103,24 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.approved }}/{{ entry.denied }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.verified }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" :id="entry.username" size="2">
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">
+              <ion-button :id="entry.username">
                 {{ entry.role }}
+                <ion-icon slot="end" :icon="chevronDown"></ion-icon>
+              </ion-button>
                 <ion-popover :trigger="entry.username" :dismiss-on-select="true">
                   <ion-list>
                     <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'untrusted')">untrusted</ion-item>
-                    <ion-item :button="true" @click="changeRole(entry.username, 'trusted')">trusted</ion-item>
-                    <ion-item :button="true" @click="changeRole(entry.username, 'admin')">admin</ion-item>
-                    <ion-item :button="true" @click="changeRole(entry.username, 'banned')">banned</ion-item>
+                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'trusted')">trusted</ion-item>
+                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'admin')">admin</ion-item>
+                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'banned')">banned</ion-item>
                   </ion-list>
                 </ion-popover>
             </ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.createdAt }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
+            <ion-col :class="{ even: index % 2 == 1 }" size="1">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="ban(entry.username)">
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="changeRole(entry.username, 'banned')">
                   <ion-icon slot="icon-only" :icon="close"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -168,7 +171,7 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import axios from 'axios';
-import { add, arrowUp, arrowDown, close, chevronBack, chevronForward } from 'ionicons/icons';
+import { add, arrowUp, arrowDown, close, chevronBack, chevronForward, chevronDown } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 import router from '@/router';
 
@@ -235,7 +238,7 @@ export default {
     var count = 0;
     const pageSize = 10;
 
-    return { add, arrowUp, arrowDown, close, chevronBack, chevronForward, router, query, count, pageSize }
+    return { add, arrowUp, arrowDown, close, chevronBack, chevronForward, chevronDown, router, query, count, pageSize }
   },
   methods: {
     async fetchData(this: { entries: Entry[] }) {
@@ -276,21 +279,6 @@ export default {
     userSort(key: string) {
       this.$store.commit('userSort', key)
       this.fetchData();
-    },
-    async ban(username: string) {
-      console.log(username);
-      try {
-        const response = await axios.post('http://' + self.location.hostname + `:8081/api/users/changeRole/${username}`, {
-          newRole: "banned"
-        }, {
-          withCredentials: true,
-        });
-
-        this.fetchData();
-      }
-      catch (error) {
-        console.error('Error banning user:', error);
-      }
     },
     async changeRole(username: string, role: string) {
       console.log(username);
@@ -366,6 +354,7 @@ ion-text {
 .CRUDButton {
   min-width: 25px;
   width: 30px;
+  margin: auto;
 }
 
 .searchButton {
