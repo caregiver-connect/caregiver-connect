@@ -174,6 +174,7 @@ const addUser = async () => {
     email.value = '';
     phoneNumber.value = '';
     county.value = '';
+    retypePassword.value = '';
     router.push('/home');
     // Reset other input fields similarly
   }  catch (error: any) {
