@@ -18,6 +18,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/ProvidersSearch.vue'),
   },
   {
+    path: '/admin-page',
+    name: 'AdminPage',
+    component: () => import('@/views/AdminPage.vue'),
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
@@ -38,7 +43,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/AddProvider.vue'),
   },
   {
-    path: '/edit-provider',
+    path: '/edit-provider/:id',
     name: 'EditProvider',
     component: () => import('@/views/EditProvider.vue'),
   },

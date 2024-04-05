@@ -14,7 +14,7 @@
       <div class="vcs">
         <ion-card class="ion-text-center" color="crimson" style="width: 50%">
           <ion-card-content>Are you a service provider? Signup here instead!</ion-card-content>
-          <ion-button color="light" @click="() => router.push('/provider-signup')">Provider Signup</ion-button>
+          <ion-button color="light" @click="() => router.replace('/provider-signup')">Provider Signup</ion-button>
         </ion-card>
         <ion-list style="width: 50%">
           <ion-item>
@@ -107,7 +107,7 @@
         <ion-button color="crimson" @click="addUser">Signup</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
-            Already have an account? <a @click="() => router.push('/login')"><u>Login here.</u></a>
+            Already have an account? <a @click="() => router.replace('/login')"><u>Login here.</u></a>
           </ion-card-content>
         </ion-card>
       </div>
@@ -136,7 +136,11 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import {createApp} from 'vue';
+import ToastPlugin from 'vue-toast-notification';
+import {useToast} from 'vue-toast-notification';
 import axios from 'axios';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 const router = useRouter();
 const username = ref('');
@@ -153,7 +157,7 @@ const addUser = async () => {
       throw new Error("Passwords do not match");
     }
 
-    const response = await axios.post('http://localhost:8081/api/users', { //NOTE: Email is a good idea but not a field in the database currently
+    const response = await axios.post('http://' + self.location.hostname + ':8081/api/users', { //NOTE: Email is a good idea but not a field in the database currently
       username: username.value,
       password: password.value,
       email: email.value,
@@ -161,6 +165,8 @@ const addUser = async () => {
       county: countyValue,
     });
     console.log('User added successfully:', response.data);
+    const $toast = useToast();
+    let instance = $toast.success(`Signup successful!`);
     // Show toast message
     // Optionally, you can reset input fields after successful submission
     username.value = '';
@@ -168,17 +174,27 @@ const addUser = async () => {
     email.value = '';
     phoneNumber.value = '';
     county.value = '';
-    retypePassword.value = '';
+    router.push('/home');
     // Reset other input fields similarly
-  } catch (error: any) {
-    if (error.response) {
-      console.error('Error adding User:', error.response.data);
-      // Handle error response from the server
-    } else {
-      console.error('Unknown error:', error);
-      // Handle other types of errors
-    }
-  }
+  }  catch (error: any) {
+        if (error.response) {
+          console.error('Error signing up', error.response.data);
+          const $toast = useToast();
+          let instance = $toast.error(error.response.data.message); // Assuming error response has a "message" field
+          setTimeout(() => {
+            instance.dismiss();
+          }, 3000);
+          // Handle error response from the server
+        } else {
+          console.error('Unknown error:', error);
+          const $toast = useToast();
+          let instance = $toast.error('An unknown error occurred. Please try again later.');
+          setTimeout(() => {
+            instance.dismiss();
+          }, 3000);
+        }
+        // Handle other types of errors
+      }
 };
 const content = ref();
 </script>

@@ -16,8 +16,20 @@ module.exports = (sequelize, Sequelize) => {
         county: {
             type: Sequelize.STRING
         },
+        approved: {
+            type: Sequelize.INTEGER
+        },
+        denied: {
+            type: Sequelize.INTEGER
+        },
+        verified: {
+            type: Sequelize.BOOLEAN
+        },
+        role: {
+            type: Sequelize.STRING // roles are untrusted, trusted, and admin
+        },
     }, {
-        timestamps: false // Enable timestamps
+        timestamps: true // Enable timestamps
     });
   
     return User;
