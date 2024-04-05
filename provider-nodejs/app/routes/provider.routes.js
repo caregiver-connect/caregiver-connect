@@ -21,11 +21,11 @@ module.exports = app => {
   // Find all Providers with a specific agency name
   router.get("/:agency_name", providerController.findByAgencyName);
 
-  // Update a Provider by the id_cms_other
-  router.put("/:id_cms_other", providerController.update);
+  // Update a Provider by the place_id
+  router.put("/:place_id", providerController.update);
 
-  // Delete a Provider by id_cms_other
-  router.delete("/:id_cms_other", authenticateJWT, providerController.delete);
+  // Delete a Provider by place_id
+  router.delete("/:place_id", authenticateJWT, providerController.delete);
 
   app.use('/api/providers', router);
 };

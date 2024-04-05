@@ -9,7 +9,7 @@ const store = createStore({
       username: "",
       userSortKey: "username",
       userSortDirection: 0,
-      providerSortKey: "id_cms_other",
+      providerSortKey: "place_id",
       providerSortDirection: 1,
     };
   },

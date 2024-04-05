@@ -1,8 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
     const Provider = sequelize.define("provider", {
-        id_cms_other: {
+        place_id: {
             type: Sequelize.STRING,
             primaryKey: true,
+        },
+        id_cms_other: {
+            type: Sequelize.STRING
         },
         addr1: {
             type: Sequelize.STRING
