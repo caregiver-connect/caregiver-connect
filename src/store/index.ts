@@ -7,6 +7,8 @@ const store = createStore({
     return {
       isLoggedIn: false,
       username: "",
+      userSortKey: "username",
+      userSortDirection: 0,
       providerSortKey: "place_id",
       providerSortDirection: 1,
     };
@@ -23,7 +25,13 @@ const store = createStore({
     },
     providerSortKey(state) {
       return state.providerSortKey;
-    }
+    },
+    userSortDirection(state) {
+      return state.userSortDirection;
+    },
+    userSortKey(state) {
+      return state.userSortKey;    
+    },
   },
   mutations: {
     login(state, username: string) {
@@ -45,8 +53,19 @@ const store = createStore({
         state.providerSortDirection = 0;
       }
       state.providerSortKey = key;
-
-    }
+    },
+    userSort(state, key: string) {
+      if (state.userSortKey != key) {
+        state.userSortDirection = 1;
+      }
+      else if (state.userSortDirection < 2) {
+        state.userSortDirection++;
+      }
+      else {
+        state.userSortDirection = 0;
+      }
+      state.userSortKey = key;
+    },
   },
   plugins: [vuexPersister.persist]
 });
