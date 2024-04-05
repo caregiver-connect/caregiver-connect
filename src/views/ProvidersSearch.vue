@@ -13,113 +13,161 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :scroll-x=true>
-      <ion-searchbar></ion-searchbar>
-      <ion-grid>
-        <ion-row class="header-row">
-          <!-- empty column to add white space to left of table -->
-          <ion-col class="whitespace" size="0.3"></ion-col>
-          <ion-col class="header-col" size="1" @click="sort('id')">
-            ID
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'id' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'id' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="2" @click="sort('pn')">
-            Provider Name
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'pn' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'pn' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="2" @click="sort('addr')">
-            Address
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'addr' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'addr' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="2">
-            Address Line 2
-          </ion-col>
-          <ion-col class="header-col" size="3" @click="sort('city')">
-            City
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'city' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'city' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="1" @click="sort('state')">
-            State
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'state' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'state' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="2" @click="sort('zip')">
-            Zip code
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'zip' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'zip' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="2" @click="sort('county')">
-            County
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'county' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'county' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="3" @click="sort('phone')">
-            Phone #
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'phone' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'phone' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="4" @click="sort('website')">
-            Website
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'website' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'website' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="3" @click="sort('resources')">
-            Resources
-            <div>
-              <ion-icon class="arrows" :icon="arrowUp" v-if="sortKey != 'resources' || sortDirection != 2"></ion-icon>
-              <ion-icon class="arrows" :icon="arrowDown" v-if="sortKey != 'resources' || sortDirection != 1"></ion-icon>
-            </div>
-          </ion-col>
-          <ion-col class="header-col" size="1.5">Edit / Delete</ion-col>
-          <!-- empty column to add white space to right of table -->
-          <ion-col class="whitespace" size="0.3"></ion-col>
-        </ion-row>
-        <ion-row v-for="(entry, index) in entries" :key="entry.id_cms_other">
-          <ion-col class="whitespace" size="0.3"></ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.id_cms_other }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.agency_name }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.addr1 }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.addr2 }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.city }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.state }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.zip }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="4">{{ entry.website }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
-          <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
-            <ion-buttons>
-              <ion-button size="small" fill="solid" @click="edit(index)">
-                <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
-              </ion-button>
-              <ion-button size="small" fill="solid" @click="remove(index)">
-                <ion-icon slot="icon-only" :icon="trash"></ion-icon>
-              </ion-button>
-            </ion-buttons>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <ion-searchbar v-model="query" placeholder="Search" show-clear-button="focus"
+        style="padding-left: 3%;"></ion-searchbar>
+      <ion-button class="searchButton" @click="() => search()">Search</ion-button>
+      <div id="scroller">
+        <ion-grid>
+          <ion-row class="header-row">
+            <!-- empty column to add white space to left of table -->
+            <ion-col class="whitespace" size="0.3"></ion-col>
+            <ion-col class="header-col" size="1" @click="providerSort('id_cms_other')">
+              ID
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'id_cms_other' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'id_cms_other' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="2" @click="providerSort('agency_name')">
+              Provider Name
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'agency_name' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'agency_name' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="2" @click="providerSort('addr1')">
+              Address
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'addr1' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'addr1' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="2">
+              Address Line 2
+            </ion-col>
+            <ion-col class="header-col" size="3" @click="providerSort('city')">
+              City
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'city' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'city' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="1" @click="providerSort('state')">
+              State
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'state' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'state' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="2" @click="providerSort('zip')">
+              Zip code
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'zip' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'zip' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="2" @click="providerSort('county')">
+              County
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'county' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'county' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="3" @click="providerSort('phone_number')">
+              Phone #
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'phone_number' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'phone_number' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="3" @click="providerSort('email')">
+              Email
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'email' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'email' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="4" @click="providerSort('website')">
+              Website
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'website' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'website' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="3" @click="providerSort('resources')">
+              Resources
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'resources' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'resources' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="header-col" size="1.5">Edit / Delete</ion-col>
+            <!-- empty column to add white space to right of table -->
+            <ion-col class="whitespace" size="0.3"></ion-col>
+          </ion-row>
+          <ion-row v-for="(entry, index) in entries" :key="entry.place_id">
+            <ion-col class="whitespace" size="0.3"></ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.id_cms_other }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.agency_name }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.addr1 }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.addr2 }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.city }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="1">{{ entry.state }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.zip }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="4">{{ entry.website }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
+              <ion-buttons>
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(entry.place_id)">
+                  <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
+                </ion-button>
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
+                  <ion-icon slot="icon-only" :icon="trash"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div id='pageButtons'>
+        <ion-button color="secondary" @click="changePage(this.pageCurr - 1)">
+          <ion-icon slot="icon-only" :icon="chevronBack"></ion-icon>
+        </ion-button>
+        <template v-for="n in pageNumber">
+          <ion-text style="padding: 5px"
+            v-if="n == 1 || n == pageNumber || n == pageCurr || n == pageCurr - 1 || n == pageCurr + 1"
+            @click="changePage(n)">{{ n }}</ion-text>
+          <ion-text v-else-if="n == 2 || n == pageNumber - 1">...</ion-text>
+        </template>
+        <ion-button color="secondary" @click="changePage(this.pageCurr + 1)">
+          <ion-icon slot="icon-only" :icon="chevronForward"></ion-icon>
+        </ion-button>
+      </div>
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button @click="() => router.push('/add-provider')" color="crimson">
           <ion-icon :icon="add"></ion-icon>
@@ -146,15 +194,18 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonSearchbar
+  IonSearchbar,
+  IonText,
 } from '@ionic/vue';
 import { ref } from 'vue';
 import axios from 'axios';
-import { add, arrowUp, arrowDown, pencil, trash } from 'ionicons/icons';
+import { add, arrowUp, arrowDown, pencil, trash, chevronBack, chevronForward } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
+import router from '@/router';
 
 interface Entry {
-  id_cms_other: number;
+  place_id: string;
+  id_cms_other: string;
   agency_name: string;
   addr1: string;
   addr2: string;
@@ -163,6 +214,7 @@ interface Entry {
   zip: string;
   county: string;
   phone_number: string;
+  email: string;
   website: string;
   resources: string;
 }
@@ -184,48 +236,101 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
-    IonSearchbar
+    IonSearchbar,
+    IonText,
   },
   data() {
     return {
       entries: [] as Entry[],
+      pageCurr: 1,
+      pageNumber: 0,
     }
   },
-  mounted() {
-    this.fetchData();
+  created() {
+    this.$watch(
+      () => this.$route,
+      this.fetchData,
+      { immediate: true }
+    )
   },
   computed: {
-    sortDirection() {
-      return this.$store.getters.sortDirection;
+    providerSortDirection() {
+      return this.$store.getters.providerSortDirection;
     },
-    sortKey() {
-      return this.$store.getters.sortKey;
+    providerSortKey() {
+      return this.$store.getters.providerSortKey;
     }
   },
   setup() {
     const router = useRouter();
-    return { add, arrowUp, arrowDown, pencil, trash, router }
+    const query = ref('');
+    var count = 0;
+    const pageSize = 10;
+
+    return { add, arrowUp, arrowDown, pencil, trash, chevronBack, chevronForward, router, query, count, pageSize }
   },
   methods: {
-    async fetchData(this: {entries: Entry[]}) {
+    async fetchData(this: { entries: Entry[] }) {
+      // Fetch the data from the database
       try {
-        const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers');
-        this.entries = response.data;
+        const providerSortKey = this.providerSortDirection == 0 ? 'place_id' : this.providerSortKey;
+        const providerSortDirection = this.providerSortDirection == 2 ? 'DESC' : 'ASC';
+
+        const params = {
+          search: this.query,
+          pageSize: this.pageSize,
+          pageCurr: this.pageCurr,
+          orderCol: providerSortKey,
+          orderDirection: providerSortDirection,
+        };
+        console.log(params);
+        const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers', {
+          params: params,
+        }, {
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
+        this.count = response.data.count;
+        this.pageNumber = Math.ceil(this.count / this.pageSize);
+        this.entries = response.data.rows;
       }
       catch (error) {
         console.error('Error fetching data:', error);
       }
     },
-    sort(key: string) {
-      console.log(key);
-      this.$store.commit('sort', key)
-      console.log(this.sortDirection)
+    providerSort(key: string) {
+      this.$store.commit('providerSort', key)
+      this.fetchData();
     },
-    edit(index: number) {
-      console.log(index);
+    edit(id: string) {
+      console.log(id);
+      router.push('/edit-provider/' + id)
     },
-    remove(index: number) {
-      console.log(index);
+    async remove(id: string) {
+      console.log(id);
+      try {
+        const response = await axios.delete('http://' + self.location.hostname + `:8081/api/providers/${id}`, {
+          withCredentials: true,
+        });
+
+        this.fetchData();
+      }
+      catch (error) {
+        console.error('Error deleting provider:', error);
+      }
+    },
+    changePage(page: number) {
+      if (page < 1 || page > this.pageNumber) {
+        console.log("Outside of page range.");
+      } else {
+        this.pageCurr = page;
+        this.fetchData();
+      }
+    },
+    search() {
+      this.pageCurr = 1;
+      this.fetchData();
     }
   }
 }
@@ -233,7 +338,7 @@ export default {
 
 <style scoped>
 ion-grid {
-  padding-bottom: 80px;
+  /* padding-bottom: 80px; */
   min-width: 600px;
 }
 
@@ -252,9 +357,33 @@ ion-fab {
   padding: 1%;
 }
 
-ion-button {
+ion-searchbar {
+  width: 50%;
+}
+
+ion-text {
+  vertical-align: middle;
+}
+
+#scroller {
+  overflow-x: scroll;
+}
+
+#pageButtons {
+  border: none;
+
+  text-align: center;
+  /* position: absolute; */
+}
+
+.CRUDButton {
   min-width: 25px;
   width: 30px;
+}
+
+.searchButton {
+  width: 25%;
+  padding-left: 3%;
 }
 
 .arrows {

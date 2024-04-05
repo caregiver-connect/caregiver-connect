@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>
           <ion-row class="ion-align-items-center">
-            CareGiver Connect
+            Caregiver Connect
           </ion-row>
         </ion-title>
         <ion-buttons :collapse="true" slot="end">
@@ -121,7 +121,10 @@ import {
   IonImg
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 import { searchCircle, addCircle } from 'ionicons/icons';
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 // store.commit('login')
 
 export default {
@@ -150,10 +153,29 @@ export default {
     return { router, addCircle, searchCircle };
   },
   methods: {
-    logout() {
-      this.$store.commit('logout');
+    async logout() {
+      try {
+        // Make a POST request to the logout endpoint
+        await axios.post('http://' + self.location.hostname + ':8081/api/users/logout', null, {
+          withCredentials: true
+        });
+        // Upon successful logout, clear the authentication token from local storage or store
+        this.$store.commit('logout');
+        const $toast = useToast();
+        let instance = $toast.success(`Logout successful!`);
+
+        // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+        setTimeout(() => {
+          instance.dismiss();
+        }, 3000);
+
+      } catch (error) {
+        // Handle any errors that occur during logout
+        console.error('Logout error:', error);
+      }
     }
   }
+
 };
 
 
