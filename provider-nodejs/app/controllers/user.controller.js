@@ -10,7 +10,7 @@ const xss = require('xss');
 require('dotenv').config({ path: '../../.env' });
 // Function to generate JWT token
 const generateToken = (user) => {
-    return jwt.sign({ id: user.id, username: user.username },'your-secret-key', { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key
+    return jwt.sign({ id: user.id, username: user.username }, 'your-secret-key', { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key
 };
 
 // Login endpoint
@@ -25,7 +25,6 @@ exports.login = async (req, res) => {
         res.end(403);
         return;
     }
-    console.log(username)
     const password = req.body.password;
 
     try {
@@ -59,13 +58,11 @@ exports.login = async (req, res) => {
         resetFailedAttempts(username);
 
         // Generate JWT token
-        const token = generateToken(user);
-
         // Set the token as a cookie in the response
-        res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }) // Cookie expries in one hour
+        res.cookie('token', generateToken(user), { httpOnly: true, maxAge: 3600000 }) // Cookie expries in one hour
 
         // Respond with a success message
-        res.json({ success: true, message: 'Login successful.' });  
+        res.json({ success: true, message: 'Login successful.' });
 
     } catch (error) {
         console.error('Login error:', error);
@@ -112,7 +109,6 @@ exports.create = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    
     // escaping  characters for input sanitization
     const xss = require('xss');
     const sanitizedUsername = xss(req.body.username);
@@ -123,8 +119,19 @@ exports.create = async (req, res) => {
         res.end(403);
         return;
     }
-    
+
     if (sanitizedCounty === '__proto__' || sanitizedCounty === 'constructor' || sanitizedCounty === 'prototype') {
+        res.end(403);
+        return;
+    }
+
+    // Make phone numbers in format (###) ###-####
+    let nums = sanitizedPhoneNumber.split('').filter(char => !isNaN(parseInt(char, 10)));
+    if (nums.length === 10) {
+        phoneNumber = `(${nums[0]}${nums[1]}${nums[2]}) ${nums[3]}${nums[4]}${nums[5]}-${nums[6]}${nums[7]}${nums[8]}${nums[9]}`;
+    } else if (nums.length === 7) {
+        phoneNumber = `"${nums[0]}${nums[1]}${nums[2]}-${nums[3]}${nums[4]}${nums[5]}${nums[6]}"`;
+    } else {
         res.end(403);
         return;
     }
@@ -137,9 +144,13 @@ exports.create = async (req, res) => {
         const user = {
             username: sanitizedUsername,
             password: hashedPassword,
-            phone_number: sanitizedPhoneNumber,
+            phone_number: phoneNumber,
             email: sanitizedEmail,
-            county: sanitizedCounty ,
+            county: sanitizedCounty,
+            approved: 0,
+            denied: 0,
+            verified: false,
+            role: "untrusted",
         };
 
         // Save User in the database
@@ -164,12 +175,25 @@ exports.createValidationRules = () => { // handle input validation
 
 
 
-// Retrieve all users from the database.
-exports.findAll = (req, res) => {
-    const username = req.query.username;
-    let condition = username ? { username: { [Op.iLike]: `%${username}%` } } : null;
+// Retrieve Users from the database with search and counts them.
+exports.findAndCountAll = (req, res) => {
+    const search = req.query.search;
+    const pageSize = req.query.pageSize;
+    const offset = req.query.pageSize * (req.query.pageCurr - 1);
+    const order = [req.query.orderCol, req.query.orderDirection];
 
-    User.findAll({ where: condition })
+    let condition = [];
+    if (search) {
+        condition.push({ username: { [Op.iLike]: `%${search}%` } })
+        condition.push({ phone_number: { [Op.iLike]: `%${search}%` } })
+        condition.push({ email: { [Op.iLike]: `%${search}%` } })
+        condition.push({ county: { [Op.iLike]: `%${search}%` } })
+        condition.push({ role: { [Op.iLike]: `%${search}%` } })
+    }
+
+    let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
+
+    User.findAndCountAll({ where: or_condition, limit: pageSize, offset: offset, order: [order], attributes: { exclude: ['password'] } })
         .then(data => {
             res.send(data); // XSS input validation 
         })
@@ -181,6 +205,31 @@ exports.findAll = (req, res) => {
         });
 };
 
+// Change user role
+exports.changeRole = (req, res) => {
+    const username = req.params.username;
+    const newRole = req.body.newRole;
+    console.log(req);
+
+
+    User.update({ role: newRole }, { where: { username: username } })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "User banned successfully!"
+                });
+            } else {
+                res.send({
+                    message: `Cannot update User with username=${username}. Maybe User was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating User with =username" + username
+            });
+        });
+};
 
 // Retrieve single User by username from the database.
 exports.findOneByUsername = (req, res) => {

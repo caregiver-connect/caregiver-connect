@@ -79,11 +79,10 @@ exports.create = (req, res) => {
 
     axios(config)
         .then(function (response) {
-            // console.log(response)
             console.log(response.data);
-            console.log(response.data.results[0].street);
             // Create a Provider object with properties from request body
             const provider = {
+                place_id: xss(response.data.results[0].place_id),
                 id_cms_other: xss(req.body.id_cms_other),
                 addr1: xss(response.data.results[0].address_line1),
                 addr2: xss(req.body.addr2 || null),
@@ -96,6 +95,7 @@ exports.create = (req, res) => {
                 notes: xss(req.body.notes || null),
                 ownership_type: xss(req.body.ownership_type),
                 phone_number: xss(phone_number),
+                email: xss(req.body.email),
                 service_area_entities: xss(req.body.service_area_entities || null),
                 service_area_polygon: xss(req.body.service_area_polygon || null),
                 state: xss(response.data.results[0].state_code),
@@ -123,12 +123,32 @@ exports.create = (req, res) => {
 
 
 
-// Retrieve all Providers from the database.
-exports.findAll = (req, res) => {
-    const agency_name = req.query.agency_name;
-    let condition = agency_name ? { agency_name: { [Op.iLike]: `%${agency_name}%` } } : null;
+// Retrieve Providers from the database with search and counts them.
+exports.findAndCountAll = (req, res) => {
+    const search = req.query.search;
+    const pageSize = req.query.pageSize;
+    const offset = req.query.pageSize * (req.query.pageCurr - 1);
+    const order = [req.query.orderCol, req.query.orderDirection];
 
-    Provider.findAll({ where: condition })
+    let condition = [];
+    if (search) {
+        // condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
+        condition.push({ addr1: { [Op.iLike]: `%${search}%` } })
+        condition.push({ addr2: { [Op.iLike]: `%${search}%` } })
+        condition.push({ agency_name: { [Op.iLike]: `%${search}%` } })
+        condition.push({ city: { [Op.iLike]: `%${search}%` } })
+        condition.push({ county: { [Op.iLike]: `%${search}%` } })
+        condition.push({ ownership_type: { [Op.iLike]: `%${search}%` } })
+        condition.push({ phone_number: { [Op.iLike]: `%${search}%` } })
+        condition.push({ email: { [Op.iLike]: `%${search}%` } })
+        condition.push({ state: { [Op.iLike]: `%${search}%` } })
+        condition.push({ website: { [Op.iLike]: `%${search}%` } })
+        condition.push({ zip: { [Op.iLike]: `%${search}%` } })
+    }
+
+    let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
+
+    Provider.findAndCountAll({ where: or_condition, offset: offset, limit: pageSize, order: [order] })
         .then(data => {
             res.send(data);
         })
@@ -139,7 +159,6 @@ exports.findAll = (req, res) => {
             });
         });
 };
-
 
 // Find Providers by agency name
 exports.findByAgencyName = (req, res) => {
@@ -189,10 +208,10 @@ exports.findOneByIdCmsOther = (req, res) => {
 
 // Update a Provider by the id_cms_other in the request
 exports.update = (req, res) => {
-    const id_cms_other = req.params.id_cms_other;
+    const place_id = req.params.place_id;
 
     Provider.update(req.body, {
-        where: { id_cms_other: id_cms_other }
+        where: { place_id: place_id }
     })
         .then(num => {
             if (num == 1) {
@@ -201,25 +220,25 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot update Provider with id_cms_other=${id_cms_other}. Maybe Provider was not found or req.body is empty!`
+                    message: `Cannot update Provider with place_id=${place_id}. Maybe Provider was not found or req.body is empty!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Provider with id_cms_other=" + id_cms_other
+                message: "Error updating Provider with place_id=" + place_id
             });
         });
 };
 
 
 
-// Delete a Provider with the specified id_cms_other in the request
+// Delete a Provider with the specified place_id in the request
 exports.delete = (req, res) => {
-    const id_cms_other = req.params.id_cms_other;
+    const place_id = req.params.place_id;
 
     Provider.destroy({
-        where: { id_cms_other: id_cms_other }
+        where: { place_id: place_id }
     })
         .then(num => {
             if (num == 1) {
@@ -228,13 +247,13 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot delete Provider with id_cms_other=${id_cms_other}. Maybe Provider was not found!`
+                    message: `Cannot delete Provider with place_id=${place_id}. Maybe Provider was not found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete Provider with id_cms_other=" + id_cms_other
+                message: "Could not delete Provider with place_id=" + place_id
             });
         });
 };

@@ -20,7 +20,7 @@
             <ion-input label-placement="floating" label="Provider Name" v-model="providerName"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Email" type="email"></ion-input>
+            <ion-input label-placement="floating" label="Provider Email" type="email" v-model="providerEmail"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Provider Phone #" type="tel" v-model="providerPhone"></ion-input>
@@ -95,7 +95,7 @@
             <ion-input label-placement="floating" label="Zip Code" v-model="zipCode"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County" :multiple="true" v-model="county">
+            <ion-select lebel-placement="floating" label="County" v-model="county">
               <ion-select-option>Autauga</ion-select-option>
               <ion-select-option>Baldwin</ion-select-option>
               <ion-select-option>Barbour</ion-select-option>
@@ -203,6 +203,7 @@ import 'vue-toast-notification/dist/theme-bootstrap.css';
 const providerId = ref('');
 const providerName = ref('');
 const providerPhone = ref('');
+const providerEmail = ref('');
 const providerWebsite = ref('');
 const providerAddress = ref('');
 const addressLine2 = ref('');
@@ -216,20 +217,18 @@ const showSuccess = ref(false); // Track whether to show the success message
 
 const addProvider = async () => {
   try {
-    // Extract the county from the array if it's received as an array with one element
-    const countyValue = Array.isArray(county.value) ? county.value[0] : county.value;
-
     const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
       id_cms_other: providerId.value,
       agency_name: providerName.value,
       phone_number: providerPhone.value,
+      email: providerEmail.value,
       addr1: providerAddress.value,
       addr2: addressLine2.value,
       city: city.value,
       state: state.value,
       website: providerWebsite.value,
       zip: zipCode.value,
-      county: countyValue,
+      county: county.value,
       ownership_type: ownershipType.value,
     }, {
       withCredentials: true
@@ -237,7 +236,7 @@ const addProvider = async () => {
     console.log('Provider added successfully:', response.data);
     const $toast = useToast();
     let instance = $toast.success('Provider added successfully!');
-    router.push('/home');
+    router.replace('/providers-search');
      // this.$store.commit("login", this.username);
 
     // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
@@ -250,6 +249,7 @@ const addProvider = async () => {
     providerId.value = '';
     providerName.value = '';
     providerPhone.value = '';
+    providerEmail.value = '';
     providerAddress.value = '';
     addressLine2.value = '';
     city.value = '';

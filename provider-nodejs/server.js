@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 // Connect to the database and synchronize models
 const db = require("./app/models");
-db.sequelize.sync();
+db.sequelize.sync({ alter: true });
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
