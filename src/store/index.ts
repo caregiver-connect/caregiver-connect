@@ -11,19 +11,21 @@ const store = createStore({
       userSortDirection: 0,
       providerSortKey: "place_id",
       providerSortDirection: 1,
-      providerID: "",
-      providerName: "", 
-      providerEmail: "",
-      providerPhone: "",
-      providerWebsite: "",
-      providerAddress: "",
-      addressLine2: "",
-      providerCity: "",
-      providerState: "",
-      providerZip: "",
-      providerCounty: "",
-      providerOwnershipType: "",
-      providerResources: "",
+      provider: {
+        place_id: "",
+        id_cms_other: "",
+        agency_name: "",
+        email: "",
+        phone_number: "",
+        website: "",
+        addr1: "",
+        addr2: "",
+        city: "",
+        state: "",
+        zip: "",
+        county: "",
+        resources: "",
+      }
     };
   },
   getters: {
@@ -43,46 +45,10 @@ const store = createStore({
       return state.userSortDirection;
     },
     userSortKey(state) {
-      return state.userSortKey;    
+      return state.userSortKey;
     },
-    providerID(state) {
-      return state.providerID;
-    },
-    providerName(state) {
-      return state.providerName;
-    },
-    providerEmail(state) {
-      return state.providerEmail;
-    },
-    providerPhone(state) {
-      return state.providerPhone;
-    },
-    providerWebsite(state) {
-      return state.providerWebsite;
-    },
-    providerAddress(state) {
-      return state.providerAddress;
-    },
-    addressLine2(state) {
-      return state.addressLine2;
-    },
-    providerCity(state) {
-      return state.providerCity;
-    },
-    providerState(state) {
-      return state.providerState;
-    },
-    providerZip(state) {
-      return state.providerZip;
-    },
-    providerCounty(state) {
-      return state.providerCounty;
-    },
-    providerOwnershipType(state) {
-      return state.providerOwnershipType;
-    },
-    providerResources(state) {
-      return state.providerResources;
+    provider(state) {
+      return state.provider;
     },
   },
   mutations: {
@@ -94,11 +60,11 @@ const store = createStore({
       state.isLoggedIn = false;
       state.username = "";
     },
-    providerSort(state, key: string){
-      if(state.providerSortKey != key){
+    providerSort(state, key: string) {
+      if (state.providerSortKey != key) {
         state.providerSortDirection = 1;
       }
-      else if(state.providerSortDirection < 2){
+      else if (state.providerSortDirection < 2) {
         state.providerSortDirection++;
       }
       else {
@@ -118,20 +84,23 @@ const store = createStore({
       }
       state.userSortKey = key;
     },
-    storeProvider(state, id: string, name: string, email: string, phone: string, website: string, address: string, addressLine2: string, city: string, st: string, zip: string, county: string, ownershipType: string, resources: string) {
-      state.providerID = id;
-      state.providerName = name;
-      state.providerEmail = email;
-      state.providerPhone = phone;
-      state.providerWebsite = website;
-      state.providerAddress = address;
-      state.addressLine2 = addressLine2;
-      state.providerCity = city;
-      state.providerState = st;
-      state.providerZip = zip;
-      state.providerCounty = county;
-      state.providerOwnershipType = ownershipType;
-      state.providerResources = resources;
+    storeProvider(state, provider) {
+      console.log("test")
+      console.log(provider)
+      state.provider.place_id = provider.place_id;
+      state.provider.id_cms_other = provider.id_cms_other;
+      state.provider.agency_name = provider.agency_name;
+      state.provider.email = provider.email;
+      state.provider.phone_number = provider.phone_number;
+      state.provider.website = provider.website;
+      state.provider.addr1 = provider.addr1;
+      state.provider.addr2 = provider.addr2;
+      state.provider.city = provider.city;
+      state.provider.state = provider.state;
+      state.provider.zip = provider.zip;
+      state.provider.county = provider.county;
+      state.provider.resources = provider.resources;
+      console.log(state.provider);
     }
   },
   plugins: [vuexPersister.persist]

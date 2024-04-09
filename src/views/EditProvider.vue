@@ -14,32 +14,35 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Provider ID" v-model="providerId"></ion-input>
+            <ion-input label-placement="floating" label="Provider ID" v-model="provider.id_cms_other"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Name" v-model="providerName"></ion-input>
+            <ion-input label-placement="floating" label="Provider Name" v-model="provider.agency_name"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Email" type="email" v-model="providerEmail"></ion-input>
+            <ion-input label-placement="floating" label="Provider Email" type="email"
+              v-model="provider.email"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Phone #" type="tel" v-model="providerPhone"></ion-input>
+            <ion-input label-placement="floating" label="Provider Phone #" type="tel"
+              v-model="provider.phone_number"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Website" type="url" v-model="providerWebsite"></ion-input>
+            <ion-input label-placement="floating" label="Provider Website" type="url"
+              v-model="provider.website"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Address" v-model="providerAddress"></ion-input>
+            <ion-input label-placement="floating" label="Address" v-model="provider.addr1"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Addr Line 2" helper-text="(optional)"
-              v-model="addressLine2"></ion-input>
+              v-model="provider.addr2"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="City" v-model="city"></ion-input>
+            <ion-input label-placement="floating" label="City" v-model="provider.city"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="State" v-model="state">
+            <ion-select lebel-placement="floating" label="State" v-model="provider.state">
               <ion-select-option>AL</ion-select-option>
               <ion-select-option>AK</ion-select-option>
               <ion-select-option>AZ</ion-select-option>
@@ -93,83 +96,84 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Zip Code" v-model="zipCode"></ion-input>
+            <ion-input label-placement="floating" label="Zip Code" v-model="provider.zip"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County" v-model="county">
-              <ion-select-option>Autauga</ion-select-option>
-              <ion-select-option>Baldwin</ion-select-option>
-              <ion-select-option>Barbour</ion-select-option>
-              <ion-select-option>Bibb</ion-select-option>
-              <ion-select-option>Blount</ion-select-option>
-              <ion-select-option>Bullock</ion-select-option>
-              <ion-select-option>Butler</ion-select-option>
-              <ion-select-option>Calhoun</ion-select-option>
-              <ion-select-option>Chambers</ion-select-option>
-              <ion-select-option>Cherokee</ion-select-option>
-              <ion-select-option>Chilton</ion-select-option>
-              <ion-select-option>Choctaw</ion-select-option>
-              <ion-select-option>Clarke</ion-select-option>
-              <ion-select-option>Clay</ion-select-option>
-              <ion-select-option>Cleburne</ion-select-option>
-              <ion-select-option>Coffee</ion-select-option>
-              <ion-select-option>Colbert</ion-select-option>
-              <ion-select-option>Conecuh</ion-select-option>
-              <ion-select-option>Coosa</ion-select-option>
-              <ion-select-option>Covington</ion-select-option>
-              <ion-select-option>Crenshaw</ion-select-option>
-              <ion-select-option>Cullman</ion-select-option>
-              <ion-select-option>Dale</ion-select-option>
-              <ion-select-option>Dallas</ion-select-option>
-              <ion-select-option>DeKalb</ion-select-option>
-              <ion-select-option>Elmore</ion-select-option>
-              <ion-select-option>Escambia</ion-select-option>
-              <ion-select-option>Etowah</ion-select-option>
-              <ion-select-option>Fayette</ion-select-option>
-              <ion-select-option>Franklin</ion-select-option>
-              <ion-select-option>Geneva</ion-select-option>
-              <ion-select-option>Greene</ion-select-option>
-              <ion-select-option>Hale</ion-select-option>
-              <ion-select-option>Henry</ion-select-option>
-              <ion-select-option>Houston</ion-select-option>
-              <ion-select-option>Jackson</ion-select-option>
-              <ion-select-option>Jefferson</ion-select-option>
-              <ion-select-option>Lamar</ion-select-option>
-              <ion-select-option>Lauderdale</ion-select-option>
-              <ion-select-option>Lawrence</ion-select-option>
-              <ion-select-option>Lee</ion-select-option>
-              <ion-select-option>Limestone</ion-select-option>
-              <ion-select-option>Lowndes</ion-select-option>
-              <ion-select-option>Macon</ion-select-option>
-              <ion-select-option>Madison</ion-select-option>
-              <ion-select-option>Marengo</ion-select-option>
-              <ion-select-option>Marion</ion-select-option>
-              <ion-select-option>Marshall</ion-select-option>
-              <ion-select-option>Mobile</ion-select-option>
-              <ion-select-option>Monroe</ion-select-option>
-              <ion-select-option>Montgomery</ion-select-option>
-              <ion-select-option>Morgan</ion-select-option>
-              <ion-select-option>Perry</ion-select-option>
-              <ion-select-option>Pickens</ion-select-option>
-              <ion-select-option>Pike</ion-select-option>
-              <ion-select-option>Randolph</ion-select-option>
-              <ion-select-option>Russell</ion-select-option>
-              <ion-select-option>Saint Clair</ion-select-option>
-              <ion-select-option>Shelby</ion-select-option>
-              <ion-select-option>Sumter</ion-select-option>
-              <ion-select-option>Talladega</ion-select-option>
-              <ion-select-option>Tallapoosa</ion-select-option>
-              <ion-select-option>Tuscaloosa</ion-select-option>
-              <ion-select-option>Walker</ion-select-option>
-              <ion-select-option>Washington</ion-select-option>
-              <ion-select-option>Wilcox</ion-select-option>
-              <ion-select-option>Winston</ion-select-option>
+            <ion-select lebel-placement="floating" label="County" v-model="provider.county">
+              <ion-select-option>Autauga County</ion-select-option>
+              <ion-select-option>Baldwin County</ion-select-option>
+              <ion-select-option>Barbour County</ion-select-option>
+              <ion-select-option>Bibb County</ion-select-option>
+              <ion-select-option>Blount County</ion-select-option>
+              <ion-select-option>Bullock County</ion-select-option>
+              <ion-select-option>Butler County</ion-select-option>
+              <ion-select-option>Calhoun County</ion-select-option>
+              <ion-select-option>Chambers County</ion-select-option>
+              <ion-select-option>Cherokee County</ion-select-option>
+              <ion-select-option>Chilton County</ion-select-option>
+              <ion-select-option>Choctaw County</ion-select-option>
+              <ion-select-option>Clarke County</ion-select-option>
+              <ion-select-option>Clay County</ion-select-option>
+              <ion-select-option>Cleburne County</ion-select-option>
+              <ion-select-option>Coffee County</ion-select-option>
+              <ion-select-option>Colbert County</ion-select-option>
+              <ion-select-option>Conecuh County</ion-select-option>
+              <ion-select-option>Coosa County</ion-select-option>
+              <ion-select-option>Covington County</ion-select-option>
+              <ion-select-option>Crenshaw County</ion-select-option>
+              <ion-select-option>Cullman County</ion-select-option>
+              <ion-select-option>Dale County</ion-select-option>
+              <ion-select-option>Dallas County</ion-select-option>
+              <ion-select-option>DeKalb County</ion-select-option>
+              <ion-select-option>Elmore County</ion-select-option>
+              <ion-select-option>Escambia County</ion-select-option>
+              <ion-select-option>Etowah County</ion-select-option>
+              <ion-select-option>Fayette County</ion-select-option>
+              <ion-select-option>Franklin County</ion-select-option>
+              <ion-select-option>Geneva County</ion-select-option>
+              <ion-select-option>Greene County</ion-select-option>
+              <ion-select-option>Hale County</ion-select-option>
+              <ion-select-option>Henry County</ion-select-option>
+              <ion-select-option>Houston County</ion-select-option>
+              <ion-select-option>Jackson County</ion-select-option>
+              <ion-select-option>Jefferson County</ion-select-option>
+              <ion-select-option>Lamar County</ion-select-option>
+              <ion-select-option>Lauderdale County</ion-select-option>
+              <ion-select-option>Lawrence County</ion-select-option>
+              <ion-select-option>Lee County</ion-select-option>
+              <ion-select-option>Limestone County</ion-select-option>
+              <ion-select-option>Lowndes County</ion-select-option>
+              <ion-select-option>Macon County</ion-select-option>
+              <ion-select-option>Madison County</ion-select-option>
+              <ion-select-option>Marengo County</ion-select-option>
+              <ion-select-option>Marion County</ion-select-option>
+              <ion-select-option>Marshall County</ion-select-option>
+              <ion-select-option>Mobile County</ion-select-option>
+              <ion-select-option>Monroe County</ion-select-option>
+              <ion-select-option>Montgomery County</ion-select-option>
+              <ion-select-option>Morgan County</ion-select-option>
+              <ion-select-option>Perry County</ion-select-option>
+              <ion-select-option>Pickens County</ion-select-option>
+              <ion-select-option>Pike County</ion-select-option>
+              <ion-select-option>Randolph County</ion-select-option>
+              <ion-select-option>Russell County</ion-select-option>
+              <ion-select-option>Saint Clair County</ion-select-option>
+              <ion-select-option>Shelby County</ion-select-option>
+              <ion-select-option>Sumter County</ion-select-option>
+              <ion-select-option>Talladega County</ion-select-option>
+              <ion-select-option>Tallapoosa County</ion-select-option>
+              <ion-select-option>Tuscaloosa County</ion-select-option>
+              <ion-select-option>Walker County</ion-select-option>
+              <ion-select-option>Washington County</ion-select-option>
+              <ion-select-option>Wilcox County</ion-select-option>
+              <ion-select-option>Winston County</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
           </ion-item>
         </ion-list>
+        <ion-button color="crimson" @click="() => router.replace('/providers-search')">Cancel</ion-button>
         <ion-button color="crimson" @click="editProvider">Edit Provider</ion-button>
       </div>
     </ion-content>
@@ -219,8 +223,7 @@ export default {
   },
   data() {
     return {
-      providerId: "test",
-      providerName: "nameexample",
+      place_id: this.$route.params.id,
     }
   },
   created() {
@@ -231,45 +234,53 @@ export default {
     )
   },
   computed: {
-    id() {
-      return this.$store.getters.providerId;
+    provider() {
+      return this.$store.getters.provider;
     },
   },
+  watch: {
+    $route(currentRoute) {
+      this.place_id = currentRoute.params.id;
+    }
+  },
   setup() {
-    // console.log(this.$store.getters.providerId);
-    // const providerId = ref(this.id);
-    // const providerName = ref('test');
-    const providerEmail = ref('');
-    const providerPhone = ref('id');
-    const providerWebsite = ref('');
-    const providerAddress = ref('');
-    const addressLine2 = ref('');
-    const city = ref('');
-    const state = ref('');
-    const zipCode = ref('');
-    const county = ref('');
     const ownershipType = ref('');
 
     const showSuccess = ref(false); // Track whether to show the success message
 
     const router = useRouter();
 
-    return { router, providerEmail, providerPhone, providerWebsite, providerAddress, addressLine2, city, state, zipCode, county, ownershipType, showSuccess };
+    return { router, ownershipType, showSuccess };
   },
   methods: {
     async editProvider() {
       console.log("editing provider");
-      console.log(this.id)
-      await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.place_id}`,
-        
-      )
+      console.log(this.provider.id_cms_other);
+      console.log(this.provider.agency_name)
+      // console.log(this.id)
+      // this.providerId = this.provider.id_cms_other;
+      // await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
+      //   // place_id: this.place_id,
+      //   id_cms_other: this.providerId.value,
+      //   agency_name: this.providerName.value,
+      //   phone_number: this.providerPhone.value,
+      //   email: this.providerEmail.value,
+      //   addr1: this.providerAddress.value,
+      //   addr2: this.addressLine2.value,
+      //   city: this.city.value,
+      //   state: this.state.value,
+      //   website: this.providerWebsite.value,
+      //   zip: this.zipCode.value,
+      //   county: this.county.value,
+      //   ownership_type: this.ownershipType.value,
+      // }, {
+      //   withCredentials: true
+      // });
+
+      console.log(this.place_id);
+      console.log(this.provider);
 
     },
-    loadData() {
-      console.log("loading data");
-      // this.providerId = ref(this.id);
-      console.log(this.id)
-    }
   }
 }
 </script>

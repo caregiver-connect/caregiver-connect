@@ -210,6 +210,7 @@ exports.findOneByIdCmsOther = (req, res) => {
 // Update a Provider by the id_cms_other in the request
 exports.update = (req, res) => {
     const place_id = req.params.place_id;
+    console.log(req.params);
 
     Provider.update(req.body, {
         where: { place_id: place_id }

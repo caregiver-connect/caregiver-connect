@@ -308,8 +308,9 @@ export default {
       console.log(this.entries[index]);
       console.log(this.entries[index].phone_number);
 
-      this.$store.commit('storeProvider', this.entries[index].id_cms_other, this.entries[index].agency_name, this.entries[index].email, this.entries[index].phone_number, this.entries[index].website, this.entries[index].addr1, this.entries[index].addr2, this.entries[index].city, this.entries[index].state, this.entries[index].zip, this.entries[index].county, this.entries[index].ownership_type, this.entries[index].resources);
+      this.$store.commit('storeProvider', this.entries[index]);
 
+      console.log("test")
       router.push('/edit-provider/' + this.entries[index].place_id)
     },
     async remove(id: string) {
