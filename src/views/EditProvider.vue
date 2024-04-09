@@ -20,7 +20,7 @@
             <ion-input label-placement="floating" label="Provider Name" v-model="providerName"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Email" type="email"></ion-input>
+            <ion-input label-placement="floating" label="Provider Email" type="email" v-model="providerEmail"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Provider Phone #" type="tel" v-model="providerPhone"></ion-input>
@@ -32,7 +32,8 @@
             <ion-input label-placement="floating" label="Address" v-model="providerAddress"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Addr Line 2" helper-text="(optional)" v-model="addressLine2"></ion-input>
+            <ion-input label-placement="floating" label="Addr Line 2" helper-text="(optional)"
+              v-model="addressLine2"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="City" v-model="city"></ion-input>
@@ -169,13 +170,13 @@
             <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button color="crimson" @click="addProvider">Add Provider</ion-button>
+        <ion-button color="crimson" @click="editProvider">Edit Provider</ion-button>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import {
   IonBackButton,
   IonButtons,
@@ -193,88 +194,82 @@ import {
   IonImg
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import axios from 'axios';
 import { ref } from 'vue';
 import ToastPlugin from 'vue-toast-notification';
-import {useToast} from 'vue-toast-notification';
+import { useToast } from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
 
-const providerId = ref('');
-const providerName = ref('');
-const providerPhone = ref('');
-const providerWebsite = ref('');
-const providerAddress = ref('');
-const addressLine2 = ref('');
-const city = ref('');
-const state = ref('');
-const zipCode = ref('');
-const county = ref('');
-const ownershipType = ref('');
+export default {
+  components: {
+    IonBackButton,
+    IonButtons,
+    IonButton,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonList,
+    IonItem,
+    IonInput,
+    IonSelect,
+    IonSelectOption,
+    IonImg
+  },
+  data() {
+    return {
+      providerId: "test",
+      providerName: "nameexample",
+    }
+  },
+  created() {
+    this.$watch(
+      () => this.$route,
+      this.loadData,
+      { immediate: true }
+    )
+  },
+  computed: {
+    id() {
+      return this.$store.getters.providerId;
+    },
+  },
+  setup() {
+    // console.log(this.$store.getters.providerId);
+    // const providerId = ref(this.id);
+    // const providerName = ref('test');
+    const providerEmail = ref('');
+    const providerPhone = ref('id');
+    const providerWebsite = ref('');
+    const providerAddress = ref('');
+    const addressLine2 = ref('');
+    const city = ref('');
+    const state = ref('');
+    const zipCode = ref('');
+    const county = ref('');
+    const ownershipType = ref('');
 
-const showSuccess = ref(false); // Track whether to show the success message
+    const showSuccess = ref(false); // Track whether to show the success message
 
-const addProvider = async () => {
-  try {
-    const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
-      id_cms_other: providerId.value,
-      agency_name: providerName.value,
-      phone_number: providerPhone.value,
-      addr1: providerAddress.value,
-      addr2: addressLine2.value,
-      city: city.value,
-      state: state.value,
-      website: providerWebsite.value,
-      zip: zipCode.value,
-      county: county.value,
-      ownership_type: ownershipType.value,
-    }, {
-      withCredentials: true
-    });
-    console.log('Provider added successfully:', response.data);
-    const $toast = useToast();
-    let instance = $toast.success('Provider added successfully!');
-    router.replace('/providers-search');
-     // this.$store.commit("login", this.username);
+    const router = useRouter();
 
-    // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
-    setTimeout(() => {
-      instance.dismiss();
-    }, 3000);
+    return { router, providerEmail, providerPhone, providerWebsite, providerAddress, addressLine2, city, state, zipCode, county, ownershipType, showSuccess };
+  },
+  methods: {
+    async editProvider() {
+      console.log("editing provider");
+      console.log(this.id)
+      await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.place_id}`,
+        
+      )
 
-    // Show toast message
-    // Optionally, you can reset input fields after successful submission
-    providerId.value = '';
-    providerName.value = '';
-    providerPhone.value = '';
-    providerAddress.value = '';
-    addressLine2.value = '';
-    city.value = '';
-    state.value = '';
-    providerWebsite.value ='';
-    zipCode.value = '';
-    county.value = '';
-    ownershipType.value = '';
-    // Reset other input fields similarly
-  } catch (error: any) {
-        if (error.response) {
-          console.error('Error adding provider', error.response.data);
-          const $toast = useToast();
-          let instance = $toast.error(error.response.data.message); // Assuming error response has a "message" field
-          setTimeout(() => {
-            instance.dismiss();
-          }, 3000);
-          // Handle error response from the server
-        } else {
-          console.error('Unknown error:', error);
-          const $toast = useToast();
-          let instance = $toast.error('An unknown error occurred. Please try again later.');
-          setTimeout(() => {
-            instance.dismiss();
-          }, 3000);
-        }
-        // Handle other types of errors
-      }
-};
-
+    },
+    loadData() {
+      console.log("loading data");
+      // this.providerId = ref(this.id);
+      console.log(this.id)
+    }
+  }
+}
 </script>

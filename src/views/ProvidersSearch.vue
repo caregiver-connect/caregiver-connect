@@ -143,7 +143,7 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(entry.place_id)">
+                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(index)">
                   <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
                 </ion-button>
                 <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
@@ -303,9 +303,14 @@ export default {
       this.$store.commit('providerSort', key)
       this.fetchData();
     },
-    edit(id: string) {
-      console.log(id);
-      router.push('/edit-provider/' + id)
+    edit(index: number) {
+      console.log(index);
+      console.log(this.entries[index]);
+      console.log(this.entries[index].phone_number);
+
+      this.$store.commit('storeProvider', this.entries[index].id_cms_other, this.entries[index].agency_name, this.entries[index].email, this.entries[index].phone_number, this.entries[index].website, this.entries[index].addr1, this.entries[index].addr2, this.entries[index].city, this.entries[index].state, this.entries[index].zip, this.entries[index].county, this.entries[index].ownership_type, this.entries[index].resources);
+
+      router.push('/edit-provider/' + this.entries[index].place_id)
     },
     async remove(id: string) {
       console.log(id);

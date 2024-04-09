@@ -64,6 +64,7 @@ exports.create = (req, res) => {
     }
 
     // Make phone numbers in format (###) ###-####
+    phone_number = '';
     let nums = req.body.phone_number.split('').filter(char => !isNaN(parseInt(char, 10)));
     if (nums.length === 10) {
         phone_number = `(${nums[0]}${nums[1]}${nums[2]}) ${nums[3]}${nums[4]}${nums[5]}-${nums[6]}${nums[7]}${nums[8]}${nums[9]}`;
