@@ -26,6 +26,9 @@ module.exports = app => {
   // Route for logout
   router.post('/logout', userController.logout);
 
+  // Change user role
+  router.post('/changeRole/:username', userController.changeRole);
+
   // Update a Users by the username
   router.put("/:username", userController.update);
 
