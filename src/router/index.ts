@@ -51,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/provider-signup',
     name: 'ProviderSignup',
     component: () => import('@/views/ProviderSignup.vue'),
+  },
+  {
+    path: '/email-verify/:token',
+    name: 'EmailVerified',
+    component: () => import('@/views/EmailVerified.vue'),
   }
 ]
 
