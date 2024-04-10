@@ -42,7 +42,7 @@
             <ion-input label-placement="floating" label="City" v-model="provider.city"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="State" v-model="provider.state">
+            <ion-select label-placement="floating" label="State" v-model="provider.state">
               <ion-select-option>AL</ion-select-option>
               <ion-select-option>AK</ion-select-option>
               <ion-select-option>AZ</ion-select-option>
@@ -99,7 +99,7 @@
             <ion-input label-placement="floating" label="Zip Code" v-model="provider.zip"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County" v-model="provider.county">
+            <ion-select label-placement="floating" label="County" v-model="provider.county">
               <ion-select-option>Autauga County</ion-select-option>
               <ion-select-option>Baldwin County</ion-select-option>
               <ion-select-option>Barbour County</ion-select-option>
@@ -170,11 +170,13 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
+            <ion-input label-placement="floating" label="Ownership Type" v-model="provider.ownership_type"></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button color="crimson" @click="() => router.replace('/providers-search')">Cancel</ion-button>
-        <ion-button color="crimson" @click="editProvider">Edit Provider</ion-button>
+        <ion-buttons>
+          <ion-button color="crimson" @click="() => router.replace('/providers-search')">Cancel Edit</ion-button>
+          <ion-button color="crimson" @click="editProvider">Save Edit</ion-button>
+        </ion-buttons>
       </div>
     </ion-content>
   </ion-page>
@@ -203,6 +205,7 @@ import { ref } from 'vue';
 import ToastPlugin from 'vue-toast-notification';
 import { useToast } from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
+import router from '@/router';
 
 export default {
   components: {
@@ -221,18 +224,6 @@ export default {
     IonSelectOption,
     IonImg
   },
-  data() {
-    return {
-      place_id: this.$route.params.id,
-    }
-  },
-  created() {
-    this.$watch(
-      () => this.$route,
-      this.loadData,
-      { immediate: true }
-    )
-  },
   computed: {
     provider() {
       return this.$store.getters.provider;
@@ -244,42 +235,32 @@ export default {
     }
   },
   setup() {
-    const ownershipType = ref('');
-
     const showSuccess = ref(false); // Track whether to show the success message
 
     const router = useRouter();
 
-    return { router, ownershipType, showSuccess };
+    return { router, showSuccess };
   },
   methods: {
     async editProvider() {
-      console.log("editing provider");
-      console.log(this.provider.id_cms_other);
-      console.log(this.provider.agency_name)
-      // console.log(this.id)
-      // this.providerId = this.provider.id_cms_other;
-      // await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
-      //   // place_id: this.place_id,
-      //   id_cms_other: this.providerId.value,
-      //   agency_name: this.providerName.value,
-      //   phone_number: this.providerPhone.value,
-      //   email: this.providerEmail.value,
-      //   addr1: this.providerAddress.value,
-      //   addr2: this.addressLine2.value,
-      //   city: this.city.value,
-      //   state: this.state.value,
-      //   website: this.providerWebsite.value,
-      //   zip: this.zipCode.value,
-      //   county: this.county.value,
-      //   ownership_type: this.ownershipType.value,
-      // }, {
-      //   withCredentials: true
-      // });
+      await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.provider.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
+        id_cms_other: this.provider.id_cms_other,
+        agency_name: this.provider.agency_name,
+        phone_number: this.provider.phone_number,
+        email: this.provider.email,
+        addr1: this.provider.addr1,
+        addr2: this.provider.addr2,
+        city: this.provider.city,
+        state: this.provider.state,
+        website: this.provider.website,
+        zip: this.provider.zip,
+        county: this.provider.county,
+        ownership_type: this.provider.ownership_type,
+      }, {
+        withCredentials: true
+      });
 
-      console.log(this.place_id);
-      console.log(this.provider);
-
+      this.router.replace('/providers-search');
     },
   }
 }

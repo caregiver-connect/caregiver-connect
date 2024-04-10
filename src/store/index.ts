@@ -25,6 +25,7 @@ const store = createStore({
         zip: "",
         county: "",
         resources: "",
+        ownership_type: "",
       }
     };
   },
@@ -85,8 +86,6 @@ const store = createStore({
       state.userSortKey = key;
     },
     storeProvider(state, provider) {
-      console.log("test")
-      console.log(provider)
       state.provider.place_id = provider.place_id;
       state.provider.id_cms_other = provider.id_cms_other;
       state.provider.agency_name = provider.agency_name;
@@ -100,7 +99,7 @@ const store = createStore({
       state.provider.zip = provider.zip;
       state.provider.county = provider.county;
       state.provider.resources = provider.resources;
-      console.log(state.provider);
+      state.provider.ownership_type = provider.ownership_type;
     }
   },
   plugins: [vuexPersister.persist]
