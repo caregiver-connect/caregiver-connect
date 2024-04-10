@@ -177,33 +177,22 @@
               <h4>Select all services you provide:</h4>
             </ion-text>
             <ion-list style="width: 100%;">
-              <div v-for="(services, serviceType) in allServices">
+              <div v-for="(services, serviceType) in services_with_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
-                <ion-item v-for="service in services">
-                  <ion-checkbox label-placement="end" justify="start">{{ service }}</ion-checkbox>
+                <ion-item v-for="(value, service) in services">
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
                 </ion-item>
                 <ion-item>
-                  <ion-checkbox label-placement="end" justify="start">Other in {{ serviceType }}:</ion-checkbox>
-                </ion-item>
-                <ion-item>
-                  <ion-input placeholder="For other please specify"></ion-input>
+                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{ serviceType }}:</ion-checkbox>
+                  <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
                 </ion-item>
               </div>
-              <p style="padding-top: 5px;">Technology</p>
-              <ion-item>
-                <!-- <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox> -->
-                <ion-checkbox label-placement="end" justify="start">Technology</ion-checkbox>
-              </ion-item>
-              <p style="padding-top: 5px;">Academic</p>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Studies and trials</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Research and medical procedures</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Diagnosis</ion-checkbox>
-              </ion-item>
+              <div v-for="(services, serviceType) in services_without_other">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <ion-item v-for="(value, service) in services">
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                </ion-item>
+              </div>
             </ion-list>
           </div>
         </ion-list>
@@ -260,66 +249,88 @@ export default {
   },
   data() {
     return {
-      allServices: {
-        "Home Services": [
-          "House keeping",
-          "Personal care",
-          "Daycare",
-          "Respite care",
-          "In home memory care",
-          "In home nursing",
-          "Activity enrichment",
-          "Report problems with in home providers",
-          "Research in home service providers",
-        ],
-        "Caregiver Support": [
-          "Caregiver support groups",
-          "Caregiver training",
-          "Counseling",
-          "Home changes (ramps, grab bars, etc)",
-          "Home maintenance",
-        ],
-        "Supplies": [
-          "Incontinence items",
-          "Medical supplies (Consumable medical supplies)",
-          "Durable equipment",
-          "Medic alerting services",
-          "Vision aids/glasses",
-          "Hearing aids",
-          "Oral/Dentures",
-          "Medical devices/prosthetics (shoe inserts, wearable glucose monitor, etc.)",
-          "Oxygen",
-        ],
-        "Financial Assistance": [
-          "Transportation",
-          "Referrals",
-          "Drug assistance",
-          "Reimbursement for services",
-          "Medicare",
-          "Home meal delivery",
-          "Bill assistance",
-          "Food pantry",
-          "Food vouchers",
-          "Medicare waivers",
-          "Food stamps",
-        ],
-        "Medical Services": [
-          "Medicare providers",
-          "Geriatricians",
-          "Psychiatrist",
-          "Neurologists",
-          "Specialists",
-          "Long term skilled nursing facility",
-          "In patient rehabilitation",
-          "Out of home memory care",
-          "Physical therapy",
-          "Occupational therapists (assistance with activities of daily living)",
-          "Hospice care",
-        ],
-        "Legal Services": [
-          "Advanced directives/wills",
-          "Death and burial"
-        ],
+      services_with_other: {
+        "Home Services": {
+          "House keeping": { checked: false },
+          "Personal care": { checked: false },
+          "Daycare": { checked: false },
+          "Respite care": { checked: false },
+          "In home memory care": { checked: false },
+          "In home nursing": { checked: false },
+          "Activity enrichment": { checked: false },
+          "Report problems with in home providers": { checked: false },
+          "Research in home service providers": { checked: false },
+          other_checked: false,
+          specific: "",
+        },
+        "Caregiver Support": {
+          "Caregiver support groups": { checked: false },
+          "Caregiver training": { checked: false },
+          "Counseling": { checked: false },
+          "Home changes (ramps, grab bars, etc)": { checked: false },
+          "Home maintenance": { checked: false },
+          other_checked: false,
+          specific: "",
+        },
+        "Supplies": {
+          "Incontinence items": { checked: false },
+          "Medical supplies (Consumable medical supplies)": { checked: false },
+          "Durable equipment": { checked: false },
+          "Medic alerting services": { checked: false },
+          "Vision aids/glasses": { checked: false },
+          "Hearing aids": { checked: false },
+          "Oral/Dentures": { checked: false },
+          "Medical devices/prosthetics (shoe inserts, wearable glucose monitor, etc.)": { checked: false },
+          "Oxygen": { checked: false },
+          other_checked: false,
+          specific: "",
+        },
+        "Financial Assistance": {
+          "Transportation": { checked: false },
+          "Referrals": { checked: false },
+          "Drug assistance": { checked: false },
+          "Reimbursement for services": { checked: false },
+          "Medicare": { checked: false },
+          "Home meal delivery": { checked: false },
+          "Bill assistance": { checked: false },
+          "Food pantry": { checked: false },
+          "Food vouchers": { checked: false },
+          "Medicare waivers": { checked: false },
+          "Food stamps": { checked: false },
+          other_checked: false,
+          specific: "",
+        },
+        "Medical Services": {
+          "Medicare providers": { checked: false },
+          "Geriatricians": { checked: false },
+          "Psychiatrist": { checked: false },
+          "Neurologists": { checked: false },
+          "Specialists": { checked: false },
+          "Long term skilled nursing facility": { checked: false },
+          "In patient rehabilitation": { checked: false },
+          "Out of home memory care": { checked: false },
+          "Physical therapy": { checked: false },
+          "Occupational therapists (assistance with activities of daily living)": { checked: false },
+          "Hospice care": { checked: false },
+          other_checked: false,
+          specific: "",
+        },
+        "Legal Services": {
+          "Advanced directives/wills": { checked: false },
+          "Death and burial": { checked: false },
+          other_checked: false,
+          specific: "",
+        },
+      },
+      services_without_other: {
+        "Technology": {
+          "Technology": { checked: false },
+        },
+        "Academic": {
+          "Studies and trials": { checked: false },
+          "Research and medical procedures": { checked: false },
+          "Diagnosis": { checked: false },
+        }
       }
     }
   },
@@ -345,6 +356,7 @@ export default {
   },
   methods: {
     async addProvider() {
+      console.log(this.services_with_other)
       try {
         const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
           id_cms_other: this.providerId.value,
