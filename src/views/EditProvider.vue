@@ -172,7 +172,7 @@
           <ion-item>
             <ion-input label-placement="floating" label="Ownership Type" v-model="provider.ownership_type"></ion-input>
           </ion-item>
-          <!-- <div class="vcs">
+          <div class="vcs">
             <ion-text>
               <h4>Select all services you provide:</h4>
             </ion-text>
@@ -196,7 +196,7 @@
                 </ion-item>
               </div>
             </ion-list>
-          </div> -->
+          </div>
         </ion-list>
         <ion-buttons>
           <ion-button color="crimson" @click="() => router.replace('/providers-search')">Cancel Edit</ion-button>
@@ -222,7 +222,9 @@ import {
   IonInput,
   IonSelect,
   IonSelectOption,
-  IonImg
+  IonImg,
+  IonCheckbox,
+  IonText
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -247,7 +249,9 @@ export default {
     IonInput,
     IonSelect,
     IonSelectOption,
-    IonImg
+    IonImg,
+    IonCheckbox,
+    IonText
   },
   computed: {
     provider() {
@@ -286,6 +290,7 @@ export default {
         zip: this.provider.zip,
         county: this.provider.county,
         ownership_type: this.provider.ownership_type,
+        resources: JSON.stringify(this.provider.resources),
       }, {
         withCredentials: true
       });
