@@ -5,6 +5,7 @@ const User = db.users;
 const Op = db.Sequelize.Op;
 const { body, validationResult } = require('express-validator');
 const xss = require('xss');
+const emailHandler = require("../sendgrid/email-handler.js")
 
 // csrf = require('lusca').csrf;
 require('dotenv').config({ path: '../../.env' });
@@ -154,6 +155,17 @@ exports.create = async (req, res) => {
         // Save User in the database
         const createdUser = await User.create(user);
         res.send(createdUser);
+
+        const msg = {
+            to: sanitizedEmail, // Change to your recipient
+            from: 'caregiver-connect-test@outlook.com', // Change to your verified sender
+            subject: 'New Caregiver Connect User Made',
+            text: 'Your email is successfully registered with Caregiver Connect!'
+        }
+
+        emailHandler.sendMsg(msg)
+
+
     } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the User."

@@ -51,9 +51,6 @@ const store = createStore({
     provider(state) {
       return state.provider;
     },
-    // allServices(state) {
-    //   return JSON.parse(state.provider.resources);
-    // }
   },
   mutations: {
     login(state, username: string) {

@@ -293,7 +293,7 @@ export default {
         resources: JSON.stringify(this.provider.resources),
       }, {
         withCredentials: true
-      });
+      });  
 
       this.router.replace('/providers-search');
     },
