@@ -56,6 +56,7 @@ exports.authenticateJWT = (req, res, next) => {
 // Create and Save a new Provider
 exports.create = (req, res) => {
     //console.log("YAY\n");
+    console.log(req.body);
     if (!req.body.agency_name) {
         res.status(400).send({
             message: "Agency name can not be empty!"
@@ -102,6 +103,7 @@ exports.create = (req, res) => {
                 state: xss(response.data.results[0].state_code),
                 website: xss(req.body.website || null),
                 zip: xss(response.data.results[0].postcode),
+                resources: xss(req.body.resources),
                 coordinates: xss(response.data.results[0].lon + " " + response.data.results[0].lat || null)
             };
 

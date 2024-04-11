@@ -58,6 +58,9 @@ module.exports = (sequelize, Sequelize) => {
         zip: {
             type: Sequelize.STRING
         },
+        resources: {
+            type: Sequelize.TEXT
+        },
         coordinates: {
             type: Sequelize.STRING
         }

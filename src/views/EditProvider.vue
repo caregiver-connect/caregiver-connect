@@ -172,6 +172,31 @@
           <ion-item>
             <ion-input label-placement="floating" label="Ownership Type" v-model="provider.ownership_type"></ion-input>
           </ion-item>
+          <!-- <div class="vcs">
+            <ion-text>
+              <h4>Select all services you provide:</h4>
+            </ion-text>
+            <ion-list style="width: 100%;">
+              <div v-for="(services, serviceType) in provider.resources.services_with_other">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <div v-for="(value, service, index) in services">
+                  <ion-item v-if="Object.keys(services).length - 1 !== index && Object.keys(services).length - 2 !== index">
+                    <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                  </ion-item>
+                </div>
+                <ion-item>
+                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{ serviceType }}:</ion-checkbox>
+                  <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
+                </ion-item>
+              </div>
+              <div v-for="(services, serviceType) in provider.resources.services_without_other">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <ion-item v-for="(value, service) in services">
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                </ion-item>
+              </div>
+            </ion-list>
+          </div> -->
         </ion-list>
         <ion-buttons>
           <ion-button color="crimson" @click="() => router.replace('/providers-search')">Cancel Edit</ion-button>
@@ -228,6 +253,9 @@ export default {
     provider() {
       return this.$store.getters.provider;
     },
+    // allServices() {
+    //   return this.$store.getters.allServices;
+    // }
   },
   watch: {
     $route(currentRoute) {
@@ -243,6 +271,8 @@ export default {
   },
   methods: {
     async editProvider() {
+      console.log(this.provider);
+      // console.log(this.allServices);
       await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.provider.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
         id_cms_other: this.provider.id_cms_other,
         agency_name: this.provider.agency_name,

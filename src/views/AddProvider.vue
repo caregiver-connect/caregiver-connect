@@ -14,35 +14,35 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Provider ID" v-model="providerId"></ion-input>
+            <ion-input label-placement="floating" label="Provider ID" v-model="provider.id_cms_other"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Name" v-model="providerName"></ion-input>
+            <ion-input label-placement="floating" label="Provider Name" v-model="provider.agency_name"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Provider Email" type="email"
-              v-model="providerEmail"></ion-input>
+              v-model="provider.email"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Provider Phone #" type="tel"
-              v-model="providerPhone"></ion-input>
+              v-model="provider.phone_number"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Provider Website" type="url"
-              v-model="providerWebsite"></ion-input>
+              v-model="provider.website"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Address" v-model="providerAddress"></ion-input>
+            <ion-input label-placement="floating" label="Address" v-model="provider.addr1"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Addr Line 2" helper-text="(optional)"
-              v-model="addressLine2"></ion-input>
+              v-model="provider.addr2"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="City" v-model="city"></ion-input>
+            <ion-input label-placement="floating" label="City" v-model="provider.city"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select label-placement="floating" label="State" v-model="state">
+            <ion-select label-placement="floating" label="State" v-model="provider.state">
               <ion-select-option>AL</ion-select-option>
               <ion-select-option>AK</ion-select-option>
               <ion-select-option>AZ</ion-select-option>
@@ -96,10 +96,10 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Zip Code" v-model="zipCode"></ion-input>
+            <ion-input label-placement="floating" label="Zip Code" v-model="provider.zip"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select label-placement="floating" label="County" v-model="county">
+            <ion-select label-placement="floating" label="County" v-model="provider.county">
               <ion-select-option>Autauga County</ion-select-option>
               <ion-select-option>Baldwin County</ion-select-option>
               <ion-select-option>Barbour County</ion-select-option>
@@ -170,24 +170,26 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
+            <ion-input label-placement="floating" label="Ownership Type" v-model="provider.ownership_type"></ion-input>
           </ion-item>
           <div class="vcs">
             <ion-text>
               <h4>Select all services you provide:</h4>
             </ion-text>
             <ion-list style="width: 100%;">
-              <div v-for="(services, serviceType) in services_with_other">
+              <div v-for="(services, serviceType) in allServices.services_with_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
-                <ion-item v-for="(value, service) in services">
-                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
-                </ion-item>
+                <div v-for="(value, service, index) in services">
+                  <ion-item v-if="Object.keys(services).length - 1 !== index && Object.keys(services).length - 2 !== index">
+                    <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                  </ion-item>
+                </div>
                 <ion-item>
                   <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{ serviceType }}:</ion-checkbox>
                   <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
                 </ion-item>
               </div>
-              <div v-for="(services, serviceType) in services_without_other">
+              <div v-for="(services, serviceType) in allServices.services_without_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
                 <ion-item v-for="(value, service) in services">
                   <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
@@ -249,135 +251,157 @@ export default {
   },
   data() {
     return {
-      services_with_other: {
-        "Home Services": {
-          "House keeping": { checked: false },
-          "Personal care": { checked: false },
-          "Daycare": { checked: false },
-          "Respite care": { checked: false },
-          "In home memory care": { checked: false },
-          "In home nursing": { checked: false },
-          "Activity enrichment": { checked: false },
-          "Report problems with in home providers": { checked: false },
-          "Research in home service providers": { checked: false },
-          other_checked: false,
-          specific: "",
-        },
-        "Caregiver Support": {
-          "Caregiver support groups": { checked: false },
-          "Caregiver training": { checked: false },
-          "Counseling": { checked: false },
-          "Home changes (ramps, grab bars, etc)": { checked: false },
-          "Home maintenance": { checked: false },
-          other_checked: false,
-          specific: "",
-        },
-        "Supplies": {
-          "Incontinence items": { checked: false },
-          "Medical supplies (Consumable medical supplies)": { checked: false },
-          "Durable equipment": { checked: false },
-          "Medic alerting services": { checked: false },
-          "Vision aids/glasses": { checked: false },
-          "Hearing aids": { checked: false },
-          "Oral/Dentures": { checked: false },
-          "Medical devices/prosthetics (shoe inserts, wearable glucose monitor, etc.)": { checked: false },
-          "Oxygen": { checked: false },
-          other_checked: false,
-          specific: "",
-        },
-        "Financial Assistance": {
-          "Transportation": { checked: false },
-          "Referrals": { checked: false },
-          "Drug assistance": { checked: false },
-          "Reimbursement for services": { checked: false },
-          "Medicare": { checked: false },
-          "Home meal delivery": { checked: false },
-          "Bill assistance": { checked: false },
-          "Food pantry": { checked: false },
-          "Food vouchers": { checked: false },
-          "Medicare waivers": { checked: false },
-          "Food stamps": { checked: false },
-          other_checked: false,
-          specific: "",
-        },
-        "Medical Services": {
-          "Medicare providers": { checked: false },
-          "Geriatricians": { checked: false },
-          "Psychiatrist": { checked: false },
-          "Neurologists": { checked: false },
-          "Specialists": { checked: false },
-          "Long term skilled nursing facility": { checked: false },
-          "In patient rehabilitation": { checked: false },
-          "Out of home memory care": { checked: false },
-          "Physical therapy": { checked: false },
-          "Occupational therapists (assistance with activities of daily living)": { checked: false },
-          "Hospice care": { checked: false },
-          other_checked: false,
-          specific: "",
-        },
-        "Legal Services": {
-          "Advanced directives/wills": { checked: false },
-          "Death and burial": { checked: false },
-          other_checked: false,
-          specific: "",
-        },
+      provider: {
+        id_cms_other: "",
+        agency_name: "",
+        email: "",
+        phone_number: "",
+        website: "",
+        addr1: "",
+        addr2: "",
+        city: "",
+        state: "",
+        zip: "",
+        county: "",
+        ownership_type: "",
       },
-      services_without_other: {
-        "Technology": {
-          "Technology": { checked: false },
+      allServices: {
+        services_with_other: {
+          "Home Services": {
+            "House keeping": { checked: false },
+            "Personal care": { checked: false },
+            "Daycare": { checked: false },
+            "Respite care": { checked: false },
+            "In home memory care": { checked: false },
+            "In home nursing": { checked: false },
+            "Activity enrichment": { checked: false },
+            "Report problems with in home providers": { checked: false },
+            "Research in home service providers": { checked: false },
+            other_checked: false,
+            "specific": "",
+          },
+          "Caregiver Support": {
+            "Caregiver support groups": { checked: false },
+            "Caregiver training": { checked: false },
+            "Counseling": { checked: false },
+            "Home changes (ramps, grab bars, etc)": { checked: false },
+            "Home maintenance": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Supplies": {
+            "Incontinence items": { checked: false },
+            "Medical supplies (Consumable medical supplies)": { checked: false },
+            "Durable equipment": { checked: false },
+            "Medic alerting services": { checked: false },
+            "Vision aids/glasses": { checked: false },
+            "Hearing aids": { checked: false },
+            "Oral/Dentures": { checked: false },
+            "Medical devices/prosthetics (shoe inserts, wearable glucose monitor, etc.)": { checked: false },
+            "Oxygen": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Financial Assistance": {
+            "Transportation": { checked: false },
+            "Referrals": { checked: false },
+            "Drug assistance": { checked: false },
+            "Reimbursement for services": { checked: false },
+            "Medicare": { checked: false },
+            "Home meal delivery": { checked: false },
+            "Bill assistance": { checked: false },
+            "Food pantry": { checked: false },
+            "Food vouchers": { checked: false },
+            "Medicare waivers": { checked: false },
+            "Food stamps": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Medical Services": {
+            "Medicare providers": { checked: false },
+            "Geriatricians": { checked: false },
+            "Psychiatrist": { checked: false },
+            "Neurologists": { checked: false },
+            "Specialists": { checked: false },
+            "Long term skilled nursing facility": { checked: false },
+            "In patient rehabilitation": { checked: false },
+            "Out of home memory care": { checked: false },
+            "Physical therapy": { checked: false },
+            "Occupational therapists (assistance with activities of daily living)": { checked: false },
+            "Hospice care": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Legal Services": {
+            "Advanced directives/wills": { checked: false },
+            "Death and burial": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
         },
-        "Academic": {
-          "Studies and trials": { checked: false },
-          "Research and medical procedures": { checked: false },
-          "Diagnosis": { checked: false },
+        services_without_other: {
+          "Technology": {
+            "Technology": { checked: false },
+          },
+          "Academic": {
+            "Studies and trials": { checked: false },
+            "Research and medical procedures": { checked: false },
+            "Diagnosis": { checked: false },
+          }
         }
-      }
+      },
     }
   },
   setup() {
-    const providerId = ref('');
-    const providerName = ref('');
-    const providerPhone = ref('');
-    const providerEmail = ref('');
-    const providerWebsite = ref('');
-    const providerAddress = ref('');
-    const addressLine2 = ref('');
-    const city = ref('');
-    const state = ref('');
-    const zipCode = ref('');
-    const county = ref('');
-    const ownershipType = ref('');
-
     const router = useRouter();
 
     const showSuccess = ref(false); // Track whether to show the success message
 
-    return { router, showSuccess, providerId, providerName, providerPhone, providerEmail, providerWebsite, providerAddress, addressLine2, city, state, zipCode, county, ownershipType }
+    return { router, showSuccess }
   },
   methods: {
     async addProvider() {
-      console.log(this.services_with_other)
+      console.log(this.allServices.services_with_other)
+      console.log(this.allServices)
+      const services = JSON.stringify(this.allServices);
+      console.log(services)
       try {
+        console.log({ //NOTE: Email is a good idea but not a field in the database currently
+          id_cms_other: this.provider.id_cms_other,
+          agency_name: this.provider.agency_name,
+          phone_number: this.provider.phone_number,
+          email: this.provider.email,
+          addr1: this.provider.addr1,
+          addr2: this.provider.addr2,
+          city: this.provider.city,
+          state: this.provider.state,
+          website: this.provider.website,
+          zip: this.provider.zip,
+          county: this.provider.county,
+          ownership_type: this.provider.ownership_type,
+          resources: services,
+        })
         const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
-          id_cms_other: this.providerId.value,
-          agency_name: this.providerName.value,
-          phone_number: this.providerPhone.value,
-          email: this.providerEmail.value,
-          addr1: this.providerAddress.value,
-          addr2: this.addressLine2.value,
-          city: this.city.value,
-          state: this.state.value,
-          website: this.providerWebsite.value,
-          zip: this.zipCode.value,
-          county: this.county.value,
-          ownership_type: this.ownershipType.value,
+          id_cms_other: this.provider.id_cms_other,
+          agency_name: this.provider.agency_name,
+          phone_number: this.provider.phone_number,
+          email: this.provider.email,
+          addr1: this.provider.addr1,
+          addr2: this.provider.addr2,
+          city: this.provider.city,
+          state: this.provider.state,
+          website: this.provider.website,
+          zip: this.provider.zip,
+          county: this.provider.county,
+          ownership_type: this.provider.ownership_type,
+          resources: services,
         }, {
           withCredentials: true
         });
         console.log('Provider added successfully:', response.data);
         const $toast = useToast();
         let instance = $toast.success('Provider added successfully!');
-        router.replace('/providers-search');
+        this.router.replace('/providers-search');
         // this.$store.commit("login", this.username);
 
         // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
@@ -387,18 +411,18 @@ export default {
 
         // Show toast message
         // Optionally, you can reset input fields after successful submission
-        this.providerId.value = '';
-        this.providerName.value = '';
-        this.providerPhone.value = '';
-        this.providerEmail.value = '';
-        this.providerAddress.value = '';
-        this.addressLine2.value = '';
-        this.city.value = '';
-        this.state.value = '';
-        this.providerWebsite.value = '';
-        this.zipCode.value = '';
-        this.county.value = '';
-        this.ownershipType.value = '';
+        this.provider.id_cms_other = '';
+        this.provider.agency_name = '';
+        this.provider.phone_number = '';
+        this.provider.email = '';
+        this.provider.addr1 = '';
+        this.provider.addr2 = '';
+        this.provider.city = '';
+        this.provider.state = '';
+        this.provider.website = '';
+        this.provider.zip = '';
+        this.provider.county = '';
+        this.provider.ownership_type = '';
         // Reset other input fields similarly
       } catch (error: any) {
         if (error.response) {

@@ -24,7 +24,7 @@ const store = createStore({
         state: "",
         zip: "",
         county: "",
-        resources: "",
+        resources: {},
         ownership_type: "",
       }
     };
@@ -51,6 +51,9 @@ const store = createStore({
     provider(state) {
       return state.provider;
     },
+    // allServices(state) {
+    //   return JSON.parse(state.provider.resources);
+    // }
   },
   mutations: {
     login(state, username: string) {
@@ -98,7 +101,7 @@ const store = createStore({
       state.provider.state = provider.state;
       state.provider.zip = provider.zip;
       state.provider.county = provider.county;
-      state.provider.resources = provider.resources;
+      state.provider.resources = JSON.parse(provider.resources);
       state.provider.ownership_type = provider.ownership_type;
     }
   },
