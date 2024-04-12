@@ -1,6 +1,7 @@
 const db = require("../models");
 const Provider = db.providers;
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const Op = db.Sequelize.Op;
 const { body, validationResult } = require('express-validator');
 const xss = require('xss');
@@ -75,7 +76,7 @@ exports.create = (req, res) => {
 
     var config = {
         method: 'get',
-        url: 'https://api.geoapify.com/v1/geocode/search?text=' + req.body.addr1 + "%20" + req.body.addr2 + "%20" + req.body.city + "%20" + req.body.state + "%20" + req.body.zip + '&format=json&apiKey=' + process.env.GEOAPIFY_API_KEY,
+        url: 'https://api.geoapify.com/v1/geocode/search?text=' + req.body.addr1 + "%20" + req.body.city + "%20" + req.body.state + "%20" + req.body.zip + '&format=json&apiKey=' + process.env.GEOAPIFY_API_KEY,
         headers: {}
     };
 
@@ -83,8 +84,9 @@ exports.create = (req, res) => {
         .then(function (response) {
             console.log(response.data);
             // Create a Provider object with properties from request body
+            const unique_id = crypto.createHash('md5').update(response.data.results[0].place_id + req.body.addr2).digest('hex');
             const provider = {
-                place_id: xss(response.data.results[0].place_id),
+                place_id: xss(unique_id),
                 id_cms_other: xss(req.body.id_cms_other),
                 addr1: xss(response.data.results[0].address_line1),
                 addr2: xss(req.body.addr2 || null),
@@ -215,26 +217,99 @@ exports.findOneByIdCmsOther = (req, res) => {
 // Update a Provider by the id_cms_other in the request
 exports.update = (req, res) => {
     const place_id = req.params.place_id;
-    console.log(req);
+    if (!req.body.agency_name) {
+        res.status(400).send({
+            message: "Agency name can not be empty!"
+        });
+        return;
+    }
 
-    Provider.update(req.body, {
-        where: { place_id: place_id }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Provider was updated successfully."
-                });
+    // Make phone numbers in format (###) ###-####
+    phone_number = '';
+    let nums = req.body.phone_number.split('').filter(char => !isNaN(parseInt(char, 10)));
+    if (nums.length === 10) {
+        phone_number = `(${nums[0]}${nums[1]}${nums[2]}) ${nums[3]}${nums[4]}${nums[5]}-${nums[6]}${nums[7]}${nums[8]}${nums[9]}`;
+    } else if (nums.length === 7) {
+        phone_number = `"${nums[0]}${nums[1]}${nums[2]}-${nums[3]}${nums[4]}${nums[5]}${nums[6]}"`;
+    }
+
+    var config = {
+        method: 'get',
+        url: 'https://api.geoapify.com/v1/geocode/search?text=' + req.body.addr1 + "%20" + req.body.city + "%20" + req.body.state + "%20" + req.body.zip + '&format=json&apiKey=' + process.env.GEOAPIFY_API_KEY,
+        headers: {}
+    };
+
+    axios(config)
+        .then(function (response) {
+
+            const unique_id = crypto.createHash('md5').update(response.data.results[0].place_id + req.body.addr2).digest('hex');
+
+            if (unique_id == place_id) {
+
+                Provider.update(req.body, {
+                    where: { place_id: unique_id }
+                })
+                    .then(num => {
+                        if (num == 1) {
+                            res.send({
+                                message: "Provider was updated successfully."
+                            });
+                        } else {
+                            res.send({
+                                message: `Cannot update Provider with place_id=${place_id}. Maybe Provider was not found or req.body is empty!`
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message: "Error updating Provider with place_id=" + place_id
+                        });
+                    });
             } else {
-                res.send({
-                    message: `Cannot update Provider with place_id=${place_id}. Maybe Provider was not found or req.body is empty!`
-                });
+                Provider.destroy({
+                    where: { place_id: place_id }
+                })
+
+                const provider = {
+                    place_id: xss(unique_id),
+                    id_cms_other: xss(req.body.id_cms_other),
+                    addr1: xss(response.data.results[0].address_line1),
+                    addr2: xss(req.body.addr2 || null),
+                    agency_name: xss(req.body.agency_name),
+                    city: xss(response.data.results[0].city),
+                    county: xss(response.data.results[0].county),
+                    data_source: xss(req.body.data_source || null),
+                    data_last_updated: xss(req.body.data_last_updated || null),
+                    default_service_area_type: xss(req.body.default_service_area_type || null),
+                    notes: xss(req.body.notes || null),
+                    ownership_type: xss(req.body.ownership_type),
+                    phone_number: xss(phone_number),
+                    email: xss(req.body.email),
+                    service_area_entities: xss(req.body.service_area_entities || null),
+                    service_area_polygon: xss(req.body.service_area_polygon || null),
+                    state: xss(response.data.results[0].state_code),
+                    website: xss(req.body.website || null),
+                    zip: xss(response.data.results[0].postcode),
+                    resources_JSON: xss(req.body.resources_JSON),
+                    resources_text: xss(req.body.resources_text),
+                    coordinates: xss(response.data.results[0].lon + " " + response.data.results[0].lat || null)
+                };
+    
+                // Save Provider in the database
+                Provider.create(provider)
+                    .then(data => {
+                        res.send(data);
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message:
+                                err.message || "Some error occurred while creating the Provider."
+                        });
+                    });
             }
         })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating Provider with place_id=" + place_id
-            });
+        .catch(function (error) {
+            console.log(error);
         });
 };
 
