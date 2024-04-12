@@ -24,6 +24,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      GEOAPIFY_API_KEY: ${GEOAPIFY_API_KEY}
     depends_on:
       - postgres
     ports:

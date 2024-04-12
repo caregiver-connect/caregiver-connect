@@ -75,7 +75,7 @@ exports.create = (req, res) => {
 
     var config = {
         method: 'get',
-        url: 'https://api.geoapify.com/v1/geocode/search?text=' + req.body.addr1 + "%20" + req.body.addr2 + "%20" + req.body.city + "%20" + req.body.state + "%20" + req.body.zip + '&format=json&apiKey=11ab13c7e8804b96bc8c39dfeb8b97e7',
+        url: 'https://api.geoapify.com/v1/geocode/search?text=' + req.body.addr1 + "%20" + req.body.addr2 + "%20" + req.body.city + "%20" + req.body.state + "%20" + req.body.zip + '&format=json&apiKey=' + process.env.GEOAPIFY_API_KEY,
         headers: {}
     };
 

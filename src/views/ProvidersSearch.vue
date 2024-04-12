@@ -319,8 +319,6 @@ export default {
     edit(index: number) {
       console.log(index);
       console.log(this.entries[index]);
-      console.log(this.entries[index].phone_number);
-
       this.$store.commit('storeProvider', this.entries[index]);
 
       console.log("test")

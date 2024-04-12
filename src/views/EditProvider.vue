@@ -177,7 +177,7 @@
               <h4>Select all services you provide:</h4>
             </ion-text>
             <ion-list style="width: 100%;">
-              <div v-for="(services, serviceType) in provider.resources.services_with_other">
+              <div v-for="(services, serviceType) in provider.resources_JSON.services_with_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
                 <div v-for="(value, service, index) in services">
                   <ion-item v-if="Object.keys(services).length - 1 !== index && Object.keys(services).length - 2 !== index">
@@ -189,7 +189,7 @@
                   <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
                 </ion-item>
               </div>
-              <div v-for="(services, serviceType) in provider.resources.services_without_other">
+              <div v-for="(services, serviceType) in provider.resources_JSON.services_without_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
                 <ion-item v-for="(value, service) in services">
                   <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
