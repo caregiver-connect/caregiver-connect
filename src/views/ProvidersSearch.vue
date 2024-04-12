@@ -114,13 +114,13 @@
                   v-if="providerSortKey != 'website' || providerSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="3" @click="providerSort('resources')">
+            <ion-col class="header-col" size="3" @click="providerSort('resources_text')">
               Resources
               <div>
                 <ion-icon class="arrows" :icon="arrowUp"
-                  v-if="providerSortKey != 'resources' || providerSortDirection != 2"></ion-icon>
+                  v-if="providerSortKey != 'resources_text' || providerSortDirection != 2"></ion-icon>
                 <ion-icon class="arrows" :icon="arrowDown"
-                  v-if="providerSortKey != 'resources' || providerSortDirection != 1"></ion-icon>
+                  v-if="providerSortKey != 'resources_text' || providerSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
             <ion-col class="header-col" size="2" @click="providerSort('ownership_type')">
@@ -149,7 +149,7 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="4">{{ entry.website }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources_text }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.ownership_type }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
@@ -226,7 +226,8 @@ interface Entry {
   phone_number: string;
   email: string;
   website: string;
-  resources: string;
+  resources_JSON: string;
+  resources_text: string;
   ownership_type: string;
 }
 
@@ -270,7 +271,7 @@ export default {
     },
     providerSortKey() {
       return this.$store.getters.providerSortKey;
-    }
+    },
   },
   setup() {
     const router = useRouter();
@@ -305,6 +306,7 @@ export default {
         this.count = response.data.count;
         this.pageNumber = Math.ceil(this.count / this.pageSize);
         this.entries = response.data.rows;
+        console.log(this.entries)
       }
       catch (error) {
         console.error('Error fetching data:', error);

@@ -98,7 +98,7 @@ const store = createStore({
       state.provider.state = provider.state;
       state.provider.zip = provider.zip;
       state.provider.county = provider.county;
-      state.provider.resources = JSON.parse(provider.resources);
+      state.provider.resources_JSON = JSON.parse(provider.resources_JSON);
       state.provider.ownership_type = provider.ownership_type;
     }
   },

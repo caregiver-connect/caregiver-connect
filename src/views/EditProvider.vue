@@ -290,7 +290,8 @@ export default {
         zip: this.provider.zip,
         county: this.provider.county,
         ownership_type: this.provider.ownership_type,
-        resources: JSON.stringify(this.provider.resources),
+        resources_JSON: JSON.stringify(this.provider.resources_JSON),
+        resources_text: "",
       }, {
         withCredentials: true
       });  

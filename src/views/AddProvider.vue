@@ -366,21 +366,22 @@ export default {
       const services = JSON.stringify(this.allServices);
       console.log(services)
       try {
-        console.log({ //NOTE: Email is a good idea but not a field in the database currently
-          id_cms_other: this.provider.id_cms_other,
-          agency_name: this.provider.agency_name,
-          phone_number: this.provider.phone_number,
-          email: this.provider.email,
-          addr1: this.provider.addr1,
-          addr2: this.provider.addr2,
-          city: this.provider.city,
-          state: this.provider.state,
-          website: this.provider.website,
-          zip: this.provider.zip,
-          county: this.provider.county,
-          ownership_type: this.provider.ownership_type,
-          resources: services,
-        })
+        // console.log({ //NOTE: Email is a good idea but not a field in the database currently
+        //   id_cms_other: this.provider.id_cms_other,
+        //   agency_name: this.provider.agency_name,
+        //   phone_number: this.provider.phone_number,
+        //   email: this.provider.email,
+        //   addr1: this.provider.addr1,
+        //   addr2: this.provider.addr2,
+        //   city: this.provider.city,
+        //   state: this.provider.state,
+        //   website: this.provider.website,
+        //   zip: this.provider.zip,
+        //   county: this.provider.county,
+        //   ownership_type: this.provider.ownership_type,
+        //   resources_JSON: services,
+        //   resources_text: "",
+        // })
         const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
           id_cms_other: this.provider.id_cms_other,
           agency_name: this.provider.agency_name,
@@ -394,7 +395,8 @@ export default {
           zip: this.provider.zip,
           county: this.provider.county,
           ownership_type: this.provider.ownership_type,
-          resources: services,
+          resources_JSON: services,
+          resources_text: "",
         }, {
           withCredentials: true
         });

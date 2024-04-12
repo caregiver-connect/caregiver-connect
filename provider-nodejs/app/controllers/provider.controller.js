@@ -103,7 +103,8 @@ exports.create = (req, res) => {
                 state: xss(response.data.results[0].state_code),
                 website: xss(req.body.website || null),
                 zip: xss(response.data.results[0].postcode),
-                resources: xss(req.body.resources),
+                resources_JSON: xss(req.body.resources_JSON),
+                resources_text: xss(req.body.resources_text),
                 coordinates: xss(response.data.results[0].lon + " " + response.data.results[0].lat || null)
             };
 
@@ -135,10 +136,10 @@ exports.findAndCountAll = (req, res) => {
 
     let condition = [];
     if (search) {
-        // condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
+        condition.push({ id_cms_other: { [Op.iLike]: `%${search}%` } })
+        condition.push({ agency_name: { [Op.iLike]: `%${search}%` } })
         condition.push({ addr1: { [Op.iLike]: `%${search}%` } })
         condition.push({ addr2: { [Op.iLike]: `%${search}%` } })
-        condition.push({ agency_name: { [Op.iLike]: `%${search}%` } })
         condition.push({ city: { [Op.iLike]: `%${search}%` } })
         condition.push({ county: { [Op.iLike]: `%${search}%` } })
         condition.push({ ownership_type: { [Op.iLike]: `%${search}%` } })
@@ -147,6 +148,8 @@ exports.findAndCountAll = (req, res) => {
         condition.push({ state: { [Op.iLike]: `%${search}%` } })
         condition.push({ website: { [Op.iLike]: `%${search}%` } })
         condition.push({ zip: { [Op.iLike]: `%${search}%` } })
+        condition.push({ resources_text: { [Op.iLike]: `%${search}%` } })
+
     }
 
     let or_condition = condition.length > 0 ? { [Op.or]: condition } : null;
