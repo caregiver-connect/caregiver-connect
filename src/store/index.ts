@@ -24,7 +24,7 @@ const store = createStore({
         state: "",
         zip: "",
         county: "",
-        resources: {},
+        resources_JSON: {},
         ownership_type: "",
       }
     };

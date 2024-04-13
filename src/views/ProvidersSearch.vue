@@ -295,7 +295,6 @@ export default {
           orderCol: providerSortKey,
           orderDirection: providerSortDirection,
         };
-        console.log(params);
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers', {
           params: params,
         }, {
@@ -306,7 +305,6 @@ export default {
         this.count = response.data.count;
         this.pageNumber = Math.ceil(this.count / this.pageSize);
         this.entries = response.data.rows;
-        console.log(this.entries)
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -317,15 +315,11 @@ export default {
       this.fetchData();
     },
     edit(index: number) {
-      console.log(index);
-      console.log(this.entries[index]);
       this.$store.commit('storeProvider', this.entries[index]);
 
-      console.log("test")
       router.push('/edit-provider/' + this.entries[index].place_id)
     },
     async remove(id: string) {
-      console.log(id);
       try {
         const response = await axios.delete('http://' + self.location.hostname + `:8081/api/providers/${id}`, {
           withCredentials: true,

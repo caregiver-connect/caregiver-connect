@@ -241,7 +241,6 @@ export default {
           orderCol: userSortKey,
           orderDirection: userSortDirection,
         };
-        console.log(params);
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/users', {
           params: params,
         }, {
@@ -252,7 +251,6 @@ export default {
         this.count = response.data.count;
         this.pageNumber = Math.ceil(this.count / this.pageSize);
         this.entries = response.data.rows;
-        console.log(response)
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -263,7 +261,6 @@ export default {
       this.fetchData();
     },
     async changeRole(username: string, role: string) {
-      console.log(username);
       try {
         const response = await axios.post('http://' + self.location.hostname + `:8081/api/users/changeRole/${username}`, {
           newRole: role

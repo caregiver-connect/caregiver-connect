@@ -42,7 +42,6 @@ exports.authenticateJWT = (req, res, next) => {
     }
 
     const token = req.cookies.token;
-    //console.log("HERE\n");
     if (!token) {
         return res.status(401).json({ message: 'Please login to add a provider' });
     }
@@ -56,8 +55,6 @@ exports.authenticateJWT = (req, res, next) => {
 };
 // Create and Save a new Provider
 exports.create = (req, res) => {
-    //console.log("YAY\n");
-    console.log(req.body);
     if (!req.body.agency_name) {
         res.status(400).send({
             message: "Agency name can not be empty!"
@@ -82,7 +79,6 @@ exports.create = (req, res) => {
 
     axios(config)
         .then(function (response) {
-            console.log(response.data);
             // Create a Provider object with properties from request body
             const unique_id = crypto.createHash('md5').update(response.data.results[0].place_id + req.body.addr2).digest('hex');
             const provider = {

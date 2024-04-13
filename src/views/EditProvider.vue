@@ -257,9 +257,6 @@ export default {
     provider() {
       return this.$store.getters.provider;
     },
-    // allServices() {
-    //   return this.$store.getters.allServices;
-    // }
   },
   watch: {
     $route(currentRoute) {
@@ -274,9 +271,63 @@ export default {
     return { router, showSuccess };
   },
   methods: {
+    parse() {
+      var res = "";
+      for (var serviceType in this.provider.resources_JSON.services_with_other) {
+        var buff = "";
+
+        for (var service in this.provider.resources_JSON.services_with_other[serviceType]) {
+          if (service == "other_checked") break;
+
+          if (this.provider.resources_JSON.services_with_other[serviceType][service].checked) {
+            if (buff == "") {
+              buff = service;
+            } else {
+              buff = buff + ", " + service;
+            }
+          }
+        }
+        if (this.provider.resources_JSON.services_with_other[serviceType].other_checked) {
+          if (buff == "") {
+            buff = "Other in " + serviceType + "(" + this.provider.resources_JSON.services_with_other[serviceType].specific + ")";
+          } else {
+            buff = buff + ", Other in " + serviceType + "(" + this.provider.resources_JSON.services_with_other[serviceType].specific + ")";
+          }
+        }
+
+        if (buff != "") {
+          if(res == ""){
+            res = serviceType + ": " + buff
+          } else {
+            res = res + ", " + serviceType + ": " + buff
+          }
+        }
+      }
+
+      for(var serviceType in this.provider.resources_JSON.services_without_other) {
+        var buff = "";
+
+        for (var service in this.provider.resources_JSON.services_without_other[serviceType]) {
+          if (this.provider.resources_JSON.services_without_other[serviceType][service].checked) {
+            if (buff == "") {
+              buff = service;
+            } else {
+              buff = buff + ", " + service;
+            }
+          }
+        }
+
+        if (buff != "") {
+          if(res == ""){
+            res = serviceType + ": " + buff
+          } else {
+            res = res + ", " + serviceType + ": " + buff
+          }
+        }
+      }
+      return res;
+    },
     async editProvider() {
-      console.log(this.provider);
-      // console.log(this.allServices);
       await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.provider.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
         id_cms_other: this.provider.id_cms_other,
         agency_name: this.provider.agency_name,
@@ -291,7 +342,7 @@ export default {
         county: this.provider.county,
         ownership_type: this.provider.ownership_type,
         resources_JSON: JSON.stringify(this.provider.resources_JSON),
-        resources_text: "",
+        resources_text: this.parse(),
       }, {
         withCredentials: true
       });  
