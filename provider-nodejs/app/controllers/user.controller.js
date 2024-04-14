@@ -219,8 +219,6 @@ exports.findAndCountAll = (req, res) => {
 exports.changeRole = (req, res) => {
     const username = req.params.username;
     const newRole = req.body.newRole;
-    console.log(req);
-
 
     User.update({ role: newRole }, { where: { username: username } })
         .then(num => {

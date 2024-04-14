@@ -14,31 +14,35 @@
       <div class="vcs">
         <ion-list style="width: 50%">
           <ion-item>
-            <ion-input label-placement="floating" label="Provider ID" v-model="providerId"></ion-input>
+            <ion-input label-placement="floating" label="Provider ID" v-model="provider.id_cms_other"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Name" v-model="providerName"></ion-input>
+            <ion-input label-placement="floating" label="Provider Name" v-model="provider.agency_name"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Email" type="email" v-model="providerEmail"></ion-input>
+            <ion-input label-placement="floating" label="Provider Email" type="email"
+              v-model="provider.email"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Phone #" type="tel" v-model="providerPhone"></ion-input>
+            <ion-input label-placement="floating" label="Provider Phone #" type="tel"
+              v-model="provider.phone_number"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Provider Website" type="url" v-model="providerWebsite"></ion-input>
+            <ion-input label-placement="floating" label="Provider Website" type="url"
+              v-model="provider.website"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Address" v-model="providerAddress"></ion-input>
+            <ion-input label-placement="floating" label="Address" v-model="provider.addr1"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Addr Line 2" helper-text="(optional)" v-model="addressLine2"></ion-input>
+            <ion-input label-placement="floating" label="Addr Line 2" helper-text="(optional)"
+              v-model="provider.addr2"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="City" v-model="city"></ion-input>
+            <ion-input label-placement="floating" label="City" v-model="provider.city"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="State" v-model="state">
+            <ion-select label-placement="floating" label="State" v-model="provider.state">
               <ion-select-option>AL</ion-select-option>
               <ion-select-option>AK</ion-select-option>
               <ion-select-option>AZ</ion-select-option>
@@ -92,82 +96,111 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Zip Code" v-model="zipCode"></ion-input>
+            <ion-input label-placement="floating" label="Zip Code" v-model="provider.zip"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County" v-model="county">
-              <ion-select-option>Autauga</ion-select-option>
-              <ion-select-option>Baldwin</ion-select-option>
-              <ion-select-option>Barbour</ion-select-option>
-              <ion-select-option>Bibb</ion-select-option>
-              <ion-select-option>Blount</ion-select-option>
-              <ion-select-option>Bullock</ion-select-option>
-              <ion-select-option>Butler</ion-select-option>
-              <ion-select-option>Calhoun</ion-select-option>
-              <ion-select-option>Chambers</ion-select-option>
-              <ion-select-option>Cherokee</ion-select-option>
-              <ion-select-option>Chilton</ion-select-option>
-              <ion-select-option>Choctaw</ion-select-option>
-              <ion-select-option>Clarke</ion-select-option>
-              <ion-select-option>Clay</ion-select-option>
-              <ion-select-option>Cleburne</ion-select-option>
-              <ion-select-option>Coffee</ion-select-option>
-              <ion-select-option>Colbert</ion-select-option>
-              <ion-select-option>Conecuh</ion-select-option>
-              <ion-select-option>Coosa</ion-select-option>
-              <ion-select-option>Covington</ion-select-option>
-              <ion-select-option>Crenshaw</ion-select-option>
-              <ion-select-option>Cullman</ion-select-option>
-              <ion-select-option>Dale</ion-select-option>
-              <ion-select-option>Dallas</ion-select-option>
-              <ion-select-option>DeKalb</ion-select-option>
-              <ion-select-option>Elmore</ion-select-option>
-              <ion-select-option>Escambia</ion-select-option>
-              <ion-select-option>Etowah</ion-select-option>
-              <ion-select-option>Fayette</ion-select-option>
-              <ion-select-option>Franklin</ion-select-option>
-              <ion-select-option>Geneva</ion-select-option>
-              <ion-select-option>Greene</ion-select-option>
-              <ion-select-option>Hale</ion-select-option>
-              <ion-select-option>Henry</ion-select-option>
-              <ion-select-option>Houston</ion-select-option>
-              <ion-select-option>Jackson</ion-select-option>
-              <ion-select-option>Jefferson</ion-select-option>
-              <ion-select-option>Lamar</ion-select-option>
-              <ion-select-option>Lauderdale</ion-select-option>
-              <ion-select-option>Lawrence</ion-select-option>
-              <ion-select-option>Lee</ion-select-option>
-              <ion-select-option>Limestone</ion-select-option>
-              <ion-select-option>Lowndes</ion-select-option>
-              <ion-select-option>Macon</ion-select-option>
-              <ion-select-option>Madison</ion-select-option>
-              <ion-select-option>Marengo</ion-select-option>
-              <ion-select-option>Marion</ion-select-option>
-              <ion-select-option>Marshall</ion-select-option>
-              <ion-select-option>Mobile</ion-select-option>
-              <ion-select-option>Monroe</ion-select-option>
-              <ion-select-option>Montgomery</ion-select-option>
-              <ion-select-option>Morgan</ion-select-option>
-              <ion-select-option>Perry</ion-select-option>
-              <ion-select-option>Pickens</ion-select-option>
-              <ion-select-option>Pike</ion-select-option>
-              <ion-select-option>Randolph</ion-select-option>
-              <ion-select-option>Russell</ion-select-option>
-              <ion-select-option>Saint Clair</ion-select-option>
-              <ion-select-option>Shelby</ion-select-option>
-              <ion-select-option>Sumter</ion-select-option>
-              <ion-select-option>Talladega</ion-select-option>
-              <ion-select-option>Tallapoosa</ion-select-option>
-              <ion-select-option>Tuscaloosa</ion-select-option>
-              <ion-select-option>Walker</ion-select-option>
-              <ion-select-option>Washington</ion-select-option>
-              <ion-select-option>Wilcox</ion-select-option>
-              <ion-select-option>Winston</ion-select-option>
+            <ion-select label-placement="floating" label="County" v-model="provider.county">
+              <ion-select-option>Autauga County</ion-select-option>
+              <ion-select-option>Baldwin County</ion-select-option>
+              <ion-select-option>Barbour County</ion-select-option>
+              <ion-select-option>Bibb County</ion-select-option>
+              <ion-select-option>Blount County</ion-select-option>
+              <ion-select-option>Bullock County</ion-select-option>
+              <ion-select-option>Butler County</ion-select-option>
+              <ion-select-option>Calhoun County</ion-select-option>
+              <ion-select-option>Chambers County</ion-select-option>
+              <ion-select-option>Cherokee County</ion-select-option>
+              <ion-select-option>Chilton County</ion-select-option>
+              <ion-select-option>Choctaw County</ion-select-option>
+              <ion-select-option>Clarke County</ion-select-option>
+              <ion-select-option>Clay County</ion-select-option>
+              <ion-select-option>Cleburne County</ion-select-option>
+              <ion-select-option>Coffee County</ion-select-option>
+              <ion-select-option>Colbert County</ion-select-option>
+              <ion-select-option>Conecuh County</ion-select-option>
+              <ion-select-option>Coosa County</ion-select-option>
+              <ion-select-option>Covington County</ion-select-option>
+              <ion-select-option>Crenshaw County</ion-select-option>
+              <ion-select-option>Cullman County</ion-select-option>
+              <ion-select-option>Dale County</ion-select-option>
+              <ion-select-option>Dallas County</ion-select-option>
+              <ion-select-option>DeKalb County</ion-select-option>
+              <ion-select-option>Elmore County</ion-select-option>
+              <ion-select-option>Escambia County</ion-select-option>
+              <ion-select-option>Etowah County</ion-select-option>
+              <ion-select-option>Fayette County</ion-select-option>
+              <ion-select-option>Franklin County</ion-select-option>
+              <ion-select-option>Geneva County</ion-select-option>
+              <ion-select-option>Greene County</ion-select-option>
+              <ion-select-option>Hale County</ion-select-option>
+              <ion-select-option>Henry County</ion-select-option>
+              <ion-select-option>Houston County</ion-select-option>
+              <ion-select-option>Jackson County</ion-select-option>
+              <ion-select-option>Jefferson County</ion-select-option>
+              <ion-select-option>Lamar County</ion-select-option>
+              <ion-select-option>Lauderdale County</ion-select-option>
+              <ion-select-option>Lawrence County</ion-select-option>
+              <ion-select-option>Lee County</ion-select-option>
+              <ion-select-option>Limestone County</ion-select-option>
+              <ion-select-option>Lowndes County</ion-select-option>
+              <ion-select-option>Macon County</ion-select-option>
+              <ion-select-option>Madison County</ion-select-option>
+              <ion-select-option>Marengo County</ion-select-option>
+              <ion-select-option>Marion County</ion-select-option>
+              <ion-select-option>Marshall County</ion-select-option>
+              <ion-select-option>Mobile County</ion-select-option>
+              <ion-select-option>Monroe County</ion-select-option>
+              <ion-select-option>Montgomery County</ion-select-option>
+              <ion-select-option>Morgan County</ion-select-option>
+              <ion-select-option>Perry County</ion-select-option>
+              <ion-select-option>Pickens County</ion-select-option>
+              <ion-select-option>Pike County</ion-select-option>
+              <ion-select-option>Randolph County</ion-select-option>
+              <ion-select-option>Russell County</ion-select-option>
+              <ion-select-option>Saint Clair County</ion-select-option>
+              <ion-select-option>Shelby County</ion-select-option>
+              <ion-select-option>Sumter County</ion-select-option>
+              <ion-select-option>Talladega County</ion-select-option>
+              <ion-select-option>Tallapoosa County</ion-select-option>
+              <ion-select-option>Tuscaloosa County</ion-select-option>
+              <ion-select-option>Walker County</ion-select-option>
+              <ion-select-option>Washington County</ion-select-option>
+              <ion-select-option>Wilcox County</ion-select-option>
+              <ion-select-option>Winston County</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Ownership Type" v-model="ownershipType"></ion-input>
+            <ion-input label-placement="floating" label="Ownership Type" v-model="provider.ownership_type"></ion-input>
           </ion-item>
+          <div class="vcs">
+            <ion-text>
+              <h4>Select all services you provide:</h4>
+            </ion-text>
+            <ion-list style="width: 100%;">
+              <div v-for="(services, serviceType) in allServices.services_with_other">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <div v-for="(value, service, index) in services">
+                  <ion-item
+                    v-if="Object.keys(services).length - 1 !== index && Object.keys(services).length - 2 !== index">
+                    <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service
+                      }}</ion-checkbox>
+                  </ion-item>
+                </div>
+                <ion-item>
+                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{
+                    serviceType }}:</ion-checkbox>
+                  <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
+                </ion-item>
+              </div>
+              <div v-for="(services, serviceType) in allServices.services_without_other">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <ion-item v-for="(value, service) in services">
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service
+                    }}</ion-checkbox>
+                </ion-item>
+              </div>
+            </ion-list>
+          </div>
         </ion-list>
         <ion-button color="crimson" @click="addProvider">Add Provider</ion-button>
       </div>
@@ -175,7 +208,7 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import {
   IonBackButton,
   IonButtons,
@@ -190,76 +223,251 @@ import {
   IonInput,
   IonSelect,
   IonSelectOption,
-  IonImg
+  IonImg,
+  IonCheckbox,
+  IonText,
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 import axios from 'axios';
 import { ref } from 'vue';
 import ToastPlugin from 'vue-toast-notification';
-import {useToast} from 'vue-toast-notification';
+import { useToast } from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
 
-const providerId = ref('');
-const providerName = ref('');
-const providerPhone = ref('');
-const providerEmail = ref('');
-const providerWebsite = ref('');
-const providerAddress = ref('');
-const addressLine2 = ref('');
-const city = ref('');
-const state = ref('');
-const zipCode = ref('');
-const county = ref('');
-const ownershipType = ref('');
+export default {
+  components: {
+    IonBackButton,
+    IonButtons,
+    IonButton,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonList,
+    IonItem,
+    IonInput,
+    IonSelect,
+    IonSelectOption,
+    IonImg,
+    IonCheckbox,
+    IonText,
+  },
+  data() {
+    return {
+      provider: {
+        id_cms_other: "",
+        agency_name: "",
+        email: "",
+        phone_number: "",
+        website: "",
+        addr1: "",
+        addr2: "",
+        city: "",
+        state: "",
+        zip: "",
+        county: "",
+        ownership_type: "",
+      },
+      allServices: {
+        services_with_other: {
+          "Home Services": {
+            "House keeping": { checked: false },
+            "Personal care": { checked: false },
+            "Daycare": { checked: false },
+            "Respite care": { checked: false },
+            "In home memory care": { checked: false },
+            "In home nursing": { checked: false },
+            "Activity enrichment": { checked: false },
+            "Report problems with in home providers": { checked: false },
+            "Research in home service providers": { checked: false },
+            other_checked: false,
+            "specific": "",
+          },
+          "Caregiver Support": {
+            "Caregiver support groups": { checked: false },
+            "Caregiver training": { checked: false },
+            "Counseling": { checked: false },
+            "Home changes (ramps, grab bars, etc)": { checked: false },
+            "Home maintenance": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Supplies": {
+            "Incontinence items": { checked: false },
+            "Medical supplies (Consumable medical supplies)": { checked: false },
+            "Durable equipment": { checked: false },
+            "Medic alerting services": { checked: false },
+            "Vision aids/glasses": { checked: false },
+            "Hearing aids": { checked: false },
+            "Oral/Dentures": { checked: false },
+            "Medical devices/prosthetics (shoe inserts, wearable glucose monitor, etc.)": { checked: false },
+            "Oxygen": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Financial Assistance": {
+            "Transportation": { checked: false },
+            "Referrals": { checked: false },
+            "Drug assistance": { checked: false },
+            "Reimbursement for services": { checked: false },
+            "Medicare": { checked: false },
+            "Home meal delivery": { checked: false },
+            "Bill assistance": { checked: false },
+            "Food pantry": { checked: false },
+            "Food vouchers": { checked: false },
+            "Medicare waivers": { checked: false },
+            "Food stamps": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Medical Services": {
+            "Medicare providers": { checked: false },
+            "Geriatricians": { checked: false },
+            "Psychiatrist": { checked: false },
+            "Neurologists": { checked: false },
+            "Specialists": { checked: false },
+            "Long term skilled nursing facility": { checked: false },
+            "In patient rehabilitation": { checked: false },
+            "Out of home memory care": { checked: false },
+            "Physical therapy": { checked: false },
+            "Occupational therapists (assistance with activities of daily living)": { checked: false },
+            "Hospice care": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+          "Legal Services": {
+            "Advanced directives/wills": { checked: false },
+            "Death and burial": { checked: false },
+            other_checked: false,
+            specific: "",
+          },
+        },
+        services_without_other: {
+          "Technology": {
+            "Technology": { checked: false },
+          },
+          "Academic": {
+            "Studies and trials": { checked: false },
+            "Research and medical procedures": { checked: false },
+            "Diagnosis": { checked: false },
+          }
+        }
+      },
+    }
+  },
+  setup() {
+    const router = useRouter();
 
-const showSuccess = ref(false); // Track whether to show the success message
+    const showSuccess = ref(false); // Track whether to show the success message
 
-const addProvider = async () => {
-  try {
-    const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
-      id_cms_other: providerId.value,
-      agency_name: providerName.value,
-      phone_number: providerPhone.value,
-      email: providerEmail.value,
-      addr1: providerAddress.value,
-      addr2: addressLine2.value,
-      city: city.value,
-      state: state.value,
-      website: providerWebsite.value,
-      zip: zipCode.value,
-      county: county.value,
-      ownership_type: ownershipType.value,
-    }, {
-      withCredentials: true
-    });
-    console.log('Provider added successfully:', response.data);
-    const $toast = useToast();
-    let instance = $toast.success('Provider added successfully!');
-    router.replace('/providers-search');
-     // this.$store.commit("login", this.username);
+    return { router, showSuccess }
+  },
+  methods: {
+    parse() {
+      var res = "";
+      // loop through services_wwith_other
+      for (var serviceType in this.allServices.services_with_other) {
+        var buff = "";
 
-    // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
-    setTimeout(() => {
-      instance.dismiss();
-    }, 3000);
+        for (var service in this.allServices.services_with_other[serviceType]) {
+          if (service == "other_checked") break;
 
-    // Show toast message
-    // Optionally, you can reset input fields after successful submission
-    providerId.value = '';
-    providerName.value = '';
-    providerPhone.value = '';
-    providerEmail.value = '';
-    providerAddress.value = '';
-    addressLine2.value = '';
-    city.value = '';
-    state.value = '';
-    providerWebsite.value ='';
-    zipCode.value = '';
-    county.value = '';
-    ownershipType.value = '';
-    // Reset other input fields similarly
-  } catch (error: any) {
+          if (this.allServices.services_with_other[serviceType][service].checked) {
+            if (buff == "") {
+              buff = service;
+            } else {
+              buff = buff + ", " + service;
+            }
+          }
+        }
+        if (this.allServices.services_with_other[serviceType].other_checked) {
+          if (buff == "") {
+            buff = "Other in " + serviceType + "(" + this.allServices.services_with_other[serviceType].specific + ")";
+          } else {
+            buff = buff + ", Other in " + serviceType + "(" + this.allServices.services_with_other[serviceType].specific + ")";
+          }
+        }
+
+        if (buff != "") {
+          if(res == ""){
+            res = serviceType + ": " + buff
+          } else {
+            res = res + ", " + serviceType + ": " + buff
+          }
+        }
+      }
+
+      for(var serviceType in this.allServices.services_without_other) {
+        var buff = "";
+
+        for (var service in this.allServices.services_without_other[serviceType]) {
+          if (this.allServices.services_without_other[serviceType][service].checked) {
+            if (buff == "") {
+              buff = service;
+            } else {
+              buff = buff + ", " + service;
+            }
+          }
+        }
+
+        if (buff != "") {
+          if(res == ""){
+            res = serviceType + ": " + buff
+          } else {
+            res = res + ", " + serviceType + ": " + buff
+          }
+        }
+      }
+      return res;
+    },
+    async addProvider() {
+      try {
+        const response = await axios.post('http://' + self.location.hostname + ':8081/api/providers', { //NOTE: Email is a good idea but not a field in the database currently
+          id_cms_other: this.provider.id_cms_other,
+          agency_name: this.provider.agency_name,
+          phone_number: this.provider.phone_number,
+          email: this.provider.email,
+          addr1: this.provider.addr1,
+          addr2: this.provider.addr2,
+          city: this.provider.city,
+          state: this.provider.state,
+          website: this.provider.website,
+          zip: this.provider.zip,
+          county: this.provider.county,
+          ownership_type: this.provider.ownership_type,
+          resources_JSON: JSON.stringify(this.allServices),
+          resources_text: this.parse(),
+        }, {
+          withCredentials: true
+        });
+        console.log('Provider added successfully:', response.data);
+        const $toast = useToast();
+        let instance = $toast.success('Provider added successfully!');
+        this.router.replace('/providers-search');
+        // this.$store.commit("login", this.username);
+
+        // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+        setTimeout(() => {
+          instance.dismiss();
+        }, 3000);
+
+        // Show toast message
+        // Optionally, you can reset input fields after successful submission
+        this.provider.id_cms_other = '';
+        this.provider.agency_name = '';
+        this.provider.phone_number = '';
+        this.provider.email = '';
+        this.provider.addr1 = '';
+        this.provider.addr2 = '';
+        this.provider.city = '';
+        this.provider.state = '';
+        this.provider.website = '';
+        this.provider.zip = '';
+        this.provider.county = '';
+        this.provider.ownership_type = '';
+        // Reset other input fields similarly
+      } catch (error: any) {
         if (error.response) {
           console.error('Error adding provider', error.response.data);
           const $toast = useToast();
@@ -278,6 +486,8 @@ const addProvider = async () => {
         }
         // Handle other types of errors
       }
-};
+    },
+  }
+}
 
 </script>
