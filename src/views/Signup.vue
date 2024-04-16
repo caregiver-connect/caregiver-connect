@@ -21,7 +21,7 @@
             <ion-input label-placement="floating" label="Username"  v-model="username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label-placement="floating" label="Password" type="password" v-model="password"></ion-input>
+            <ion-input label-placement="floating" label="Password" helper-text="Password must contain an Uppercase, a Lowercase, a number, a special character, and must be 6 or more characters" type="password" v-model="password"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label-placement="floating" label="Retype Password" type="password" v-model="retypePassword"></ion-input>
@@ -172,6 +172,10 @@ const addUser = async () => {
       throw new Error("Passwords do not match");
     }
 
+    if (password.value.length < 6){
+      throw new Error("Password must be 6 or more characters")
+    }
+
     if (!isStrongPassword(password.value)) {
       throw new Error("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
     }
@@ -206,6 +210,12 @@ const addUser = async () => {
           }, 3000);
           // Handle error response from the server
         } else if (error.message.includes("Password must contain")){
+          const $toast = useToast();
+          let instance = $toast.error(error.message);
+          setTimeout(() => {
+            instance.dismiss();
+          }, 3000);
+        } else if (error.message.includes("Password must be")){
           const $toast = useToast();
           let instance = $toast.error(error.message);
           setTimeout(() => {
