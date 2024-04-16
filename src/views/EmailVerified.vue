@@ -33,4 +33,11 @@
   const router = useRouter();
   
   const content = ref();
+
+  const response = await axios.post('http://' + self.location.hostname + ':8081/api/email/verify-email', {
+
+  }, {
+    withCredentials: true
+  });//NOTE: Email is a good idea but not a field in the database currently
+
   </script>
