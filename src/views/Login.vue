@@ -25,7 +25,6 @@
           <ion-card-content>
             Still need to Signup?
             <a @click="() => router.replace('/signup')"><u>General user sign up here</u></a>.
-            <a @click="() => router.replace('/provider-signup')"><u>Provider sign up here</u></a>.
           </ion-card-content>
         </ion-card>
       </div>

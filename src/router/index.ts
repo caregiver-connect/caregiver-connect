@@ -46,11 +46,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/edit-provider/:id',
     name: 'EditProvider',
     component: () => import('@/views/EditProvider.vue'),
-  },
-  {
-    path: '/provider-signup',
-    name: 'ProviderSignup',
-    component: () => import('@/views/ProviderSignup.vue'),
   }
 ]
 
