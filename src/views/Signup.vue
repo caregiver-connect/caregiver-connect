@@ -205,6 +205,18 @@ const addUser = async () => {
             instance.dismiss();
           }, 3000);
           // Handle error response from the server
+        } else if (error.message.includes("Password must contain")){
+          const $toast = useToast();
+          let instance = $toast.error(error.message);
+          setTimeout(() => {
+            instance.dismiss();
+          }, 3000);
+        } else if (error.message.includes("Passwords do not")){
+          const $toast = useToast();
+          let instance = $toast.error(error.message);
+          setTimeout(() => {
+            instance.dismiss();
+          }, 3000);
         } else {
           console.error('Unknown error:', error);
           const $toast = useToast();
