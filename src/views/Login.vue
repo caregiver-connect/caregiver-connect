@@ -24,7 +24,7 @@
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
             Still need to Signup?
-            <a @click="() => router.replace('/signup')"><u>General user sign up here</u></a>.
+            <a @click="() => router.replace('/signup')"><u>Signup Here</u></a>.
           </ion-card-content>
         </ion-card>
       </div>
