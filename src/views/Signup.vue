@@ -12,10 +12,6 @@
     </ion-header>
     <ion-content ref="content">
       <div class="vcs">
-        <ion-card class="ion-text-center" color="crimson" style="width: 50%">
-          <ion-card-content>Are you a service provider? Signup here instead!</ion-card-content>
-          <ion-button color="light" @click="() => router.replace('/provider-signup')">Provider Signup</ion-button>
-        </ion-card>
         <ion-list style="width: 50%">
           <ion-item>
             <ion-input label-placement="floating" label="Username"  v-model="username"></ion-input>
