@@ -5,4 +5,4 @@ EXPOSE 8100
 RUN npm install
 RUN npm install vite
 ENTRYPOINT ["ionic"]
-CMD ["serve", "--external", "--no-open"]
+CMD ["serve", "--external", "--no-open", "--ssl"]

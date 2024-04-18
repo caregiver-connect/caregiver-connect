@@ -12,6 +12,7 @@ services:
       - '5432:5432'
     volumes:
       - caregiverconnect-db:/var/lib/postgresql/data
+      - certs:/app/openssl/certs
       
   caregiver-backend:
     container_name: caregiver-backend
@@ -28,6 +29,8 @@ services:
       - postgres
     ports:
       - '8081:8081'
+    volumes:
+      - certs:/app/openssl/certs
 
   caregiver:
     container_name: caregiver
@@ -44,5 +47,10 @@ services:
       - caregiver-backend
     ports:
       - '80:8100'
+    volumes:
+      - certs:/app/openssl/certs
 volumes:
   caregiverconnect-db:
+  certs:
+    external: true
+    name: certs
