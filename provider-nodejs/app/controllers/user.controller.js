@@ -11,7 +11,7 @@ const emailHandler = require("../sendgrid/email-handler.js")
 require('dotenv').config({ path: '../../.env' });
 // Function to generate JWT token
 const generateToken = (user) => {
-    return jwt.sign({ id: user.id, username: user.username, role: user.role }, 'your-secret-key', { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key
+    return jwt.sign({ id: user.id, username: user.username, role: user.role }, process.env.SECRETKEY, { expiresIn: '1h' });
 };
 
 // Login endpoint

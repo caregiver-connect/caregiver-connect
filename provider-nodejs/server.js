@@ -1,6 +1,6 @@
 const express = require("express");
 const session = require("express-session");
-const csrf = require('lusca').csrf;
+// const csrf = require('lusca').csrf;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http");
@@ -33,7 +33,10 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(session({ secret: "keyboard cat", cookie: { maxAge: 60000, secure: false }})); // change cookie to secure when https is working
-app.use(csrf({ cookie: {name: '_csrf'}, secret: 'qwerty' }));
+// app.use(csrf({ cookie: {name: '_csrf'}, secret: 'qwerty' }));
+
+const db = require("./app/models");
+db.sequelize.sync({ alter: true });
 
 // Set security headers
 app.use((req, res, next) => {

@@ -45,7 +45,7 @@ exports.authenticateJWT = (req, res, next) => {
     if (!token) {
         return res.status(401).json({ message: 'Please login to add a provider' });
     }
-    jwt.verify(token, 'your-secret-key', (err, decodedToken) => { // change to environment variables later
+    jwt.verify(token, process.env.SECRETKEY, (err, decodedToken) => { // change to environment variables later
         if (err) {
             return res.status(401).json({ message: 'Invalid token.' });
         }
@@ -67,7 +67,7 @@ exports.authenticateJWTAdmin = (req, res, next) => {
         return res.status(401).json({ message: 'Do not have have the necessary priveleges' });
     }
     if (token)
-    jwt.verify(token, 'your-secret-key', (err, decodedToken) => { // change to environment variables later
+    jwt.verify(token, process.env.SECRETKEY, (err, decodedToken) => { // change to environment variables later
         if (err) {
             return res.status(401).json({ message: 'Invalid token.' });
         }
