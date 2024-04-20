@@ -10,7 +10,7 @@ const xss = require('xss');
 require('dotenv').config({ path: '../../.env' });
 // Function to generate JWT token
 const generateToken = (user) => {
-    return jwt.sign({ id: user.id, username: user.username }, 'your-secret-key', { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key
+    return jwt.sign({ id: user.id, username: user.username, role: user.role }, 'your-secret-key', { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key
 };
 
 // Login endpoint
@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
         res.cookie('token', generateToken(user), { httpOnly: true, maxAge: 3600000 }) // Cookie expries in one hour
 
         // Respond with a success message
-        res.json({ success: true, message: 'Login successful.' });
+        res.json({ success: true, message: user.role });
 
     } catch (error) {
         console.error('Login error:', error);
@@ -115,6 +115,21 @@ exports.create = async (req, res) => {
     const sanitizedPhoneNumber = xss(req.body.phone_number);
     const sanitizedEmail = xss(req.body.email);
     const sanitizedCounty = xss(req.body.county);
+
+    try {
+        // Check if user with the same username or email already exists
+        const existingUser = await User.findOne({ where: { username: sanitizedUsername }});
+    if (existingUser) {
+        console.log("existingUser = " + existingUser.username);
+        return res.status(409).json({ message: "Error with username, please select another" });
+    }
+    }
+    catch (err) {
+        res.status(500).send({
+            message: err.message || "Some error occurred while creating the User."
+        });
+    }
+
     if (sanitizedUsername === '__proto__' || sanitizedUsername === 'constructor' || sanitizedUsername === 'prototype') {
         res.end(403);
         return;

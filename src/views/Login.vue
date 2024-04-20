@@ -88,12 +88,18 @@ export default {
         const response = await axios.post('http://' + self.location.hostname + ':8081/api/users/login', { //NOTE: Email is a good idea but not a field in the database currently
           username: this.username,
           password: this.password,
-        },{
+        }, {
           headers: {
             'Content-type': 'application/json'
           },
           withCredentials: true, // will allow browser to store cookie
         });
+
+
+        const role = response.data.message; // role is in the response data field "message"
+
+        this.$store.commit('setUserRole', role);
+
         // Show toast message
         const $toast = useToast();
         let instance = $toast.success(`Welcome back ${this.username}! :)`);

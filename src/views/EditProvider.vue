@@ -243,25 +243,44 @@ export default {
   },
   methods: {
     async editProvider() {
-      await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.provider.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
-        id_cms_other: this.provider.id_cms_other,
-        agency_name: this.provider.agency_name,
-        phone_number: this.provider.phone_number,
-        email: this.provider.email,
-        addr1: this.provider.addr1,
-        addr2: this.provider.addr2,
-        city: this.provider.city,
-        state: this.provider.state,
-        website: this.provider.website,
-        zip: this.provider.zip,
-        county: this.provider.county,
-        ownership_type: this.provider.ownership_type,
-      }, {
-        withCredentials: true
-      });
+      try {
+        await axios.put(`http://${self.location.hostname}:8081/api/providers/${this.provider.place_id}`, {
+          id_cms_other: this.provider.id_cms_other,
+          agency_name: this.provider.agency_name,
+          phone_number: this.provider.phone_number,
+          email: this.provider.email,
+          addr1: this.provider.addr1,
+          addr2: this.provider.addr2,
+          city: this.provider.city,
+          state: this.provider.state,
+          website: this.provider.website,
+          zip: this.provider.zip,
+          county: this.provider.county,
+          ownership_type: this.provider.ownership_type,
+        }, {
+          withCredentials: true
+        });
+        const $toast = useToast();
+        let instance = $toast.success('Provider updated successfully!');
+        // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+        setTimeout(() => {
+          instance.dismiss();
+        }, 3000);
 
-      this.router.replace('/providers-search');
-    },
+        this.router.replace('/providers-search');
+      } catch (error) {
+        const $toast = useToast();
+        let instance = $toast.error('You do not have the necessary privileges to edit this provider.');
+        // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+        setTimeout(() => {
+          instance.dismiss();
+        }, 3000);
+
+        console.error('Error editing provider:', error);
+        // Optionally, you can show a user-friendly error message here
+      }
+    }
   }
+
 }
 </script>

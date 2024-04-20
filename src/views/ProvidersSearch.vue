@@ -153,10 +153,10 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.ownership_type }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(index)">
+                <ion-button v-if="isAdmin" class='CRUDButton' size="small" fill="solid" @click="edit(index)">
                   <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
                 </ion-button>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
+                <ion-button  v-if="isAdmin" class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
                   <ion-icon slot="icon-only" :icon="trash"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -315,6 +315,7 @@ export default {
       this.fetchData();
     },
     edit(index: number) {
+      
       console.log(index);
       console.log(this.entries[index]);
       console.log(this.entries[index].phone_number);

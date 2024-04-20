@@ -180,17 +180,20 @@
               <div v-for="(services, serviceType) in services_with_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
                 <ion-item v-for="(value, service) in services">
-                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service
+                    }}</ion-checkbox>
                 </ion-item>
                 <ion-item>
-                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{ serviceType }}:</ion-checkbox>
+                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{
+          serviceType }}:</ion-checkbox>
                   <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
                 </ion-item>
               </div>
               <div v-for="(services, serviceType) in services_without_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
                 <ion-item v-for="(value, service) in services">
-                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service
+                    }}</ion-checkbox>
                 </ion-item>
               </div>
             </ion-list>
@@ -371,9 +374,11 @@ export default {
           zip: this.zipCode.value,
           county: this.county.value,
           ownership_type: this.ownershipType.value,
-        }, {
-          withCredentials: true
-        });
+        },
+
+          {
+            withCredentials: true
+          });
         console.log('Provider added successfully:', response.data);
         const $toast = useToast();
         let instance = $toast.success('Provider added successfully!');

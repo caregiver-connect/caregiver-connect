@@ -3,6 +3,8 @@ module.exports = app => {
 
   const { create, createValidationRules } = require('../controllers/user.controller.js');
 
+  const providerController = require("../controllers/provider.controller.js");
+
   var router = require("express").Router();
 
   // Create a new user
@@ -20,20 +22,20 @@ module.exports = app => {
   // Find all Users in a specific county
   router.get("/inCounty", userController.findAllInCounty);
 
-  // Find all Users with a specific agency name
+  // Find all Users with a specific email
   router.get("/email", userController.findOneByEmail);
 
   // Route for logout
   router.post('/logout', userController.logout);
 
   // Change user role
-  router.post('/changeRole/:username', userController.changeRole);
+  router.post('/changeRole/:username', providerController.authenticateJWTAdmin, userController.changeRole);
 
   // Update a Users by the username
   router.put("/:username", userController.update);
 
-  // Delete a Users by username
-  router.delete("/:username", userController.delete);
+  // Delete a User by username
+  router.delete("/:username", providerController.authenticateJWTAdmin, userController.delete);
 
 
 

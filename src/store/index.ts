@@ -6,6 +6,8 @@ const store = createStore({
   state() {
     return {
       isLoggedIn: false,
+      isAdmin: false,
+      role: "",
       username: "",
       userSortKey: "username",
       userSortDirection: 0,
@@ -100,6 +102,10 @@ const store = createStore({
       state.provider.county = provider.county;
       state.provider.resources = provider.resources;
       state.provider.ownership_type = provider.ownership_type;
+    },
+    setUserRole(state, role: string) {
+      state.isAdmin = true;
+      state.role = role;
     }
   },
   plugins: [vuexPersister.persist]
