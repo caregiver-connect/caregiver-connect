@@ -123,6 +123,15 @@
                   v-if="providerSortKey != 'resources' || providerSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
+            <ion-col class="header-col" size="2" @click="providerSort('ownership_type')">
+              Ownership Type
+              <div>
+                <ion-icon class="arrows" :icon="arrowUp"
+                  v-if="providerSortKey != 'ownership_type' || providerSortDirection != 2"></ion-icon>
+                <ion-icon class="arrows" :icon="arrowDown"
+                  v-if="providerSortKey != 'ownership_type' || providerSortDirection != 1"></ion-icon>
+              </div>
+            </ion-col>
             <ion-col class="header-col" size="1.5">Edit / Delete</ion-col>
             <!-- empty column to add white space to right of table -->
             <ion-col class="whitespace" size="0.3"></ion-col>
@@ -141,12 +150,13 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="4">{{ entry.website }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.ownership_type }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(entry.place_id)">
+                <ion-button v-if="isAdmin" class='CRUDButton' size="small" fill="solid" @click="edit(index)">
                   <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
                 </ion-button>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
+                <ion-button  v-if="isAdmin" class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
                   <ion-icon slot="icon-only" :icon="trash"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -217,6 +227,7 @@ interface Entry {
   email: string;
   website: string;
   resources: string;
+  ownership_type: string;
 }
 
 export default {
@@ -303,9 +314,16 @@ export default {
       this.$store.commit('providerSort', key)
       this.fetchData();
     },
-    edit(id: string) {
-      console.log(id);
-      router.push('/edit-provider/' + id)
+    edit(index: number) {
+      
+      console.log(index);
+      console.log(this.entries[index]);
+      console.log(this.entries[index].phone_number);
+
+      this.$store.commit('storeProvider', this.entries[index]);
+
+      console.log("test")
+      router.push('/edit-provider/' + this.entries[index].place_id)
     },
     async remove(id: string) {
       console.log(id);

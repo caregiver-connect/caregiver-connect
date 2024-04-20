@@ -53,6 +53,32 @@ exports.authenticateJWT = (req, res, next) => {
         next(); // Go to next middleware function
     });
 };
+
+// JWT Middleware for authorizing users
+exports.authenticateJWTAdmin = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() }); // Input validation error
+    }
+
+    const token = req.cookies.token
+    //console.log("HERE\n");
+    if (!token) {
+        return res.status(401).json({ message: 'Do not have have the necessary priveleges' });
+    }
+    if (token)
+    jwt.verify(token, 'your-secret-key', (err, decodedToken) => { // change to environment variables later
+        if (err) {
+            return res.status(401).json({ message: 'Invalid token.' });
+        }
+        if (decodedToken.role != 'admin') { // If not an admin, do not allow to edit
+            return res.status(403).json({ message: 'Do not have necessary credentials' });
+        }
+        req.user = decodedToken; // Attach user info to the request object
+
+        next(); // Go to next middleware function
+    });
+};
 // Create and Save a new Provider
 exports.create = (req, res) => {
     //console.log("YAY\n");
@@ -64,6 +90,7 @@ exports.create = (req, res) => {
     }
 
     // Make phone numbers in format (###) ###-####
+    phone_number = '';
     let nums = req.body.phone_number.split('').filter(char => !isNaN(parseInt(char, 10)));
     if (nums.length === 10) {
         phone_number = `(${nums[0]}${nums[1]}${nums[2]}) ${nums[3]}${nums[4]}${nums[5]}-${nums[6]}${nums[7]}${nums[8]}${nums[9]}`;
@@ -209,6 +236,7 @@ exports.findOneByIdCmsOther = (req, res) => {
 // Update a Provider by the id_cms_other in the request
 exports.update = (req, res) => {
     const place_id = req.params.place_id;
+    console.log(req);
 
     Provider.update(req.body, {
         where: { place_id: place_id }

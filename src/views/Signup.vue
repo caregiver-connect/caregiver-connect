@@ -33,7 +33,7 @@
             <ion-input label-placement="floating" label="Phone #" type="tel" v-model="phoneNumber"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select lebel-placement="floating" label="County" v-model="county">
+            <ion-select label-placement="floating" label="County" v-model="county">
               <ion-select-option>Autauga</ion-select-option>
               <ion-select-option>Baldwin</ion-select-option>
               <ion-select-option>Barbour</ion-select-option>

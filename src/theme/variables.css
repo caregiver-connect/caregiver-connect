@@ -281,6 +281,11 @@ ion-toolbar {
   --background: var(--ion-color-primary)
 }
 
+ion-checkbox::part(container) {
+  border-radius: 3px;
+  border: 2px solid #9e1b32;
+}
+
 .vcs {
   display: flex;
   flex-direction: column;

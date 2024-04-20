@@ -173,20 +173,32 @@
               <h4>Select all services you provide:</h4>
             </ion-text>
             <ion-list style="width: 100%;">
+              <div v-for="(services, serviceType) in allServices">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <ion-item v-for="service in services">
+                  <ion-checkbox label-placement="end" justify="start">{{ service }}</ion-checkbox>
+                </ion-item>
+                <ion-item>
+                  <ion-checkbox label-placement="end" justify="start">Other in {{ serviceType }}:</ion-checkbox>
+                </ion-item>
+                <ion-item>
+                  <ion-input placeholder="For other please specify"></ion-input>
+                </ion-item>
+              </div>
+              <p style="padding-top: 5px;">Technology</p>
               <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
+                <!-- <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox> -->
+                <ion-checkbox label-placement="end" justify="start">Technology</ion-checkbox>
+              </ion-item>
+              <p style="padding-top: 5px;">Academic</p>
+              <ion-item>
+                <ion-checkbox label-placement="end" justify="start">Studies and trials</ion-checkbox>
               </ion-item>
               <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
+                <ion-checkbox label-placement="end" justify="start">Research and medical procedures</ion-checkbox>
               </ion-item>
               <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
-              </ion-item>
-              <ion-item>
-                <ion-checkbox label-placement="end" justify="start">Home care</ion-checkbox>
+                <ion-checkbox label-placement="end" justify="start">Diagnosis</ion-checkbox>
               </ion-item>
             </ion-list>
           </div>
@@ -201,8 +213,8 @@
     </ion-content>
   </ion-page>
 </template>
-    
-<script setup lang="ts">
+
+<script lang="ts">
 import {
   IonBackButton,
   IonButtons,
@@ -225,9 +237,99 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-const router = useRouter();
 
-const content = ref();
+export default {
+  components: {
+    IonBackButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonList,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonCheckbox,
+    IonText,
+    IonSelect,
+    IonSelectOption,
+    IonCard,
+    IonCardContent,
+    IonImg
+  },
+  data() {
+    return {
+      allServices: {
+        "Home Services": [
+          "House keeping",
+          "Personal care",
+          "Daycare",
+          "Respite care",
+          "In home memory care",
+          "In home nursing",
+          "Activity enrichment",
+          "Report problems with in home providers",
+          "Research in home service providers",
+        ],
+        "Caregiver Support": [
+          "Caregiver support groups",
+          "Caregiver training",
+          "Counseling",
+          "Home changes (ramps, grab bars, etc)",
+          "Home maintenance",
+        ],
+        "Supplies": [
+          "Incontinence items",
+          "Medical supplies (Consumable medical supplies)",
+          "Durable equipment",
+          "Medic alerting services",
+          "Vision aids/glasses",
+          "Hearing aids",
+          "Oral/Dentures",
+          "Medical devices/prosthetics (shoe inserts, wearable glucose monitor, etc.)",
+          "Oxygen",
+        ],
+        "Financial Assistance": [
+          "Transportation",
+          "Referrals",
+          "Drug assistance",
+          "Reimbursement for services",
+          "Medicare",
+          "Home meal delivery",
+          "Bill assistance",
+          "Food pantry",
+          "Food vouchers",
+          "Medicare waivers",
+          "Food stamps",
+        ],
+        "Medical Services": [
+          "Medicare providers",
+          "Geriatricians",
+          "Psychiatrist",
+          "Neurologists",
+          "Specialists",
+          "Long term skilled nursing facility",
+          "In patient rehabilitation",
+          "Out of home memory care",
+          "Physical therapy",
+          "Occupational therapists (assistance with activities of daily living)",
+          "Hospice care",
+        ],
+        "Legal Services": [
+          "Advanced directives/wills",
+          "Death and burial"
+        ],
+      }
+    }
+  },
+  setup() {
+    const router = useRouter();
+
+    const content = ref();
+  }
+}
 </script>
 
 <style>

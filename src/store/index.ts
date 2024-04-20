@@ -6,11 +6,29 @@ const store = createStore({
   state() {
     return {
       isLoggedIn: false,
+      isAdmin: false,
+      role: "",
       username: "",
       userSortKey: "username",
       userSortDirection: 0,
       providerSortKey: "place_id",
       providerSortDirection: 1,
+      provider: {
+        place_id: "",
+        id_cms_other: "",
+        agency_name: "",
+        email: "",
+        phone_number: "",
+        website: "",
+        addr1: "",
+        addr2: "",
+        city: "",
+        state: "",
+        zip: "",
+        county: "",
+        resources: "",
+        ownership_type: "",
+      }
     };
   },
   getters: {
@@ -30,7 +48,10 @@ const store = createStore({
       return state.userSortDirection;
     },
     userSortKey(state) {
-      return state.userSortKey;    
+      return state.userSortKey;
+    },
+    provider(state) {
+      return state.provider;
     },
   },
   mutations: {
@@ -42,11 +63,11 @@ const store = createStore({
       state.isLoggedIn = false;
       state.username = "";
     },
-    providerSort(state, key: string){
-      if(state.providerSortKey != key){
+    providerSort(state, key: string) {
+      if (state.providerSortKey != key) {
         state.providerSortDirection = 1;
       }
-      else if(state.providerSortDirection < 2){
+      else if (state.providerSortDirection < 2) {
         state.providerSortDirection++;
       }
       else {
@@ -66,6 +87,26 @@ const store = createStore({
       }
       state.userSortKey = key;
     },
+    storeProvider(state, provider) {
+      state.provider.place_id = provider.place_id;
+      state.provider.id_cms_other = provider.id_cms_other;
+      state.provider.agency_name = provider.agency_name;
+      state.provider.email = provider.email;
+      state.provider.phone_number = provider.phone_number;
+      state.provider.website = provider.website;
+      state.provider.addr1 = provider.addr1;
+      state.provider.addr2 = provider.addr2;
+      state.provider.city = provider.city;
+      state.provider.state = provider.state;
+      state.provider.zip = provider.zip;
+      state.provider.county = provider.county;
+      state.provider.resources = provider.resources;
+      state.provider.ownership_type = provider.ownership_type;
+    },
+    setUserRole(state, role: string) {
+      state.isAdmin = true;
+      state.role = role;
+    }
   },
   plugins: [vuexPersister.persist]
 });
