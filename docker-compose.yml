@@ -1,5 +1,20 @@
 version: "3.9"
 services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    build:
+      context: ./nginx
+    ports:
+      - '443:443'
+      - '80:80'
+    volumes:
+      - certs:/etc/nginx/certs/
+    external_links:
+      - caregiver
+    networks:
+      - caregiver-network
+
   postgres:
     container_name: postgres
     image: postgres:latest
@@ -13,6 +28,8 @@ services:
     volumes:
       - caregiverconnect-db:/var/lib/postgresql/data
       - certs:/app/openssl/certs
+    networks:
+      - caregiver-network
       
   caregiver-backend:
     container_name: caregiver-backend
@@ -31,6 +48,8 @@ services:
       - '8081:8081'
     volumes:
       - certs:/app/openssl/certs
+    networks:
+      - caregiver-network
 
   caregiver:
     container_name: caregiver
@@ -46,11 +65,23 @@ services:
       - postgres
       - caregiver-backend
     ports:
-      - '80:8100'
+      - '8100:8100'
     volumes:
       - certs:/app/openssl/certs
+    networks:
+      caregiver-network:
+        ipv4_address: 172.16.238.10
+
 volumes:
   caregiverconnect-db:
   certs:
     external: true
     name: certs
+
+networks:
+  caregiver-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+        - subnet: "2001:3984:3989::/64"
