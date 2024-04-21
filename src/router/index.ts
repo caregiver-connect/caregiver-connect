@@ -53,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/ProviderSignup.vue'),
   },
   {
-    path: '/email-verify/:token',
+    path: '/verify-email/:token',
     name: 'EmailVerified',
     component: () => import('@/views/EmailVerified.vue'),
   }
