@@ -148,10 +148,8 @@ exports.create = async (req, res) => {
             phone_number: phoneNumber,
             email: sanitizedEmail,
             county: sanitizedCounty,
-            approved: 0,
-            denied: 0,
             verified: false,
-            role: "untrusted",
+            role: "contributor",
         };
 
         // Save User in the database
@@ -221,8 +219,6 @@ exports.findAndCountAll = (req, res) => {
 exports.changeRole = (req, res) => {
     const username = req.params.username;
     const newRole = req.body.newRole;
-    console.log(req);
-
 
     User.update({ role: newRole }, { where: { username: username } })
         .then(num => {

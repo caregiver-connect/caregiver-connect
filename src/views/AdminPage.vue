@@ -20,7 +20,7 @@
             <!-- empty column to add white space to left of table -->
             <ion-col class="whitespace" size="0.3"></ion-col>
             <ion-col class="header-col" size="2" @click="userSort('username')">
-              Provider Name
+              Username
               <div>
                 <ion-icon class="arrows" :icon="arrowUp"
                   v-if="userSortKey != 'username' || userSortDirection != 2"></ion-icon>
@@ -53,15 +53,6 @@
                   v-if="userSortKey != 'county' || userSortDirection != 2"></ion-icon>
                 <ion-icon class="arrows" :icon="arrowDown"
                   v-if="userSortKey != 'county' || userSortDirection != 1"></ion-icon>
-              </div>
-            </ion-col>
-            <ion-col class="header-col" size="2" @click="userSort('approved')">
-              Approved / Denied
-              <div>
-                <ion-icon class="arrows" :icon="arrowUp"
-                  v-if="userSortKey != 'approved' || userSortDirection != 2"></ion-icon>
-                <ion-icon class="arrows" :icon="arrowDown"
-                  v-if="userSortKey != 'approved' || userSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
             <ion-col class="header-col" size="2" @click="userSort('verified')">
@@ -101,7 +92,6 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.county }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.approved }}/{{ entry.denied }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.verified }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">
               <ion-button :id="entry.username">
@@ -110,8 +100,7 @@
               </ion-button>
                 <ion-popover :trigger="entry.username" :dismiss-on-select="true">
                   <ion-list>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'untrusted')">untrusted</ion-item>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'trusted')">trusted</ion-item>
+                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'contributor')">contributor</ion-item>
                     <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'admin')">admin</ion-item>
                     <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'banned')">banned</ion-item>
                   </ion-list>
@@ -180,8 +169,6 @@ interface Entry {
   county: string;
   phone_number: string;
   email: string;
-  approved: number;
-  denied: number;
   verified: boolean;
   role: string;
   createdAt: string;
@@ -247,11 +234,6 @@ export default {
         var userSortKey = this.userSortDirection == 0 ? 'username' : this.userSortKey;
         var userSortDirection = this.userSortDirection == 2 ? 'DESC' : 'ASC';
 
-        if (userSortKey == 'approved' && userSortDirection == 'DESC') {
-          userSortKey = 'denied';
-          userSortDirection = 'ASC';
-        }
-
         const params = {
           search: this.query,
           pageSize: this.pageSize,
@@ -259,7 +241,6 @@ export default {
           orderCol: userSortKey,
           orderDirection: userSortDirection,
         };
-        console.log(params);
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/users', {
           params: params,
         }, {
@@ -270,7 +251,6 @@ export default {
         this.count = response.data.count;
         this.pageNumber = Math.ceil(this.count / this.pageSize);
         this.entries = response.data.rows;
-        console.log(response)
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -281,7 +261,6 @@ export default {
       this.fetchData();
     },
     async changeRole(username: string, role: string) {
-      console.log(username);
       try {
         const response = await axios.post('http://' + self.location.hostname + `:8081/api/users/changeRole/${username}`, {
           newRole: role

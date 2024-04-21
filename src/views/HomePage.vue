@@ -59,46 +59,6 @@
         <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
         <ion-text color="secondary">Add Provider</ion-text>
       </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Edit Provider</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
-      <ion-button color="primary" size="large" expand="block" @click="() => router.push('/edit-provider')">
-        <ion-icon slot="start" :icon="addCircle" color="secondary"></ion-icon>
-        <ion-text color="secondary">Find Services</ion-text>
-      </ion-button>
       <!-- </ion-buttons> -->
     </ion-content>
   </ion-page>
