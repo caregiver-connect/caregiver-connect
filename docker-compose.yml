@@ -25,6 +25,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      TOKEN_SECRET: ${TOKEN_SECRET}
     depends_on:
       - postgres
     ports:
@@ -42,6 +43,7 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
+      TOKEN_SECRET: ${TOKEN_SECRET}
     depends_on:
       - postgres
       - caregiver-backend
