@@ -23,6 +23,12 @@
         <ion-button @click="login">Login</ion-button>
         <ion-card class="ion-text-center" color="secondary" style="width: 50%">
           <ion-card-content>
+            Forgot your password?
+            <a @click="() => router.replace('/password-reset-prompt')"><u>Reset Password</u></a>.
+          </ion-card-content>
+        </ion-card>
+        <ion-card class="ion-text-center" color="secondary" style="width: 50%">
+          <ion-card-content>
             Still need to Signup?
             <a @click="() => router.replace('/signup')"><u>General user sign up here</u></a>.
             <a @click="() => router.replace('/provider-signup')"><u>Provider sign up here</u></a>.

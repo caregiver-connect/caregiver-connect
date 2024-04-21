@@ -34,6 +34,10 @@ exports.sendVerificationEmail = (req, res) => {
     }
 
     emailHandler.sendMsg(msg)
+
+    res.send({
+        message: "User verification email sent successfully!"
+    });
 }
 
 exports.verifyEmail = (req, res) => {
@@ -87,15 +91,19 @@ exports.sendPasswordResetEmail = (req, res) => {
         to: email, // Change to your recipient
         from: 'caregiver-connect-test@outlook.com', // Change to your verified sender
         subject: 'Reset your Caregiver Connect Password',
-        text: `To reset your Cargiver Connect account password, please follow the reset link below:\nClick the following link to verify your email: http://cs495-spring2024-09.ua.edu/reset-password?token=${verification_token}&user=${user_id}\nThis link will expire in 1 hour.`
+        text: `To reset your Cargiver Connect account password, please follow the reset link below:\nClick the following link to reset your password: http://cs495-spring2024-09.ua.edu/password-reset/${verification_token}/${user_id}\nThis link will expire in 1 hour.`
     }
 
     emailHandler.sendMsg(msg)
+
+    res.send({
+        message: "User password reset email sent successfully!"
+    });
 }
 
 exports.resetPassword = (req, res) => {
 
-    const { token, user_id, password } = req.body;
+    const { password, confirmpassword, token, user_id } = req.body;
 
     if (!token) {
         return res.status(400).send('Token is required.');
@@ -108,10 +116,12 @@ exports.resetPassword = (req, res) => {
             return res.status(401).send('Invalid or expired token.');
         }
 
-        // Extract necessary information from the decoded token
-        const { email } = decoded;
+        if (password != confirmpassword) {
+            console.error('Error verifying password:', err);
+            return res.status(401).send('Passwords do not match');
+        }
 
-        User.update({ password: "password" }, { where: { username: user_id } })
+        User.update({ password: password }, { where: { username: user_id } })
         .then(num => {
             if (num == 1) {
                 res.send({
