@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-        <ion-title>Login</ion-title>
+        <ion-title>Email Verification</ion-title>
         <ion-img slot="end" src="../../logo.jpg" @click="() => router.push('/home')"
           style="position: right 5px center; width: 35px;"></ion-img>
       </ion-toolbar>
@@ -37,7 +37,7 @@ import {
   IonImg
 } from '@ionic/vue';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { createApp } from 'vue';
 import ToastPlugin from 'vue-toast-notification';
 import { useToast } from 'vue-toast-notification';
@@ -63,25 +63,17 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const queryString = window.location.search;
-    console.log(queryString);
-    const urlParams = new URLSearchParams(queryString);
-
-    const token = urlParams.get('token')
-    console.log(token);
+    const route = useRoute();
 
 
-    const user_id = urlParams.get('user')
-    console.log(user_id);
-
-    return { router, token, user_id }
+    return { router, route }
   },
   methods: {
     async verifyemail() {
       try {
         const response = await axios.post('http://' + self.location.hostname + ':8081/api/email/verify-email', { //NOTE: Email is a good idea but not a field in the database currently
-          token: this.token,
-          user_id: this.user_id,
+          token: this.route.params.token,
+          user_id: this.route.params.id,
         },{
           headers: {
             'Content-type': 'application/json'
