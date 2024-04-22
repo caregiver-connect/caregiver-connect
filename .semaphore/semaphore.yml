@@ -13,16 +13,6 @@ blocks:
             - checkout
             - docker build -t caregiver-backend ./provider-nodejs
     dependencies: []
-  - name: Launch Stack
-    dependencies:
-      - Build Backend
-      - Build Frontend
-      - Build OpenSSL
-    task:
-      jobs:
-        - name: Launch stack
-          commands:
-            - docker-compose up --build --force-recreate --no-deps
   - name: Build Frontend
     dependencies: []
     task:
@@ -31,11 +21,3 @@ blocks:
           commands:
             - checkout
             - docker build -t caregiver .
-  - name: Build OpenSSL
-    dependencies: []
-    task:
-      jobs:
-        - name: Build OpenSSL
-          commands:
-            - checkout
-            - 'docker build -t docker-openssl:latest ./openssl'

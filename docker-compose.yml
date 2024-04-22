@@ -4,10 +4,10 @@ services:
     container_name: postgres
     image: postgres:latest
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_DB: caregiverconnect
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST_AUTH_METHOD: ${POSTGRES_HOST_AUTH_METHOD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports: 
       - '5432:5432'
     volumes:
@@ -19,10 +19,12 @@ services:
     build:
       context: ./provider-nodejs
     environment:
-      DB_SCHEMA: postgres
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: postgres
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      GEOAPIFY_API_KEY: ${GEOAPIFY_API_KEY}
     depends_on:
       - postgres
     ports:
@@ -34,10 +36,10 @@ services:
     build:
       context: .
     environment:
-      DB_SCHEMA: postgres
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: postgres
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
     depends_on:
       - postgres
       - caregiver-backend

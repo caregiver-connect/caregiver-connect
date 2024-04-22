@@ -114,13 +114,13 @@
                   v-if="providerSortKey != 'website' || providerSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
-            <ion-col class="header-col" size="3" @click="providerSort('resources')">
+            <ion-col class="header-col" size="3" @click="providerSort('resources_text')">
               Resources
               <div>
                 <ion-icon class="arrows" :icon="arrowUp"
-                  v-if="providerSortKey != 'resources' || providerSortDirection != 2"></ion-icon>
+                  v-if="providerSortKey != 'resources_text' || providerSortDirection != 2"></ion-icon>
                 <ion-icon class="arrows" :icon="arrowDown"
-                  v-if="providerSortKey != 'resources' || providerSortDirection != 1"></ion-icon>
+                  v-if="providerSortKey != 'resources_text' || providerSortDirection != 1"></ion-icon>
               </div>
             </ion-col>
             <ion-col class="header-col" size="2" @click="providerSort('ownership_type')">
@@ -149,7 +149,7 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.phone_number }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.email }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="4">{{ entry.website }}</ion-col>
-            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources }}</ion-col>
+            <ion-col :class="{ even: index % 2 == 1 }" size="3">{{ entry.resources_text }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.ownership_type }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
@@ -226,7 +226,8 @@ interface Entry {
   phone_number: string;
   email: string;
   website: string;
-  resources: string;
+  resources_JSON: string;
+  resources_text: string;
   ownership_type: string;
 }
 
@@ -270,7 +271,7 @@ export default {
     },
     providerSortKey() {
       return this.$store.getters.providerSortKey;
-    }
+    },
   },
   setup() {
     const router = useRouter();
@@ -294,7 +295,6 @@ export default {
           orderCol: providerSortKey,
           orderDirection: providerSortDirection,
         };
-        console.log(params);
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/providers', {
           params: params,
         }, {
@@ -315,18 +315,11 @@ export default {
       this.fetchData();
     },
     edit(index: number) {
-      
-      console.log(index);
-      console.log(this.entries[index]);
-      console.log(this.entries[index].phone_number);
-
       this.$store.commit('storeProvider', this.entries[index]);
 
-      console.log("test")
       router.push('/edit-provider/' + this.entries[index].place_id)
     },
     async remove(id: string) {
-      console.log(id);
       try {
         const response = await axios.delete('http://' + self.location.hostname + `:8081/api/providers/${id}`, {
           withCredentials: true,
