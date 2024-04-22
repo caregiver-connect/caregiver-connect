@@ -1,14 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const http = require("http"); // Change from https to http
+const http = require("http");
 const cookieParser = require('cookie-parser');
-//csrf = require('lusca').csrf;
 require('dotenv').config({ path: './.env' });
 
-
-const app = express(); // exposing framework add extra line so it doesnt show you are using express
-app.disable('x-powered-by'); // Hides that we are using express
+const app = express();
+app.disable('x-powered-by');
 
 // Enable CORS for requests from frontend
 var whitelist = ['http://cs495-spring2024-09.ua.edu']
@@ -20,16 +18,33 @@ var corsOptions = {
       callback(new Error('Not allowed by CORS'))
     }
   },
-  credentials: true // allow cookies and other credntials to be sent
+  credentials: true
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
-// app.use(csrf());
 
+// Set security headers
+app.use((req, res, next) => {
+  // HTTP Strict Transport Security (HSTS)
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
 
-// Connect to the database and synchronize models
-const db = require("./app/models");
-db.sequelize.sync({ alter: true });
+  // Cross-Site Scripting Protection (X-XSS-Protection)
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  // Website IFrame Protection (X-Frame-Options)
+  res.setHeader('X-Frame-Options', 'DENY');
+
+  // Preventing Content-Type Sniffing (X-Content-Type-Options)
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  // Content Security Policy (CSP)
+  res.setHeader('Content-Security-Policy', "default-src 'self'");
+
+  // Permissions-Policy
+  res.setHeader('Permissions-Policy', "geolocation=(self 'https://example.com')");
+
+  next();
+});
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -50,7 +65,7 @@ require("./app/routes/user.routes")(app);
 require("./app/routes/email.routes")(app);
 
 // Create an HTTP server instead of HTTPS
-const server = http.createServer(app); // Change from https to http
+const server = http.createServer(app);
 
 // Set the port and start listening for requests
 const PORT = process.env.PORT || 8081;

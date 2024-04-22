@@ -153,10 +153,10 @@
             <ion-col :class="{ even: index % 2 == 1 }" size="2">{{ entry.ownership_type }}</ion-col>
             <ion-col :class="{ even: index % 2 == 1 }" size="1.5">
               <ion-buttons>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="edit(index)">
+                <ion-button v-if="isAdmin" class='CRUDButton' size="small" fill="solid" @click="edit(index)">
                   <ion-icon slot="icon-only" :icon="pencil"></ion-icon>
                 </ion-button>
-                <ion-button class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
+                <ion-button v-if="isAdmin" class='CRUDButton' size="small" fill="solid" @click="remove(entry.place_id)">
                   <ion-icon slot="icon-only" :icon="trash"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -212,6 +212,7 @@ import axios from 'axios';
 import { add, arrowUp, arrowDown, pencil, trash, chevronBack, chevronForward } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 import router from '@/router';
+import { useToast } from 'vue-toast-notification';
 
 interface Entry {
   place_id: string;
@@ -272,6 +273,9 @@ export default {
     providerSortKey() {
       return this.$store.getters.providerSortKey;
     },
+    isAdmin() {
+      return this.$store.getters.isAdmin;
+    }
   },
   setup() {
     const router = useRouter();
@@ -324,6 +328,15 @@ export default {
         const response = await axios.delete('http://' + self.location.hostname + `:8081/api/providers/${id}`, {
           withCredentials: true,
         });
+
+        // Show toast message for successful deletion
+        const $toast = useToast();
+        let instance = $toast.success(`Provider with ID ${id} has been successfully deleted`);
+
+        // Dismiss the toast after a certain duration (e.g., 3000 milliseconds)
+        setTimeout(() => {
+          instance.dismiss();
+        }, 3000);
 
         this.fetchData();
       }

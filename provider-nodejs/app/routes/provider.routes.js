@@ -5,7 +5,7 @@ module.exports = app => {
   var router = require("express").Router();
   // Create a new Provider. Authenticate they can add, validate what they are adding
   router.post("/", providerValidationRules(), authenticateJWT, create);
-
+  
   // Retrieve Providers from the database with search and counts them.
   router.get("/", providerController.findAndCountAll);
 
@@ -22,7 +22,7 @@ module.exports = app => {
   router.get("/:agency_name", providerController.findByAgencyName);
 
   // Update a Provider by the place_id
-  router.put("/:place_id", providerController.update);
+  router.put("/:place_id", providerValidationRules(), providerController.authenticateJWTAdmin, providerController.update);
 
   // Delete a Provider by place_id
   router.delete("/:place_id", authenticateJWT, providerController.delete);

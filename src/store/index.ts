@@ -6,6 +6,8 @@ const store = createStore({
   state() {
     return {
       isLoggedIn: false,
+      isAdmin: false,
+      role: "",
       username: "",
       userSortKey: "username",
       userSortDirection: 0,
@@ -51,6 +53,9 @@ const store = createStore({
     provider(state) {
       return state.provider;
     },
+    isAdmin(state) {
+      return state.isAdmin;
+    }
   },
   mutations: {
     login(state, username: string) {
@@ -59,6 +64,7 @@ const store = createStore({
     },
     logout(state) {
       state.isLoggedIn = false;
+      state.isAdmin = false;
       state.username = "";
     },
     providerSort(state, key: string) {
@@ -100,6 +106,12 @@ const store = createStore({
       state.provider.county = provider.county;
       state.provider.resources_JSON = JSON.parse(provider.resources_JSON);
       state.provider.ownership_type = provider.ownership_type;
+    },
+    setUserRole(state, role: string) {
+      if (role == "admin") {
+        state.isAdmin = true;
+      }
+      state.role = role;
     }
   },
   plugins: [vuexPersister.persist]
