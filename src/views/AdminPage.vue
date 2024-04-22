@@ -100,9 +100,9 @@
               </ion-button>
                 <ion-popover :trigger="entry.username" :dismiss-on-select="true">
                   <ion-list>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'contributor')">contributor</ion-item>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'admin')">admin</ion-item>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'banned')">banned</ion-item>
+                    <ion-item :v-if="isAdmin" :button="true" :detail="false" @click="changeRole(entry.username, 'contributor')">contributor</ion-item>
+                    <ion-item :v-if="isAdmin" :button="true" :detail="false" @click="changeRole(entry.username, 'admin')">admin</ion-item>
+                    <ion-item :v-if="isAdmin" :button="true" :detail="false" @click="changeRole(entry.username, 'banned')">banned</ion-item>
                   </ion-list>
                 </ion-popover>
             </ion-col>
@@ -217,6 +217,9 @@ export default {
     },
     userSortKey() {
       return this.$store.getters.userSortKey;
+    },
+    isAdmin() {
+      return this.$store.getters.isAdmin;
     }
   },
   setup() {
