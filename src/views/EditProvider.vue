@@ -172,6 +172,31 @@
           <ion-item>
             <ion-input label-placement="floating" label="Ownership Type" v-model="provider.ownership_type"></ion-input>
           </ion-item>
+          <div class="vcs">
+            <ion-text>
+              <h4>Select all services you provide:</h4>
+            </ion-text>
+            <ion-list style="width: 100%;">
+              <div v-for="(services, serviceType) in provider.resources_JSON.services_with_other">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <div v-for="(value, service, index) in services">
+                  <ion-item v-if="Object.keys(services).length - 1 !== index && Object.keys(services).length - 2 !== index">
+                    <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                  </ion-item>
+                </div>
+                <ion-item>
+                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{ serviceType }}:</ion-checkbox>
+                  <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
+                </ion-item>
+              </div>
+              <div v-for="(services, serviceType) in provider.resources_JSON.services_without_other">
+                <p style="padding-top: 5px;">{{ serviceType }}:</p>
+                <ion-item v-for="(value, service) in services">
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                </ion-item>
+              </div>
+            </ion-list>
+          </div>
         </ion-list>
         <ion-buttons>
           <ion-button color="crimson" @click="() => router.replace('/providers-search')">Cancel Edit</ion-button>
@@ -197,7 +222,9 @@ import {
   IonInput,
   IonSelect,
   IonSelectOption,
-  IonImg
+  IonImg,
+  IonCheckbox,
+  IonText
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -222,7 +249,9 @@ export default {
     IonInput,
     IonSelect,
     IonSelectOption,
-    IonImg
+    IonImg,
+    IonCheckbox,
+    IonText
   },
   computed: {
     provider() {
@@ -242,6 +271,62 @@ export default {
     return { router, showSuccess };
   },
   methods: {
+    parse() {
+      var res = "";
+      for (var serviceType in this.provider.resources_JSON.services_with_other) {
+        var buff = "";
+
+        for (var service in this.provider.resources_JSON.services_with_other[serviceType]) {
+          if (service == "other_checked") break;
+
+          if (this.provider.resources_JSON.services_with_other[serviceType][service].checked) {
+            if (buff == "") {
+              buff = service;
+            } else {
+              buff = buff + ", " + service;
+            }
+          }
+        }
+        if (this.provider.resources_JSON.services_with_other[serviceType].other_checked) {
+          if (buff == "") {
+            buff = "Other in " + serviceType + "(" + this.provider.resources_JSON.services_with_other[serviceType].specific + ")";
+          } else {
+            buff = buff + ", Other in " + serviceType + "(" + this.provider.resources_JSON.services_with_other[serviceType].specific + ")";
+          }
+        }
+
+        if (buff != "") {
+          if(res == ""){
+            res = serviceType + ": " + buff
+          } else {
+            res = res + ", " + serviceType + ": " + buff
+          }
+        }
+      }
+
+      for(var serviceType in this.provider.resources_JSON.services_without_other) {
+        var buff = "";
+
+        for (var service in this.provider.resources_JSON.services_without_other[serviceType]) {
+          if (this.provider.resources_JSON.services_without_other[serviceType][service].checked) {
+            if (buff == "") {
+              buff = service;
+            } else {
+              buff = buff + ", " + service;
+            }
+          }
+        }
+
+        if (buff != "") {
+          if(res == ""){
+            res = serviceType + ": " + buff
+          } else {
+            res = res + ", " + serviceType + ": " + buff
+          }
+        }
+      }
+      return res;
+    },
     async editProvider() {
       try {
         await axios.put(`http://${self.location.hostname}:8081/api/providers/${this.provider.place_id}`, {
@@ -266,6 +351,24 @@ export default {
         setTimeout(() => {
           instance.dismiss();
         }, 3000);
+      await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.provider.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
+        id_cms_other: this.provider.id_cms_other,
+        agency_name: this.provider.agency_name,
+        phone_number: this.provider.phone_number,
+        email: this.provider.email,
+        addr1: this.provider.addr1,
+        addr2: this.provider.addr2,
+        city: this.provider.city,
+        state: this.provider.state,
+        website: this.provider.website,
+        zip: this.provider.zip,
+        county: this.provider.county,
+        ownership_type: this.provider.ownership_type,
+        resources_JSON: JSON.stringify(this.provider.resources_JSON),
+        resources_text: this.parse(),
+      }, {
+        withCredentials: true
+      });  
 
         this.router.replace('/providers-search');
       } catch (error) {
