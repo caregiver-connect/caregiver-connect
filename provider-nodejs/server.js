@@ -1,12 +1,22 @@
 const express = require("express");
+const session = require("express-session");
+const csrf = require('lusca').csrf;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http");
 const cookieParser = require('cookie-parser');
+const RateLimit = require("express-rate-limit")
 require('dotenv').config({ path: './.env' });
 
 const app = express();
 app.disable('x-powered-by');
+
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+
+app.use(limiter);
 
 // Enable CORS for requests from frontend
 var whitelist = ['http://cs495-spring2024-09.ua.edu']
@@ -22,6 +32,8 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(session({ secret: "keyboard cat", cookie: { maxAge: 60000, secure: false }})); // change cookie to secure when https is working
+app.use(csrf({ cookie: {name: '_csrf'}, secret: 'qwerty' }));
 
 // Set security headers
 app.use((req, res, next) => {

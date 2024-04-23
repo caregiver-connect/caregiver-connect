@@ -269,6 +269,7 @@ export default {
           newRole: role
         }, {
           withCredentials: true,
+          xsrfCookieName: '_csrf'
         });
 
         this.fetchData();

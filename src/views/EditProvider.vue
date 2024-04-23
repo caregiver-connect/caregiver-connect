@@ -343,7 +343,8 @@ export default {
           county: this.provider.county,
           ownership_type: this.provider.ownership_type,
         }, {
-          withCredentials: true
+          withCredentials: true,
+          xsrfCookieName: '_csrf'
         });
         const $toast = useToast();
         let instance = $toast.success('Provider updated successfully!');
@@ -367,7 +368,8 @@ export default {
         resources_JSON: JSON.stringify(this.provider.resources_JSON),
         resources_text: this.parse(),
       }, {
-        withCredentials: true
+        withCredentials: true,
+        xsrfCookieName: '_csrf'
       });  
 
         this.router.replace('/providers-search');

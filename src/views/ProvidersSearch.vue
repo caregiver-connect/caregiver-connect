@@ -327,6 +327,7 @@ export default {
       try {
         const response = await axios.delete('http://' + self.location.hostname + `:8081/api/providers/${id}`, {
           withCredentials: true,
+          xsrfCookieName: '_csrf'
         });
 
         // Show toast message for successful deletion
