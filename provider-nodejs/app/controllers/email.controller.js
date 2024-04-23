@@ -140,7 +140,6 @@ exports.resetPassword = (req, res) => {
         });
 
         // For demonstration purposes, just send a success response
-        // res.send(`Email ${email} verified successfully.`);
+        //res.send(`Email ${xss(email)} verified successfully.`);
     });
-        res.send(`Email ${xss(email)} verified successfully.`);
 }
