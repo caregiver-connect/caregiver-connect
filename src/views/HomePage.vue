@@ -117,7 +117,8 @@ export default {
       try {
         // Make a POST request to the logout endpoint
         await axios.post('http://' + self.location.hostname + ':8081/api/users/logout', null, {
-          withCredentials: true
+          withCredentials: true,
+          xsrfCookieName: '_csrf'
         });
         // Upon successful logout, clear the authentication token from local storage or store
         this.$store.commit('logout');

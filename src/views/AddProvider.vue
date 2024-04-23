@@ -439,7 +439,8 @@ export default {
           resources_JSON: JSON.stringify(this.allServices),
           resources_text: this.parse(),
         }, {
-          withCredentials: true
+          withCredentials: true,
+          xsrfCookieName: '_csrf'
         });
         console.log('Provider added successfully:', response.data);
         const $toast = useToast();

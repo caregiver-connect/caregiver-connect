@@ -92,6 +92,7 @@ export default {
             'Content-type': 'application/json'
           },
           withCredentials: true, // will allow browser to store cookie
+          xsrfCookieName: '_csrf'
         });
 
 
