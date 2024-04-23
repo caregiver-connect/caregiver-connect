@@ -1,5 +1,5 @@
 const express = require("express");
-const session = require("express-session");
+// const session = require("express-session");
 // const csrf = require('lusca').csrf;
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -32,7 +32,7 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
-app.use(session({ secret: "keyboard cat", cookie: { maxAge: 60000, secure: false }})); // change cookie to secure when https is working
+// app.use(session({ cookie: { maxAge: 60000, secure: false }})); // change cookie to secure when https is working
 // app.use(csrf({ cookie: {name: '_csrf'}, secret: 'qwerty' }));
 
 const db = require("./app/models");
