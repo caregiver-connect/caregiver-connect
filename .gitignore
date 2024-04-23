@@ -33,17 +33,12 @@ node_modules/
 /platforms
 /plugins
 /www
-<<<<<<< HEAD
 /data
 /letsencrypt
-=======
 credentials.env
 *.env
 *.crt
 *.key
 *.cert
-<<<<<<< HEAD
->>>>>>> main
-=======
 /data
->>>>>>> 458bef3 (no more keys)
+/openssl/certs/
