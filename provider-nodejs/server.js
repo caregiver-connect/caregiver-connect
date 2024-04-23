@@ -19,7 +19,7 @@ const limiter = RateLimit({
 app.use(limiter);
 
 // Enable CORS for requests from frontend
-var whitelist = [process.env.HOSTNAME]
+var whitelist = ['http://cs495-spring2024-09.ua.edu']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
