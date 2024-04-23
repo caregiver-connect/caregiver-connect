@@ -246,6 +246,8 @@ export default {
         };
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/users', {
           params: params,
+          withCredentials: true,
+          xsrfCookieName: '_csrf'
         }, {
           headers: {
             'Content-type': 'application/json'

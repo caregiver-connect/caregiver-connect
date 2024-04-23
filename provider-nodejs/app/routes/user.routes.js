@@ -14,7 +14,7 @@ module.exports = app => {
   router.post('/login', userController.login);
 
   // Retrieve Users from the database with search and counts them.
-  router.get("/", userController.findAndCountAll);
+  router.get("/", providerController.authenticateJWTAdmin, userController.findAndCountAll);
 
   // Retrieve single User's username
   router.get("/username", userController.findOneByUsername);
