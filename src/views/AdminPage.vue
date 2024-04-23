@@ -100,9 +100,9 @@
               </ion-button>
                 <ion-popover :trigger="entry.username" :dismiss-on-select="true">
                   <ion-list>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'contributor')">contributor</ion-item>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'admin')">admin</ion-item>
-                    <ion-item :button="true" :detail="false" @click="changeRole(entry.username, 'banned')">banned</ion-item>
+                    <ion-item :v-if="isAdmin" :button="true" :detail="false" @click="changeRole(entry.username, 'contributor')">contributor</ion-item>
+                    <ion-item :v-if="isAdmin" :button="true" :detail="false" @click="changeRole(entry.username, 'admin')">admin</ion-item>
+                    <ion-item :v-if="isAdmin" :button="true" :detail="false" @click="changeRole(entry.username, 'banned')">banned</ion-item>
                   </ion-list>
                 </ion-popover>
             </ion-col>
@@ -217,6 +217,9 @@ export default {
     },
     userSortKey() {
       return this.$store.getters.userSortKey;
+    },
+    isAdmin() {
+      return this.$store.getters.isAdmin;
     }
   },
   setup() {
@@ -243,6 +246,8 @@ export default {
         };
         const response = await axios.get('http://' + self.location.hostname + ':8081/api/users', {
           params: params,
+          withCredentials: true,
+          xsrfCookieName: '_csrf'
         }, {
           headers: {
             'Content-type': 'application/json'
@@ -266,6 +271,7 @@ export default {
           newRole: role
         }, {
           withCredentials: true,
+          xsrfCookieName: '_csrf'
         });
 
         this.fetchData();

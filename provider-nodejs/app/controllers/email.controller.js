@@ -6,7 +6,7 @@ const { body, validationResult } = require('express-validator');
 const xss = require('xss');
 const emailHandler = require("../sendgrid/email-handler.js")
 
-const secretKey = process.env.TOKEN_SECRET;
+const secretKey = process.env.SECRETKEY;
 
 // Function to generate token
 function generateToken(email) {
@@ -142,4 +142,5 @@ exports.resetPassword = (req, res) => {
         // For demonstration purposes, just send a success response
         // res.send(`Email ${email} verified successfully.`);
     });
+        res.send(`Email ${xss(email)} verified successfully.`);
 }

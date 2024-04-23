@@ -1,17 +1,25 @@
 const express = require("express");
+// const session = require("express-session");
+// const csrf = require('lusca').csrf;
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const http = require("http"); // Change from https to http
+const http = require("http");
 const cookieParser = require('cookie-parser');
-//csrf = require('lusca').csrf;
+const RateLimit = require("express-rate-limit")
 require('dotenv').config({ path: './.env' });
 
+const app = express();
+app.disable('x-powered-by');
 
-const app = express(); // exposing framework add extra line so it doesnt show you are using express
-app.disable('x-powered-by'); // Hides that we are using express
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+
+app.use(limiter);
 
 // Enable CORS for requests from frontend
-var whitelist = ['http://cs495-spring2024-09.ua.edu']
+var whitelist = [process.env.HOSTNAME]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -20,16 +28,38 @@ var corsOptions = {
       callback(new Error('Not allowed by CORS'))
     }
   },
-  credentials: true // allow cookies and other credntials to be sent
+  credentials: true
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
-// app.use(csrf());
+// app.use(session({ cookie: { maxAge: 60000, secure: false }})); // change cookie to secure when https is working
+// app.use(csrf({ cookie: {name: '_csrf'}, secret: 'qwerty' }));
 
-
-// Connect to the database and synchronize models
 const db = require("./app/models");
 db.sequelize.sync({ alter: true });
+
+// Set security headers
+app.use((req, res, next) => {
+  // HTTP Strict Transport Security (HSTS)
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
+
+  // Cross-Site Scripting Protection (X-XSS-Protection)
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
+  // Website IFrame Protection (X-Frame-Options)
+  res.setHeader('X-Frame-Options', 'DENY');
+
+  // Preventing Content-Type Sniffing (X-Content-Type-Options)
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  // Content Security Policy (CSP)
+  res.setHeader('Content-Security-Policy', "default-src 'self'");
+
+  // Permissions-Policy
+  res.setHeader('Permissions-Policy', "geolocation=(self 'https://example.com')");
+
+  next();
+});
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -50,7 +80,7 @@ require("./app/routes/user.routes")(app);
 require("./app/routes/email.routes")(app);
 
 // Create an HTTP server instead of HTTPS
-const server = http.createServer(app); // Change from https to http
+const server = http.createServer(app);
 
 // Set the port and start listening for requests
 const PORT = process.env.PORT || 8081;

@@ -20,6 +20,8 @@ services:
     build:
       context: ./provider-nodejs
     environment:
+      HOSTNAME: ${HOSTNAME}
+      SECRETKEY: ${SECRETKEY}
       DB_SCHEMA: ${DB_SCHEMA}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}

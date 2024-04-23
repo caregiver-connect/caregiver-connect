@@ -1,9 +1,9 @@
 require('dotenv').config({ path: '../../credentials.env' });
 module.exports = {
-    HOST: "postgres",
-    USER: "postgres",
-    PASSWORD: "postgres",
-    DB: "caregiverconnect",
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASSWORD,
+    DB: process.env.DB_SCHEMA,
     dialect: "postgres",
     pool: {
       max: 5,

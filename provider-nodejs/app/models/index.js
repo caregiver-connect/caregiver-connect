@@ -4,8 +4,7 @@ const Sequelize = require("sequelize"); // logs info over the terminal
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
-  operatorsAliases: false,
-  //logging: false, // stops sequelize from logging info over terminal
+  logging: false, // stops sequelize from logging info over terminal
 
   pool: { 
     max: dbConfig.pool.max,
