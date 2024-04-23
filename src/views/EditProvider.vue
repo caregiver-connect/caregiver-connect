@@ -180,19 +180,23 @@
               <div v-for="(services, serviceType) in provider.resources_JSON.services_with_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
                 <div v-for="(value, service, index) in services">
-                  <ion-item v-if="Object.keys(services).length - 1 !== index && Object.keys(services).length - 2 !== index">
-                    <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                  <ion-item
+                    v-if="Object.keys(services).length - 1 !== index && Object.keys(services).length - 2 !== index">
+                    <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service
+                      }}</ion-checkbox>
                   </ion-item>
                 </div>
                 <ion-item>
-                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{ serviceType }}:</ion-checkbox>
+                  <ion-checkbox label-placement="end" justify="start" v-model="services.other_checked">Other in {{
+                    serviceType }}:</ion-checkbox>
                   <ion-input placeholder="For other please specify" v-model="services.specific"></ion-input>
                 </ion-item>
               </div>
               <div v-for="(services, serviceType) in provider.resources_JSON.services_without_other">
                 <p style="padding-top: 5px;">{{ serviceType }}:</p>
                 <ion-item v-for="(value, service) in services">
-                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service }}</ion-checkbox>
+                  <ion-checkbox label-placement="end" justify="start" v-model="value.checked">{{ service
+                    }}</ion-checkbox>
                 </ion-item>
               </div>
             </ion-list>
@@ -296,7 +300,7 @@ export default {
         }
 
         if (buff != "") {
-          if(res == ""){
+          if (res == "") {
             res = serviceType + ": " + buff
           } else {
             res = res + ", " + serviceType + ": " + buff
@@ -304,7 +308,7 @@ export default {
         }
       }
 
-      for(var serviceType in this.provider.resources_JSON.services_without_other) {
+      for (var serviceType in this.provider.resources_JSON.services_without_other) {
         var buff = "";
 
         for (var service in this.provider.resources_JSON.services_without_other[serviceType]) {
@@ -318,7 +322,7 @@ export default {
         }
 
         if (buff != "") {
-          if(res == ""){
+          if (res == "") {
             res = serviceType + ": " + buff
           } else {
             res = res + ", " + serviceType + ": " + buff
@@ -342,6 +346,8 @@ export default {
           zip: this.provider.zip,
           county: this.provider.county,
           ownership_type: this.provider.ownership_type,
+          resources_JSON: JSON.stringify(this.provider.resources_JSON),
+          resources_text: this.parse(),
         }, {
           withCredentials: true,
           xsrfCookieName: '_csrf'
@@ -352,27 +358,8 @@ export default {
         setTimeout(() => {
           instance.dismiss();
         }, 3000);
-      await axios.put("http://" + self.location.hostname + `:8081/api/providers/${this.provider.place_id}`, { //NOTE: Email is a good idea but not a field in the database currently
-        id_cms_other: this.provider.id_cms_other,
-        agency_name: this.provider.agency_name,
-        phone_number: this.provider.phone_number,
-        email: this.provider.email,
-        addr1: this.provider.addr1,
-        addr2: this.provider.addr2,
-        city: this.provider.city,
-        state: this.provider.state,
-        website: this.provider.website,
-        zip: this.provider.zip,
-        county: this.provider.county,
-        ownership_type: this.provider.ownership_type,
-        resources_JSON: JSON.stringify(this.provider.resources_JSON),
-        resources_text: this.parse(),
-      }, {
-        withCredentials: true,
-        xsrfCookieName: '_csrf'
-      });  
-
         this.router.replace('/providers-search');
+
       } catch (error) {
         const $toast = useToast();
         let instance = $toast.error('You do not have the necessary privileges to edit this provider.');
