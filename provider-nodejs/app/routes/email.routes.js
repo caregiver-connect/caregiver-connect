@@ -7,7 +7,11 @@ module.exports = app => {
     
     router.post("/send-verification-email", emailController.sendVerificationEmail);
     
-    router.get("/verify-email", emailController.verifyEmail)
+    router.post("/verify-email", emailController.verifyEmail);
     
+    router.post("/reset-password-email", emailController.sendPasswordResetEmail);
+
+    router.post("/reset-password", emailController.resetPassword);
+
     app.use('/api/email', router);
 }

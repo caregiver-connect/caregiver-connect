@@ -46,6 +46,21 @@ const routes: Array<RouteRecordRaw> = [
     path: '/edit-provider/:id',
     name: 'EditProvider',
     component: () => import('@/views/EditProvider.vue'),
+  },
+  {
+    path: '/verify-email/:token/:id',
+    name: 'EmailVerified',
+    component: () => import('@/views/EmailVerified.vue'),
+  },
+  {
+    path: '/password-reset/:token/:id',
+    name: 'PasswordReset',
+    component: () => import('@/views/PasswordReset.vue'),
+  },
+  {
+    path: '/password-reset-prompt',
+    name: 'PasswordResetPrompt',
+    component: () => import('@/views/ResetPasswordPrompt.vue'),
   }
 ]
 

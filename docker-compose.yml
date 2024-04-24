@@ -12,6 +12,7 @@ services:
       - '5432:5432'
     volumes:
       - caregiverconnect-db:/var/lib/postgresql/data
+      - certs:/app/openssl/certs
       
   caregiver-backend:
     container_name: caregiver-backend
@@ -26,11 +27,14 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      TOKEN_SECRET: ${TOKEN_SECRET}
       GEOAPIFY_API_KEY: ${GEOAPIFY_API_KEY}
     depends_on:
       - postgres
     ports:
       - '8081:8081'
+    volumes:
+      - certs:/app/openssl/certs
 
   caregiver:
     container_name: caregiver
@@ -42,10 +46,16 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
+      TOKEN_SECRET: ${TOKEN_SECRET}
     depends_on:
       - postgres
       - caregiver-backend
     ports:
       - '80:8100'
+    volumes:
+      - certs:/app/openssl/certs
 volumes:
   caregiverconnect-db:
+  certs:
+    external: true
+    name: certs
